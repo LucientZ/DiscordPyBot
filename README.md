@@ -1,2 +1,3 @@
 # DiscordPyBot
-This is a test to see if I can figure out how to sync up my discord bot
+This is the main branch for a discord bot I'm working on.
+I'm using this to learn git and figure out how to use GitHub for future purposes
