@@ -35,11 +35,9 @@ else:
     print("[Test 3] failed")
     print("TOKEN =", TOKEN)
 
-
-
-#Test 4: call get_token() when token.dat does not exist
+#Test 4: call get_token() when token.dat does not exist and create file
 os.remove("token.dat") 
-print("\nPlease type 'Y' on this next section and enter 'new_token' when prompted for a token")
+print("--------------------------------------------------------------------------------\nPlease type 'Y' on this next section and enter 'new_token' when prompted for a token")
 TOKEN = get_token()
 
 if(TOKEN == "new_token"):
@@ -48,4 +46,46 @@ else:
     print("[Test 4] failed")
     print("TOKEN =", TOKEN)
 
+#Test 5: call get_token() when token.dat does not exist and do not create file
+os.remove("token.dat") 
+print("--------------------------------------------------------------------------------\nPlease type 'n' on this next section and enter 'new_token' when prompted for a token")
+TOKEN = get_token()
 
+if(TOKEN == "new_token"):
+    print("[Test 5] passed")
+else:
+    print("[Test 5] failed")
+    print("TOKEN =", TOKEN)
+
+
+#Test 6: call get_token() when token.dat is empty. Write to token.dat
+write_token("")
+print("--------------------------------------------------------------------------------\nPlease type 'Y' on this next section and enter 'new_token' when prompted for a token")
+TOKEN = get_token()
+
+if(TOKEN == "new_token"):
+    print("[Test 6] passed")
+else:
+    print("[Test 6] failed")
+    print("TOKEN =", TOKEN)
+os.remove("token.dat") 
+
+#Test 7: call get_token() when token.dat is empty. Do not write to token.dat
+write_token("")
+print("--------------------------------------------------------------------------------\nPlease type 'n' on this next section and enter 'new_token' when prompted for a token")
+TOKEN = get_token()
+
+if(TOKEN == "new_token"):
+    myfile = open('token.dat','r')
+    token = myfile.read()
+    if(token != ""):
+        print("[Test 7] failed")
+        print("TOKEN =", TOKEN)
+    else:
+        print("[Test 7] passed")
+    myfile.close()
+else:
+    print("[Test 7] failed")
+    print("TOKEN =", TOKEN)
+
+os.remove('token.dat')

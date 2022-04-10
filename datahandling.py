@@ -5,7 +5,7 @@ def write_token(TOKEN) -> None:
     If token.dat does not exist, creates token.dat and writes the token.
 
     Parameters:
-    arg1 (str): Token to be written to file
+    TOKEN (str): Token to be written to file
 
     Returns:
     None
@@ -37,8 +37,8 @@ def get_token() -> str:
             print("Logging in with TOKEN from token.dat")
             TOKEN = tokenfile.read()
 
-            if(TOKEN == " "):
-                # If TOKEN == " ", this means that token.dat is empty
+            if(TOKEN == ""):
+                # If TOKEN == "", this means that token.dat is empty
                 
                 while(choice != "Y" and choice != "n"):
                     choice = input("\nIt looks like there isn't anything in token.dat.\nWould you like to add a token to this file? (It is recommended that this is done manually) [Y/n] ")
@@ -53,7 +53,6 @@ def get_token() -> str:
     except:
         while(choice != "Y" and choice != "n"):
             choice = input("\nIt looks like there isn't a file named 'token.dat' in this directory.\nWould you like to create this file? [Y/n] ")
-            print(choice)
 
         if(choice == 'Y'):
             TOKEN = input('\nPlease enter the bot token: ')
