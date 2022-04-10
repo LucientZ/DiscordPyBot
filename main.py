@@ -17,7 +17,7 @@ async def on_ready():
 TOKEN = input('Please enter the bot token: ')
 
 # TODO: Come up with more elegant method of user-input verification
-# This will work for now
+# This will work for the time being
 while(True):
     try:
         client.run(TOKEN)
