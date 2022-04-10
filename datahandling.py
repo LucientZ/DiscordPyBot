@@ -1,6 +1,30 @@
 
+def write_token(TOKEN) -> None:
+    """
+    Writes a token to token.dat.
+    If token.dat does not exist, creates token.dat and writes the token.
+
+    Parameters:
+    arg1 (str): Token to be written to file
+
+    Returns:
+    None
+    """
+    tokenfile = open("token.dat", "w")
+    tokenfile.write(TOKEN)
+    tokenfile.close()
+
 def get_token() -> str:
-    # Opens token.dat and obtains
+    """
+    Obtains token from a file named 'token.dat' or from the user.
+    If 'token.dat' does not have a token or is empty, asks the user if they would like to write to 'token.dat'
+
+    Parameters:
+    None
+
+    Returns:
+    str: token to be used by bot
+    """
 
 
     TOKEN = ""
@@ -41,8 +65,5 @@ def get_token() -> str:
         
     return TOKEN
 
-def write_token(TOKEN) -> None:
-    tokenfile = open("token.dat", "w")
-    tokenfile.write(TOKEN)
-    tokenfile.close()
+
 

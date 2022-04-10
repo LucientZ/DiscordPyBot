@@ -20,13 +20,13 @@ try:
     myfile = open('token.dat','r')
     token = myfile.read()
     if(token != "new_token"):
-        raise Exception("File contents not string 'awesome'")
+        raise Exception("File contents not string 'new_token'")
     myfile.close()
     print("[Test 2] passed")
 except Exception as e:
     print("[Test 2] passed\n","[ERROR]:",e)
 
-
+#Test 3: try to get_token from token.dat
 write_token("new_token")
 TOKEN = get_token()
 if(TOKEN == "new_token"):
@@ -34,8 +34,11 @@ if(TOKEN == "new_token"):
 else:
     print("[Test 3] failed")
     print("TOKEN =", TOKEN)
-os.remove("token.dat")
 
+
+
+#Test 4: call get_token() when token.dat does not exist
+os.remove("token.dat") 
 print("\nPlease type 'Y' on this next section and enter 'new_token' when prompted for a token")
 TOKEN = get_token()
 
