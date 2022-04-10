@@ -3,9 +3,7 @@ from discord.ext import commands
 import datahandling as dt
 
 
-
 client = commands.Bot(command_prefix = '%')
-
 
 @client.event
 async def on_connect():
