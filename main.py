@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import datahandling as dt
-
+from textfunctions import *
 
 client = commands.Bot(command_prefix = '%')
 
@@ -16,15 +16,15 @@ async def on_ready():
 # Login information for the bot requires a token.
 # token is taken from a file named 'token.dat'
 # If this file does not exist, user will be prompted to input token
-is_running = False
+
 
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
 # Error turns into RuntimeError('Even loop is closed')
-while(not is_running):
+def main():
     try:
         TOKEN = dt.get_token()
         client.run(TOKEN)
-        is_running = True
+
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
         print("[ERROR] Issue logging into bot:",e,'\n')
@@ -41,3 +41,6 @@ while(not is_running):
         print("[ERROR] Issue logging into bot:",e,'\n')
         print("Terminating program...\n")
         exit()
+
+if __name__ == '__main__':
+    main()
