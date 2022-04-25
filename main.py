@@ -13,10 +13,22 @@ async def on_connect():
 async def on_ready():
     print('I can talk to friends now! :)')
 
+@client.event
+async def on_message(message):
+    #Bot doesn't respond to itself
+    if message.author == client.user:
+        return
+
+    if 'morbius' in message.content.lower():
+        await message.channel.send(morbius())
+
+
+
+
+
 # Login information for the bot requires a token.
 # token is taken from a file named 'token.dat'
 # If this file does not exist, user will be prompted to input token
-
 
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
 # Error turns into RuntimeError('Even loop is closed')
