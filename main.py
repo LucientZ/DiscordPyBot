@@ -24,8 +24,6 @@ async def on_message(message):
 
 
 
-
-
 # Login information for the bot requires a token.
 # token is taken from a file named 'token.dat'
 # If this file does not exist, user will be prompted to input token

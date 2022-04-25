@@ -1,7 +1,5 @@
 import random as rand
 
-print()
-
 def morbius():
     texts = {
         0: 'Morbius is one of the movies of all time.',
