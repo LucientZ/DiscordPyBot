@@ -36,6 +36,7 @@ async def on_message(message):
 # If this file does not exist, user will be prompted to input token
 
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
+# Current handling: Ask for new TOKEN -> write TOKEN to .token -> crash program
 # Error turns into RuntimeError('Even loop is closed')
 def main():
     try:

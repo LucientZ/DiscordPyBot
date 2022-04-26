@@ -66,5 +66,4 @@ def get_token() -> str:
     return TOKEN
 
 
-
 print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")
