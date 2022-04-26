@@ -1,5 +1,5 @@
 import random as rand
-
+from helperfunctions import *
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
 def morbius():
@@ -22,3 +22,6 @@ def copypasta():
     }
     return texts[rand.randrange(0,6)]
 
+
+
+print(f"{colors.green}textfunctions.py initialized{colors.end}")

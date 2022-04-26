@@ -1,3 +1,4 @@
+from helperfunctions import *
 
 def write_token(TOKEN) -> None:
     """
@@ -66,3 +67,4 @@ def get_token() -> str:
 
 
 
+print(f"{colors.green}datahandling.py initialized{colors.end}")
