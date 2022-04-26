@@ -24,4 +24,4 @@ def copypasta():
 
 
 
-print(f"{colors.green}textfunctions.py initialized{colors.end}")
+print(f"{colors.green}{colors.bold}textfunctions.py{colors.end}{colors.green} initialized{colors.end}")

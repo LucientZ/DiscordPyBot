@@ -35,7 +35,7 @@ def get_token() -> str:
     try:
         # opens up token.dat which should only contain the bot token
         with open('token.dat') as tokenfile:
-            print("Logging in with TOKEN from token.dat")
+            print(f"Attempting log-in with TOKEN from {colors.bold}token.dat{colors.end}")
             TOKEN = tokenfile.read()
 
             if(TOKEN == ""):
@@ -67,4 +67,4 @@ def get_token() -> str:
 
 
 
-print(f"{colors.green}datahandling.py initialized{colors.end}")
+print(f"{colors.green}{colors.bold}datahandling.py{colors.end}{colors.green} initialized{colors.end}")

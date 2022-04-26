@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import datahandling as dt
 from textfunctions import *
+from helperfunctions import *
+
 
 client = commands.Bot(command_prefix = 's-')
 
@@ -15,10 +17,11 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    #Bot doesn't respond to itself
+    # Bot doesn't respond to itself
     if message.author == client.user:
         return
 
+    #
     if 'morbius' in message.content.lower():
         await message.channel.send(morbius())
     
@@ -34,14 +37,15 @@ async def on_message(message):
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
 # Error turns into RuntimeError('Even loop is closed')
 def main():
+    
     try:
         TOKEN = dt.get_token()
         client.run(TOKEN)
 
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
-        print("[ERROR] Issue logging into bot:",e,'\n')
-        print("The program will exit.")
+        print(f"{colors.red}{colors.bold}[ERROR] Issue logging into bot:{colors.blue}",e,'\n')
+        print(f"{colors.red}The program will exit.{colors.end}")
         choice = input("Would you like to enter a new token? [Y/n] ")
         while(choice != "Y" and choice != "n"):
             choice = input("\nWould you like to write a new token? [Y/n] ")    
