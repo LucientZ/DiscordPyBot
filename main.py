@@ -11,7 +11,7 @@ async def on_connect():
 
 @client.event
 async def on_ready():
-    print('I can talk to friENDs now! :)')
+    print('I can talk to friends now! :)')
 
 @client.event
 async def on_message(message):
