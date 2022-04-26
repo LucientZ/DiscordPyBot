@@ -3,7 +3,7 @@ from discord.ext import commands
 import datahandling as dt
 from textfunctions import *
 
-client = commands.Bot(command_prefix = '%')
+client = commands.Bot(command_prefix = 's-')
 
 @client.event
 async def on_connect():
@@ -21,6 +21,9 @@ async def on_message(message):
 
     if 'morbius' in message.content.lower():
         await message.channel.send(morbius())
+    
+    if message.content == 's-copypasta':
+        await message.channel.send(copypasta())
 
 
 
