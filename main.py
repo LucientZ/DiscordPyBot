@@ -21,7 +21,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    #
     if 'morbius' in message.content.lower():
         await message.channel.send(morbius())
     
@@ -37,7 +36,6 @@ async def on_message(message):
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
 # Error turns into RuntimeError('Even loop is closed')
 def main():
-    
     try:
         TOKEN = dt.get_token()
         client.run(TOKEN)
