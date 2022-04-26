@@ -1,4 +1,4 @@
-from helper import *
+from helper import colors as cl
 
 def write_token(TOKEN) -> None:
     """
@@ -35,25 +35,25 @@ def get_token() -> str:
     try:
         # opens up .token which should only contain the bot token
         with open('.token') as tokenfile:
-            print("Logging in with TOKEN from .token")
+            print(f"Logging in with TOKEN from {cl.BOLD}.token{cl.END}")
             TOKEN = tokenfile.read()
 
             if(TOKEN == ""):
                 # If TOKEN == "", this means that .token is empty
                 
                 while(choice != "Y" and choice != "n"):
-                    choice = input("\nIt looks like there isn't anything in .token.\nWould you like to add a token to this file? (It is recommended that this is done manually) [Y/n] ")
+                    choice = input(f"\nIt looks like there isn't anything in {cl.BOLD}'.token'{cl.END}.\nWould you like to add a token to this file? (It is recommended that this is done manually) [Y/n] ")
                 
                 if(choice == 'Y'):
                     TOKEN = input('\nPlease enter the bot token: ')
                     write_token(TOKEN)
                 else:
-                    print("\nNo token will be added to .token")
+                    print(f"\nNo token will be added to {cl.BOLD}'.token'{cl.end}")
                     TOKEN = input('Please enter the bot token: ')
 
     except:
         while(choice != "Y" and choice != "n"):
-            choice = input("\nIt looks like there isn't a file named '.token' in this directory.\nWould you like to create this file? [Y/n] ")
+            choice = input(f"\nIt looks like there isn't a file named {cl.BOLD}'.token'{cl.END} in this directory.\nWould you like to create this file? [Y/n] ")
 
         if(choice == 'Y'):
             TOKEN = input('\nPlease enter the bot token: ')
@@ -67,4 +67,4 @@ def get_token() -> str:
 
 
 
-print(f"{colors.green}datahandling.py initialized{colors.end}")
+print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")

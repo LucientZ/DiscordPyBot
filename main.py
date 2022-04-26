@@ -11,7 +11,7 @@ async def on_connect():
 
 @client.event
 async def on_ready():
-    print('I can talk to friends now! :)')
+    print('I can talk to friENDs now! :)')
 
 @client.event
 async def on_message(message):
@@ -20,10 +20,10 @@ async def on_message(message):
         return
 
     if 'morbius' in message.content.lower():
-        await message.channel.send(morbius())
+        await message.channel.sEND(morbius())
     
     if message.content == 's-copypasta':
-        await message.channel.send(copypasta())
+        await message.channel.sEND(copypasta())
 
 
 

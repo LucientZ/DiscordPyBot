@@ -1,5 +1,6 @@
 class colors:
-    blue = "\033[94m"
-    green = "\033[92m"
-    red = "\033[91m"
-    end = "\033[0m" #sets color back to white
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    BOLD = "\033[1m"
+    END = "\033[0m" #sets color back to white
