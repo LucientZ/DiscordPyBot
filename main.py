@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import datahandling as dt
 from textfunctions import *
+from helper import colors as cl
 
 client = commands.Bot(command_prefix = 's-')
 
@@ -20,10 +21,10 @@ async def on_message(message):
         return
 
     if 'morbius' in message.content.lower():
-        await message.channel.sEND(morbius())
+        await message.channel.send(morbius())
     
     if message.content == 's-copypasta':
-        await message.channel.sEND(copypasta())
+        await message.channel.send(copypasta())
 
 
 
@@ -40,7 +41,7 @@ def main():
 
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
-        print("[ERROR] Issue logging into bot:",e,'\n')
+        print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
         print("The program will exit.")
         choice = input("Would you like to enter a new token? [Y/n] ")
         while(choice != "Y" and choice != "n"):
@@ -51,7 +52,7 @@ def main():
         print("Terminating program...\n")
         exit()
     except Exception as e:
-        print("[ERROR] Issue logging into bot:",e,'\n')
+        print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
         print("Terminating program...\n")
         exit()
 
