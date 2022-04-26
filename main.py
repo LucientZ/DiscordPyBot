@@ -28,7 +28,7 @@ async def on_message(message):
 
 
 # Login information for the bot requires a token.
-# token is taken from a file named 'token.dat'
+# token is taken from a file named '.token'
 # If this file does not exist, user will be prompted to input token
 
 # TODO: Figure out how to recover from 'Improper token has been passed.' error
