@@ -1,7 +1,7 @@
 import random as rand
 from helper import colors as cl
 
-#Silly messages to sEND in channels if something funny happens. Gives a random output.
+#Silly messages to send in channels if something funny happens. Gives a random output.
 def morbius():
     texts = {
         0: 'Morbius is one of the movies of all time.',
