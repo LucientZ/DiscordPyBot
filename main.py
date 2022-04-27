@@ -26,6 +26,9 @@ async def on_message(message):
     if 'morbius' in message.content.lower():
         await message.channel.send(morbius())
     
+    if 'sus' in message.content.lower():
+        await message.channel.send("Amogus detected: " + format_msg(message.content, 'sus','***'))
+
     if message.content == 's-copypasta':
         await message.channel.send(copypasta())
 

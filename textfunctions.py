@@ -23,6 +23,33 @@ def copypasta():
     }
     return texts[rand.randrange(0,7)]
 
+def format_msg(msg, submsg, modifier = '**'):
+    """
+    Formats a string so that a selected substring (non case-sensative) will have a modifier surround it.
+    eg: the chicken broke the house --> **the** chicken broke **the** house
+    
+    Parameters:
+    msg (str): Message to be modified
+    submsg (str): Part of message to be surrounded
+    modifier (str): String to surround occurences of submsg
+
+    Returns:
+    str: modified msg
+    """
+    submsg_length = len(submsg)
+    i = len(msg) - submsg_length
+
+    # Iterates backwards in string to make replacing easier
+    # i == -1 is so it checks the first index as well
+    while(not i == -1):
+        temp_str = msg[i:i+submsg_length]
+        if temp_str.lower() == submsg.lower():
+            # Operation that wraps modifier around submsg
+            msg = msg[:i] + modifier + temp_str + modifier + msg[i + submsg_length:]
+        i -= 1
+        
+    return msg
+
 
 
 print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")
