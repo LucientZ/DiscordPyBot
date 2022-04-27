@@ -2,16 +2,17 @@ import random as rand
 from helper import colors as cl
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
-def morbius():
-    texts = {
-        0: 'Morbius is one of the movies of all time.',
-        1: 'I love Morbius so much <3',
-        2: "I love your character, it's so cute!\nYour outfit is so great too. It almost looks like a Gucci outfit.",
-        3: "Omg Morbius :flushed:"
-    }
-    return texts[rand.randrange(0,4)]
 
 def copypasta():
+    """
+    Returns a random string from a list of copypastas
+
+    Parameters:
+    None
+
+    Returns:
+    str: random copypasta from a dictionary
+    """
     texts = {
         0: "||I am currently managing 3 servers.\nI have to act cautiously in front of users..\nI didn't always enjoy the game properly\nA lot of people even bother me for no reason...\nbut i can't say a word.. This is my duty as a server administrator||\n**I tried to express that painful feeling with a picture.**",
         1: "A thermonuclear weapon, fusion weapon or hydrogen bomb (H bomb) is a second-generation nuclear weapon design. Its greater sophistication affords it vastly greater destructive power than first-generation atomic bombs, a more compact size, a lower mass or a combination of these benefits. Characteristics of nuclear fusion reactions make possible the use of non-fissile depleted uranium as the weapon's main fuel, thus allowing more efficient use of scarce fissile material such as uranium-235 or plutonium-239",
@@ -22,6 +23,26 @@ def copypasta():
         6: "The missile knows where it is at all times. It knows this because it knows where it isn't. By subtracting where it is from where it isn't, or where it isn't from where it is, it obtains a difference, or deviation. The guidance subsystem uses deviations to generate corrective commands to drive the missile from a position where it is to a position where it isn't, and arriving at a position where it wasn't, it now is. Consequently, the position where it is is now the position that it wasn't, and it follows that the position where it was is now the position that it isn't. In the event that the position that it is in is not the position that it wasn't, the system has acquired a variation, a variation being the difference between where the missile is and where it wasn't. If variation is considered to be a significant factor, it too may be corrected by the GEA. However, the missile must also know where it was. The missile guidance computer scenario works as follows: Because a variation has modified some of the information the missile has obtained, it is not sure just where it is. However, it is sure where it isn't, within reason, and it knows where it was. It now subtracts where it should be from where it wasn't, or vice versa, and by differentiating this from the algebraic sum of where it shouldn't be and where it was, it is able to obtain the deviation and its variation, which is called error."
     }
     return texts[rand.randrange(0,7)]
+
+def morbius():
+    """
+    Returns a random string from a list of copypastas that are Morbius themed
+    This code is quite redundant, meaning if it is planned to make more like this, a general function should be written
+
+    Parameters:
+    None
+
+    Returns:
+    str: random copypasta from a dictionary
+    """
+    texts = {
+        0: 'Morbius is one of the movies of all time.',
+        1: 'I love Morbius so much <3',
+        2: "I love your character, it's so cute!\nYour outfit is so great too. It almost looks like a Gucci outfit.",
+        3: "Omg Morbius :flushed:"
+    }
+    return texts[rand.randrange(0,4)]
+
 
 def format_msg(msg, submsg, modifier = '**'):
     """
