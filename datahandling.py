@@ -26,8 +26,7 @@ def get_token() -> str:
     Returns:
     str: token to be used by bot
     """
-
-
+    # Initializes TOKEN and choice as strings
     TOKEN = ""
     choice = ""
 
@@ -49,9 +48,9 @@ def get_token() -> str:
                     write_token(TOKEN)
                 else:
                     print(f"\nNo token will be added to {cl.BOLD}'.token'{cl.end}")
-                    TOKEN = input('Please enter the bot token: ')
-
+                    TOKEN = input('Please enter the bot token: ')                
     except:
+        # Handling when .token does not exist.
         while(choice != "Y" and choice != "n"):
             choice = input(f"\nIt looks like there isn't a file named {cl.BOLD}'.token'{cl.END} in this directory.\nWould you like to create this file? [Y/n] ")
 

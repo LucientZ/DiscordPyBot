@@ -24,25 +24,6 @@ def copypasta():
     }
     return texts[rand.randrange(0,7)]
 
-def morbius():
-    """
-    Returns a random string from a list of copypastas that are Morbius themed
-    This code is quite redundant, meaning if it is planned to make more like this, a general function should be written
-
-    Parameters:
-    None
-
-    Returns:
-    str: random copypasta from a dictionary
-    """
-    texts = {
-        0: 'Morbius is one of the movies of all time.',
-        1: 'I love Morbius so much <3',
-        2: "I love your character, it's so cute!\nYour outfit is so great too. It almost looks like a Gucci outfit.",
-        3: "Omg Morbius :flushed:"
-    }
-    return texts[rand.randrange(0,4)]
-
 
 def format_msg(msg, submsg, modifier = '**'):
     """
