@@ -24,7 +24,6 @@ async def on_message(message):
     if 'sus' in message.content.lower():
         await message.channel.send("Amogus detected: " + format_msg(message.content, 'sus','***'))
 
-
     # Start of command section.
     if message.content == 's-copypasta':
         await message.channel.send(copypasta())
