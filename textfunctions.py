@@ -3,7 +3,7 @@ from helper import colors as cl
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
 
-def copypasta():
+def copypasta_text():
     """
     Returns a random string from a list of copypastas
 

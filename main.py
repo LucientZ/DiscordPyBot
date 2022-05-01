@@ -15,22 +15,34 @@ async def on_ready():
     print('I can talk to friends now! :)')
 
 @client.event
-async def on_message(message):
+async def on_message(ctx):
     # Bot doesn't respond to itself
-    if message.author == client.user:
+    if ctx.author == client.user:
         return
 
     # These are funny responses to if a user happens to type a certain phrase.
-    if 'sus' in message.content.lower():
-        await message.channel.send("Amogus detected: " + format_msg(message.content, 'sus','***'))
+    if 'sus' in ctx.content.lower():
+        await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
+        return
 
-    if 'morbius' in message.content.lower():
-        await message.channel.send(morbius())
+    if 'morbius' in ctx.content.lower():
+        await ctx.channel.send(morbius())
+        return
+
+    # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
+    await client.process_commands(ctx)
 
 
-    # Start of command section.
-    if message.content == 's-copypasta':
-        await message.channel.send(copypasta())
+##################
+#Commands Section#
+##################
+
+@client.command()
+async def copypasta(ctx):
+    await ctx.send(copypasta_text())
+
+
+
 
 
 
