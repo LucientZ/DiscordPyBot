@@ -42,6 +42,9 @@ async def on_message(ctx):
         await ctx.channel.send(morbius())
         return
 
+    if 'sad' in ctx.content.lower():
+        await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
+
     # Temporary request from a user. Will delete in future version
     if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
         await ctx.channel.send("Your Mom")
@@ -74,7 +77,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
     else:
-        await ctx.send(">>> __**Command List**__\ns-echo\ns-copypasta\ns-funky\n\nType s-help command for more info on a command.")
+        await ctx.send(">>> __**Command List**__\necho\ncopypasta\nfunky\nboowomp\n\nType s-help command for more info on a command.")
 
 @client.command()
 async def echo(ctx, *, arg):
@@ -87,6 +90,10 @@ async def copypasta(ctx):
 @client.command()
 async def funky(ctx,arg = "null"):
     await ctx.channel.send(fumo(arg))
+
+@client.command()
+async def boowomp(ctx):
+    await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
 
 # Login information for the bot requires a token.
