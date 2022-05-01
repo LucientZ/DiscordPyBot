@@ -74,7 +74,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
     else:
-        await ctx.send("__**Command List**__\ns-echo\ns-copypasta\ns-funky\n\nType s-help command for more info on a command.")
+        await ctx.send(">>> __**Command List**__\ns-echo\ns-copypasta\ns-funky\n\nType s-help command for more info on a command.")
 
 @client.command()
 async def echo(ctx, *, arg):
