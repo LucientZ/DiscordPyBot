@@ -1,6 +1,5 @@
 # DiscordPyBot
 This is a small discord bot that has basic functionality.
-This bot was initially in JavaScript, but is currently being converted to python.
 
 Everything here is run in Python 3.8.10 which can be found here:
     https://www.python.org/downloads/

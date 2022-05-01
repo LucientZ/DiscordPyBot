@@ -13,7 +13,7 @@ def copypasta_text():
     str: random copypasta from a dictionary
     """
 
-    # Some of these texts contain strong language. These are all requests from users
+    # Some of these texts contain strong language. These are all requests from other users
     texts = {
         0: "||I am currently managing 3 servers.\nI have to act cautiously in front of users..\nI didn't always enjoy the game properly\nA lot of people even bother me for no reason...\nbut i can't say a word.. This is my duty as a server administrator||\n**I tried to express that painful feeling with a picture.**",
         1: "A thermonuclear weapon, fusion weapon or hydrogen bomb (H bomb) is a second-generation nuclear weapon design. Its greater sophistication affords it vastly greater destructive power than first-generation atomic bombs, a more compact size, a lower mass or a combination of these benefits. Characteristics of nuclear fusion reactions make possible the use of non-fissile depleted uranium as the weapon's main fuel, thus allowing more efficient use of scarce fissile material such as uranium-235 or plutonium-239",

@@ -103,7 +103,6 @@ async def boowomp(ctx):
 # If this file does not exist, user will be prompted to input token
 
 # Current bad token handling: Ask for new TOKEN -> write TOKEN to .token -> crash program
-
 def main():
     try:
         TOKEN = dt.get_token()
