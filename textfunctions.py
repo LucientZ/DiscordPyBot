@@ -42,6 +42,31 @@ def morbius():
     return texts[rand.randrange(0,4)]
 
 
+def fumo(character):
+    """
+    Returns a random fumo character unless specified
+    This code is quite redundant, meaning if it is planned to make more like this, a general function should be written
+    Parameters:
+    None
+    Returns:
+    str: random copypasta from a dictionary
+    """
+    characters = {
+        0: "reimu",
+        1: "flandre",
+        2: "cirno"
+    }
+    texts = {
+        "reimu": 'https://cdn.discordapp.com/attachments/390692666897203211/970367378472992818/6157Ee4sPsL._AC_SL1000_.jpg',
+        "flandre": 'https://cdn.discordapp.com/attachments/390692666897203211/970367378795937882/2a9a8ebba16c4f47b281a6c27a1f5d8c.jpg',
+        "cirno": "https://cdn.discordapp.com/attachments/390692666897203211/970367379236343878/Cirnofumo.webp"
+    }
+    try:
+        return texts[character.lower()]
+    except:
+        return texts[characters[rand.randrange(0,3)]]
+
+
 def format_msg(msg, submsg, modifier = '**'):
     """
     Formats a string so that a selected substring (non case-sensative) will have a modifier surround it.

@@ -4,6 +4,8 @@ import datahandling as dt
 from textfunctions import *
 from helper import colors as cl
 
+
+
 client = commands.Bot(command_prefix = 's-')
 
 @client.event
@@ -15,12 +17,20 @@ async def on_connect():
 async def on_ready():
     print('I can talk to friends now! :)')
 
+@client.event 
+async def on_command_error(ctx, error): 
+    if isinstance(error, commands.CommandNotFound): 
+        em = discord.Embed(title=f"Error!!!", description=f"Command not found.", color=ctx.author.color) 
+        await ctx.send(embed=em)
+
 
 @client.event
 async def on_message(ctx):
     # Bot doesn't respond to itself
     if ctx.author == client.user:
         return
+
+    ctx_size = len(ctx.content)
 
     # These are funny responses to if a user happens to type a certain phrase.
     if 'sus' in ctx.content.lower():
@@ -31,11 +41,15 @@ async def on_message(ctx):
         await ctx.channel.send(morbius())
         return
 
+    # Temporary request from a user. Will delete in future version
+    if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
+        await ctx.channel.send("Your Mom")
+
     # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
     try:
         await client.process_commands(ctx)
     except:
-        pass
+        return
 
 
 ##################
@@ -49,7 +63,8 @@ async def help(ctx, arg = ""):
     # Dictionary used for descriptions of every command
     desc = {
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
-        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>"
+        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
+        "funky": ">>> __**Description**__\nThis command "
     }
 
     if(not arg == ""):
@@ -69,9 +84,9 @@ async def echo(ctx, *, arg):
 async def copypasta(ctx):
     await ctx.channel.send(copypasta_text())
 
-
-
-
+@client.command()
+async def funky(ctx,arg = "null"):
+    await ctx.channel.send(fumo(arg))
 
 
 # Login information for the bot requires a token.
