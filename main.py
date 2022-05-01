@@ -36,11 +36,9 @@ async def on_message(ctx):
     # These are funny responses to if a user happens to type a certain phrase.
     if 'sus' in ctx.content.lower():
         await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
-        return
 
     if 'morbius' in ctx.content.lower():
         await ctx.channel.send(morbius())
-        return
 
     if 'sad' in ctx.content.lower():
         await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
