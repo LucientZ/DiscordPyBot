@@ -39,9 +39,10 @@ def morbius():
         0: 'Morbius is one of the movies of all time.',
         1: 'I love Morbius so much <3',
         2: "I love your character, it's so cute!\nYour outfit is so great too. It almost looks like a Gucci outfit.",
-        3: "Omg Morbius :flushed:"
+        3: "Omg Morbius :flushed:",
+        4: "It's Morbin time"
     }
-    return texts[rand.randrange(0,4)]
+    return texts[rand.randrange(0,5)]
 
 
 def fumo(character):
