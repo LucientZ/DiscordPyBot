@@ -68,7 +68,8 @@ async def help(ctx, arg = ""):
     desc = {
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
-        "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nexample: s-funky cirno"
+        "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nexample: s-funky cirno",
+        "boowomp": ">>> __**Description**__\nThis command sends sad spongebob.\n\n__**Usage**__\ns-boowomp <no arguments>"
     }
 
     if(not arg == ""):
