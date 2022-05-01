@@ -43,6 +43,9 @@ async def on_message(ctx):
     if 'sad' in ctx.content.lower():
         await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
+    if 'trade' in ctx.content.lower():
+        await ctx.channel.send("yeah i trade :smile:")
+
     # Temporary request from a user. Will delete in future version
     if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
         await ctx.channel.send("Your Mom")
