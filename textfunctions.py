@@ -1,9 +1,8 @@
 import random as rand
-from helper import colors as cl
-
+import helper
 #Silly messages to send in channels if something funny happens. Gives a random output.
 
-def copypasta():
+def copypasta_text():
     """
     Returns a random string from a list of copypastas
 
@@ -23,6 +22,49 @@ def copypasta():
         6: "The missile knows where it is at all times. It knows this because it knows where it isn't. By subtracting where it is from where it isn't, or where it isn't from where it is, it obtains a difference, or deviation. The guidance subsystem uses deviations to generate corrective commands to drive the missile from a position where it is to a position where it isn't, and arriving at a position where it wasn't, it now is. Consequently, the position where it is is now the position that it wasn't, and it follows that the position where it was is now the position that it isn't. In the event that the position that it is in is not the position that it wasn't, the system has acquired a variation, a variation being the difference between where the missile is and where it wasn't. If variation is considered to be a significant factor, it too may be corrected by the GEA. However, the missile must also know where it was. The missile guidance computer scenario works as follows: Because a variation has modified some of the information the missile has obtained, it is not sure just where it is. However, it is sure where it isn't, within reason, and it knows where it was. It now subtracts where it should be from where it wasn't, or vice versa, and by differentiating this from the algebraic sum of where it shouldn't be and where it was, it is able to obtain the deviation and its variation, which is called error."
     }
     return texts[rand.randrange(0,7)]
+
+def morbius():
+    """
+    Returns a random string from a list of copypastas that are Morbius themed
+    This code is quite redundant, meaning if it is planned to make more like this, a general function should be written
+    Parameters:
+    None
+    Returns:
+    str: random copypasta from a dictionary
+    """
+    texts = {
+        0: 'Morbius is one of the movies of all time.',
+        1: 'I love Morbius so much <3',
+        2: "I love your character, it's so cute!\nYour outfit is so great too. It almost looks like a Gucci outfit.",
+        3: "Omg Morbius :flushed:"
+    }
+    return texts[rand.randrange(0,4)]
+
+
+def fumo(character):
+    """
+    Returns a random fumo character unless specified
+
+    Parameters:
+    character (str): name of character to return fumo image of
+
+    Returns:
+    str: random copypasta from a dictionary
+    """
+    characters = {
+        0: "reimu",
+        1: "flandre",
+        2: "cirno"
+    }
+    texts = {
+        "reimu": helper.fumo_images.reimu[rand.randrange(0,len(helper.fumo_images.reimu))],
+        "flandre": helper.fumo_images.flandre[rand.randrange(0,len(helper.fumo_images.flandre))],
+        "cirno": helper.fumo_images.cirno[rand.randrange(0,len(helper.fumo_images.cirno))]
+    }
+    try:
+        return texts[character.lower()]
+    except:
+        return texts[characters[rand.randrange(0,3)]]
 
 
 def format_msg(msg, submsg, modifier = '**'):
@@ -54,4 +96,4 @@ def format_msg(msg, submsg, modifier = '**'):
 
 
 
-print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")
+print(f"{helper.colors.GREEN}{helper.colors.BOLD}textfunctions.py{helper.colors.END}{helper.colors.GREEN} initialized{helper.colors.END}")
