@@ -10,9 +10,11 @@ client = commands.Bot(command_prefix = 's-')
 async def on_connect():
     print('I exist!')
 
+# Once the bot is ready, console commands are able to be used.
 @client.event
 async def on_ready():
     print('I can talk to friends now! :)')
+
 
 @client.event
 async def on_message(ctx):
@@ -30,16 +32,42 @@ async def on_message(ctx):
         return
 
     # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
-    await client.process_commands(ctx)
+    try:
+        await client.process_commands(ctx)
+    except:
+        pass
 
 
 ##################
 #Commands Section#
 ##################
 
+# Since help is a default command, remove to create a custom version
+client.remove_command("help")
+@client.command()
+async def help(ctx, arg = ""):
+    # Dictionary used for descriptions of every command
+    desc = {
+        "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
+        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>"
+    }
+
+    if(not arg == ""):
+        if arg.lower() in desc:
+            await ctx.channel.send(desc[arg.lower()])
+        else:
+            await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
+    else:
+        # TODO - Add text for help command
+        await ctx.channel.send("Temporary")
+
+@client.command()
+async def echo(ctx, *, arg):
+    await ctx.channel.send(arg)
+
 @client.command()
 async def copypasta(ctx):
-    await ctx.send(copypasta_text())
+    await ctx.channel.send(copypasta_text())
 
 
 
@@ -50,9 +78,8 @@ async def copypasta(ctx):
 # token is taken from a file named '.token'
 # If this file does not exist, user will be prompted to input token
 
-# TODO: Figure out how to recover from 'Improper token has been passed.' error
-# Current handling: Ask for new TOKEN -> write TOKEN to .token -> crash program
-# Error turns into RuntimeError('Even loop is closed')
+# Current bad token handling: Ask for new TOKEN -> write TOKEN to .token -> crash program
+
 def main():
     try:
         TOKEN = dt.get_token()
@@ -61,7 +88,7 @@ def main():
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
         print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
-        print("The program will exit.")
+        print(f"{cl.RED}The program will exit.{cl.END}\n")
         choice = input("Would you like to enter a new token? [Y/n] ")
         while(choice != "Y" and choice != "n"):
             choice = input("\nWould you like to write a new token? [Y/n] ")    
