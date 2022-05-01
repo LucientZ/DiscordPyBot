@@ -1,6 +1,5 @@
 import random as rand
-from helper import colors as cl
-
+import helper
 #Silly messages to send in channels if something funny happens. Gives a random output.
 
 def copypasta_text():
@@ -57,9 +56,9 @@ def fumo(character):
         2: "cirno"
     }
     texts = {
-        "reimu": 'https://cdn.discordapp.com/attachments/390692666897203211/970367378472992818/6157Ee4sPsL._AC_SL1000_.jpg',
-        "flandre": 'https://cdn.discordapp.com/attachments/390692666897203211/970367378795937882/2a9a8ebba16c4f47b281a6c27a1f5d8c.jpg',
-        "cirno": "https://cdn.discordapp.com/attachments/390692666897203211/970367379236343878/Cirnofumo.webp"
+        "reimu": helper.fumo_images.reimu[rand.randrange(0,len(helper.fumo_images.reimu))],
+        "flandre": helper.fumo_images.flandre[rand.randrange(0,len(helper.fumo_images.flandre))],
+        "cirno": helper.fumo_images.cirno[rand.randrange(0,len(helper.fumo_images.cirno))]
     }
     try:
         return texts[character.lower()]
@@ -96,4 +95,4 @@ def format_msg(msg, submsg, modifier = '**'):
 
 
 
-print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")
+print(f"{helper.colors.GREEN}{helper.colors.BOLD}textfunctions.py{helper.colors.END}{helper.colors.GREEN} initialized{helper.colors.END}")
