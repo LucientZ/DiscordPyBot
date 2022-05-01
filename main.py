@@ -6,7 +6,7 @@ from helper import colors as cl
 
 
 
-client = commands.Bot(command_prefix = 's-')
+client = commands.Bot(command_prefix = 's-', activity = discord.Game(name = "s-help"))
 
 @client.event
 async def on_connect():
@@ -17,11 +17,12 @@ async def on_connect():
 async def on_ready():
     print('I can talk to friends now! :)')
 
+
+# TODO add more functionality to this. Currently placeholder to not let improper commands print to console.
 @client.event 
 async def on_command_error(ctx, error): 
     if isinstance(error, commands.CommandNotFound): 
-        em = discord.Embed(title=f"Error!!!", description=f"Command not found.", color=ctx.author.color) 
-        await ctx.send(embed=em)
+        pass
 
 
 @client.event
@@ -74,7 +75,8 @@ async def help(ctx, arg = ""):
             await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
     else:
         # TODO - Add text for help command
-        await ctx.channel.send("Temporary")
+        em = discord.Embed(title=f"Command List", description=f"s-echo\ns-copypasta\ns-funky\n\nType s-help command for more info on a command.", color=ctx.author.color) 
+        await ctx.send(embed=em)
 
 @client.command()
 async def echo(ctx, *, arg):
