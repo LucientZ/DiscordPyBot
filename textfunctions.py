@@ -44,9 +44,10 @@ def morbius():
 def fumo(character):
     """
     Returns a random fumo character unless specified
-    This code is quite redundant, meaning if it is planned to make more like this, a general function should be written
+
     Parameters:
-    None
+    character (str): name of character to return fumo image of
+
     Returns:
     str: random copypasta from a dictionary
     """
