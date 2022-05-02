@@ -34,7 +34,7 @@ async def on_message(ctx):
     ctx_size = len(ctx.content)
 
     # These are funny responses to if a user happens to type a certain phrase.
-    if(not ctx.content.lower[0:1] == "s-"):
+    if(not ctx.content.lower()[0:1] == "s-"):
         if 'sus' in ctx.content.lower():
             await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
 
