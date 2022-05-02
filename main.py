@@ -67,10 +67,22 @@ client.remove_command("help")
 async def help(ctx, arg = ""):
     # Dictionary used for descriptions of every command
     desc = {
+        "features": ">>> __**Description**__\nThis is a set of functions the bot has that are automatic. Most of these are simply responses to certain strings in user messages.",
+        "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
+        "sad": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sad', the bot responds and sends a picture of sad Spongebob.\nExample: I am sad\nResponse: *picture of sad spongebob*",
+        "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sus', the bot responds and highlights the message.\nExample: I am sus\nResponse: Amogus detected: I am ***sus***",
+        "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'trade', the bot responds with 'yeah i trade :smile:'.\nExample: I trade\nResponse: Amogus detected: yeah i trade :smile:",
+
+        "fun": ">>> __**Description**__\nThis section is full of commands that either serve no real functional purpose. They are just here for fun.",
+        "boowomp": ">>> __**Description**__\nThis command sends a sad spongebob image.\n\n__**Usage**__\ns-boowomp <no arguments>",
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
+        "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nExample: s-funky cirno",
+        
+        "utility": ">>> __**Description**__\nThis section has commands that mainly serve a purpose to bot testers. You can use them tho :>",
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
-        "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nexample: s-funky cirno",
-        "boowomp": ">>> __**Description**__\nThis command sends sad spongebob.\n\n__**Usage**__\ns-boowomp <no arguments>"
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server\n\n__**Usage**__\ns-enable <command/feature name>",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server\n\n__**Usage**__\ns-disable <command/feature name>",
+        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>"
     }
 
     if(not arg == ""):
@@ -79,11 +91,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
     else:
-        await ctx.send(">>> __**Command List**__\necho\ncopypasta\nfunky\nboowomp\n\nType s-help command for more info on a command.")
-
-@client.command()
-async def echo(ctx, *, arg):
-    await ctx.channel.send(arg)
+        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\n\n__**Utility Commands**__ :tools:\necho\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.")
 
 @client.command()
 async def copypasta(ctx):
@@ -97,6 +105,13 @@ async def funky(ctx,arg = "null"):
 async def boowomp(ctx):
     await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
+@client.command()
+async def echo(ctx, *, arg):
+    await ctx.channel.send(arg)
+
+@client.command()
+async def ping(ctx):
+    await ctx.channel.send(f"Pong! {client.latency} ms")
 
 # Login information for the bot requires a token.
 # token is taken from a file named '.token'
