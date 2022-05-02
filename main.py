@@ -71,7 +71,7 @@ client.remove_command("help")
 async def help(ctx, arg = ""):
     # Dictionary used for descriptions of every command
     desc = {
-        "features": ">>> __**Description**__\nThis is a set of functions the bot has that are automatic. Most of these are simply responses to certain strings in user messages.",
+        "features": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands and happen passively.",
         "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
         "sad": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sad', the bot responds and sends a picture of sad Spongebob.\nExample: I am sad\nResponse: *picture of sad spongebob*",
         "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sus', the bot responds and highlights the message.\nExample: I am sus\nResponse: Amogus detected: I am ***sus***",
