@@ -1,5 +1,5 @@
 # Used for console formatting
-class colors:
+class cl:
     BLUE = "\033[94m"
     GREEN = "\033[92m"
     RED = "\033[91m"
@@ -27,3 +27,8 @@ class fumo_images:
         2: "https://cdn.discordapp.com/attachments/390692666897203211/970374981202616320/fumo-fumo-touhou.gif",
         3: "https://cdn.discordapp.com/attachments/390692666897203211/970374981617864714/flandre-scarlet-fumo-touhou.gif"
     }
+
+def server_search(server_ID):
+    """
+    
+    """

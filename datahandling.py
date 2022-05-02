@@ -1,4 +1,4 @@
-from helper import colors as cl
+from helper import *
 
 def write_token(TOKEN) -> None:
     """

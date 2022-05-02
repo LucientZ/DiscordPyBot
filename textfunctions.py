@@ -1,5 +1,5 @@
 import random as rand
-import helper
+from helper import *
 #Silly messages to send in channels if something funny happens. Gives a random output.
 
 def copypasta_text():
@@ -61,9 +61,9 @@ def fumo(character):
         2: "cirno"
     }
     texts = {
-        "reimu": helper.fumo_images.reimu[rand.randrange(0,len(helper.fumo_images.reimu))],
-        "flandre": helper.fumo_images.flandre[rand.randrange(0,len(helper.fumo_images.flandre))],
-        "cirno": helper.fumo_images.cirno[rand.randrange(0,len(helper.fumo_images.cirno))]
+        "reimu": fumo_images.reimu[rand.randrange(0,len(fumo_images.reimu))],
+        "flandre": fumo_images.flandre[rand.randrange(0,len(fumo_images.flandre))],
+        "cirno": fumo_images.cirno[rand.randrange(0,len(fumo_images.cirno))]
     }
     try:
         return texts[character.lower()]
@@ -84,6 +84,12 @@ def format_msg(msg, submsg, modifier = '**'):
     Returns:
     str: modified msg
     """
+    if not type(msg) == str:
+        raise TypeError("Argument 1: msg not type string")
+    elif not type(submsg) == str:
+        raise TypeError("Argument 2: submsg not type string")
+
+
     submsg_length = len(submsg)
     i = len(msg) - submsg_length
 
@@ -100,4 +106,4 @@ def format_msg(msg, submsg, modifier = '**'):
 
 
 
-print(f"{helper.colors.GREEN}{helper.colors.BOLD}textfunctions.py{helper.colors.END}{helper.colors.GREEN} initialized{helper.colors.END}")
+print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")

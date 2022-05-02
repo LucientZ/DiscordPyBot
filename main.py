@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import datahandling as dt
 from textfunctions import *
-from helper import colors as cl
+from helper import *
 
 
 
@@ -52,6 +52,7 @@ async def on_message(ctx):
             await ctx.channel.send("Your Mom")
     else:
         # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
+        # Assumes that if command fails, then command syntax was invalid or wasn't a command
         try:
             await client.process_commands(ctx)
         except:
