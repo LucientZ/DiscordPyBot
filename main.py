@@ -34,27 +34,30 @@ async def on_message(ctx):
     ctx_size = len(ctx.content)
 
     # These are funny responses to if a user happens to type a certain phrase.
-    if 'sus' in ctx.content.lower():
-        await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
+    if(not ctx.content.lower[0:1] == "s-"):
+        if 'sus' in ctx.content.lower():
+            await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
 
-    if 'morbius' in ctx.content.lower():
-        await ctx.channel.send(morbius())
+        if 'morbius' in ctx.content.lower():
+            await ctx.channel.send(morbius())
 
-    if 'sad' in ctx.content.lower():
-        await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
+        if 'sad' in ctx.content.lower():
+            await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
-    if 'trade' in ctx.content.lower():
-        await ctx.channel.send("yeah i trade :smile:")
+        if 'trade' in ctx.content.lower():
+            await ctx.channel.send("yeah i trade :smile:")
 
-    # Temporary request from a user. Will delete in future version
-    if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
-        await ctx.channel.send("Your Mom")
-
-    # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
-    try:
-        await client.process_commands(ctx)
-    except:
-        pass
+        # Temporary request from a user. Will delete in future version
+        if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
+            await ctx.channel.send("Your Mom")
+    else:
+        # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
+        try:
+            await client.process_commands(ctx)
+        except:
+            pass
+    
+    
 
 
 ##################
