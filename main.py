@@ -85,6 +85,7 @@ async def help(ctx, arg = ""):
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
         "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server\n\n__**Usage**__\ns-enable <command/feature name>",
         "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server\n\n__**Usage**__\ns-disable <command/feature name>",
+        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>",
         "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>"
     }
 
@@ -94,7 +95,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
     else:
-        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\n\n__**Utility Commands**__ :tools:\necho\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.")
+        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\n\n__**Utility Commands**__ :tools:\necho\nenable (WIP)\ndisable (WIP)\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.")
 
 @client.command()
 async def copypasta(ctx):
