@@ -1,5 +1,10 @@
 Here is a list of feature requests from users
 
+
+****PRIORITY***
+Make features and commands toggleable
+
+
+__Unprioritized__
 Add a bonk command
 Add a command that makes the bot join a channel and play a sound
-Make features and commands toggleable
