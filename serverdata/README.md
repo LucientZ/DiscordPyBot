@@ -1,1 +1,1 @@
-This folder will fill with 
+This folder will fill with command permission files when s-enable or s-disable are used on a server
