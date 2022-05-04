@@ -28,13 +28,13 @@ class fumo_images:
         3: "https://cdn.discordapp.com/attachments/390692666897203211/970374981617864714/flandre-scarlet-fumo-touhou.gif"
     }
 
-def string_binary_search(array, x):
+def binary_search(array, x):
     """
     Returns index of a value in a sorted array of strings
 
     Parameters:
-    array (str): sorted array to be searched
-    x (str): value to find (must be of same type as array)
+    array (int/float/str): sorted array to be searched
+    x (int/float/str): value to find (must be of same type as array)
 
     Returns:
     int: index of value or -1 which means not found
@@ -47,10 +47,10 @@ def string_binary_search(array, x):
         mid = (left + right) // 2
 
         # If x is less, search left-half
-        if x < float(array[mid]):
+        if X < float(array[mid]):
             right = mid - 1
         # If x is greater, search right-half
-        elif x > float(array[mid]):
+        elif X > float(array[mid]):
             left = mid + 1
         # If neither, mid is where x is
         else:
@@ -58,6 +58,3 @@ def string_binary_search(array, x):
 
     # -1 means not in array
     return -1
-
-
-
