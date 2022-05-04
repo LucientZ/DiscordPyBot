@@ -30,7 +30,7 @@ class fumo_images:
 
 def binary_search(array, x):
     """
-    Returns index of a value in a sorted array of strings
+    Returns index of a value in a sorted array
 
     Parameters:
     array (int/float/str): sorted array to be searched
