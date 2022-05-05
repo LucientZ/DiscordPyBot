@@ -81,9 +81,9 @@ async def help(ctx, arg = ""):
         
         "utility": ">>> __**Description**__\nThis section has commands that mainly serve a purpose to bot testers. You can use them tho :>",
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
-        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server\n\n__**Usage**__\ns-enable <command/feature name>",
-        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server\n\n__**Usage**__\ns-disable <command/feature name>",
-        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>",
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server\n\n__**Usage**__\ns-enable <command/feature name>\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server\n\n__**Usage**__\ns-disable <command/feature name>\n\nThis command **cannot** be disabled!",
+        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!",
         "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>"
     }
 

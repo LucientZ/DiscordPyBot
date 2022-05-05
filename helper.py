@@ -58,3 +58,12 @@ def binary_search(array, x):
 
     # -1 means not in array
     return -1
+
+
+# Lists of sections of features and commands
+# These lists are used in datahandling.py mainly for enabling/disabling commands
+features = ["morbius","sad","sus","trade"]
+fun_commands = ["boowomp","copypasta","funky"]
+utility_commands = ["echo","ping"]
+
+print(f"{cl.BOLD}{cl.GREEN}helper.py{cl.END}{cl.GREEN} initialized{cl.END}")
