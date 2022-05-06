@@ -32,11 +32,20 @@ async def on_message(ctx):
         return
 
     ctx_size = len(ctx.content)
+    # Protection for if a message parsed by the bot is too long.
+    # Discord messages may only be under 2000 characters long
+    if(ctx_size > 1500):
+        return
 
     # These are funny responses to if a user happens to type a certain phrase.
     if(not ctx.content.lower()[0:2] == "s-"):
         if 'sus' in ctx.content.lower():
-            await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
+            if(not ctx_size > 665):
+                await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
+            else:
+                await ctx.channel.send("__Amogus Detected in Message__")
+                await ctx.channel.send(ctx.content)
+            
 
         if 'morbius' in ctx.content.lower():
             await ctx.channel.send(morbius())
@@ -46,6 +55,9 @@ async def on_message(ctx):
 
         if 'trade' in ctx.content.lower():
             await ctx.channel.send("yeah i trade :smile:")
+
+        if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
+            await ctx.channel.send(mom())
 
     else:
         # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.

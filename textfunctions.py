@@ -104,6 +104,13 @@ def format_msg(msg, submsg, modifier = '**'):
         
     return msg
 
+def mom():
+    num = rand.randrange(0,20)
+    if num == 19:
+        return "Your Dad :sunglasses:"
+    else:
+        return "Your Mom"
+
 
 
 print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")
