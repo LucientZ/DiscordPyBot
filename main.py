@@ -42,9 +42,11 @@ async def on_message(ctx):
         if 'sus' in ctx.content.lower():
             if(not ctx_size > 665):
                 await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
+                return
             else:
                 await ctx.channel.send("__Amogus Detected in Message__")
                 await ctx.channel.send(ctx.content)
+                return
             
 
         if 'morbius' in ctx.content.lower():
