@@ -49,15 +49,19 @@ async def on_message(ctx):
 
         if 'morbius' in ctx.content.lower():
             await ctx.channel.send(morbius())
+            return
 
         if 'sad' in ctx.content.lower():
             await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
+            return
 
         if 'trade' in ctx.content.lower():
             await ctx.channel.send("yeah i trade :smile:")
+            return
 
         if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
             await ctx.channel.send(mom())
+            return
 
     else:
         # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
