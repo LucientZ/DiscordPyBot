@@ -1,6 +1,7 @@
 # Used for console formatting
 class cl:
     BLUE = "\033[94m"
+    YELLOW = "\033[93m"
     GREEN = "\033[92m"
     RED = "\033[91m"
     BOLD = "\033[1m"

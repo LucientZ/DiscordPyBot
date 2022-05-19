@@ -1,4 +1,9 @@
 from helper import *
+import json
+
+##################
+# TOKEN HANDLING #
+##################
 
 def write_token(TOKEN) -> None:
     """
@@ -63,6 +68,39 @@ def get_token() -> str:
 
         
     return TOKEN
+
+
+##########################
+# Server Config Handling #
+##########################
+
+def init_guild_config():
+    """
+    If configdata\guildconfig.json does not exists, creates a template file.
+    Skips the process if configdata\guildconfig.json exists.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
+    try:
+        with open("configdata\guildconfig.json", "x") as f:
+            data = {
+                "guilds": dict()
+            }
+            # Example guild with restrictions on certain commands and features
+            data["guilds"]["00000000"] ={
+                "blacklist": ["sus", "morbius", "funky"],
+                "channels": {"00000000": {"blacklist": ["copypasta"]}, "00000001": {"blacklist": ["sad"]}}
+            }
+            json.dump(data, f, indent=2)
+            print(f"{cl.GREEN}{cl.BOLD}configdata\guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
+    except FileExistsError as e:
+        print(f'{cl.BOLD}{cl.YELLOW}\configdata\guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+
+
 
 
 print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")

@@ -109,7 +109,7 @@ async def help(ctx, arg = ""):
         if arg.lower() in desc:
             await ctx.channel.send(desc[arg.lower()])
         else:
-            await ctx.channel.send(arg,"is not a valid command. Type 's-help' for a list of commands.")
+            await ctx.channel.send(arg,"is not a valid command or feature. Type 's-help' for a list of things I can do.")
     else:
         await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\n\n__**Utility Commands**__ :tools:\necho\nenable (WIP)\ndisable (WIP)\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.")
 
@@ -133,6 +133,14 @@ async def echo(ctx, *, arg):
 async def ping(ctx):
     await ctx.channel.send(f"Pong! {client.latency} ms")
 
+
+# Command used for testing
+#@client.command()
+#async def info(ctx):
+#    print("User ID:", ctx.author.id,"Type:", type(ctx.author.id))
+#    print("Guild ID:", ctx.guild.id,"Type:", type(ctx.guild.id))
+#    print("Channel ID:", ctx.channel.id,"Type:", type(ctx.channel.id))
+
 # Login information for the bot requires a token.
 # token is taken from a file named '.token'
 # If this file does not exist, user will be prompted to input token
@@ -140,9 +148,9 @@ async def ping(ctx):
 # Current bad token handling: Ask for new TOKEN -> write TOKEN to .token -> crash program
 def main():
     try:
+        dt.init_guild_config()
         TOKEN = dt.get_token()
         client.run(TOKEN)
-
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
         print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
