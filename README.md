@@ -6,7 +6,7 @@ Everything here is run in Python 3.8.10 which can be found here:
 
 This bot uses the discord.py api in which the documentation can be found here:
     https://discordpy.readthedocs.io/en/stable/api.html
-    To install: pip install discord.py[voice]
+    To install: pip install discord.py
 
 
 Notes:
