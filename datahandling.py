@@ -91,9 +91,9 @@ def init_guild_config():
                 "guilds": dict()
             }
             # Example guild with restrictions on certain commands and features
-            data["guilds"]["00000000"] ={
+            data["guilds"][987654321] ={
                 "blacklist": ["sus", "morbius", "funky"],
-                "channels": {"00000000": {"blacklist": ["copypasta"]}, "00000001": {"blacklist": ["sad"]}}
+                "channels": {123456789: {"blacklist": ["copypasta"]}, "00000001": {"blacklist": ["sad"]}}
             }
             json.dump(data, f, indent=2)
             print(f"{cl.GREEN}{cl.BOLD}configdata\guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
@@ -101,6 +101,62 @@ def init_guild_config():
         print(f'{cl.BOLD}{cl.YELLOW}\configdata\guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 
+def blacklist_feature(command_name, guildID, channelID = "-1"):
+    command_name = command_name.lower()
+    # Function doesn't need to blacklist a command if it is already blacklisted
+    if is_blacklisted(command_name, guildID, channelID):
+        return f"{command_name} already in blacklist"
 
+    if command_name in all_features:
+        try:
+            with open("configdata\guildconfig.json", "r") as f:
+                data = json.load(f)
+                # If the command is not in channel blacklist, adds command to blacklist
+                if channelID == "-1":
+                    data["guilds"][guildID]['blacklist'].append(command_name)
+                else:
+                    # If channelID isn't in data, add a default construction
+                    if not channelID in data['guilds'][guildID]['channels']:
+                        data['guilds'][guildID]['channels'][channelID] = {
+                            'blacklist': []
+                        }
+                    data['guilds'][guildID]['channels'][channelID]['blacklist'].append(command_name)
+            # New with open() resets pointer to beginning of file to overwrite
+            with open("configdata\guildconfig.json", "w") as f:
+                json.dump(data, f, indent=2)
+                return f"{command_name} added to blacklist"
+        except KeyError:
+            add_guild(guildID)
+            return blacklist_feature(command_name,guildID,channelID)
+    else:
+        return "Command does not exist"
+
+
+def is_blacklisted(command_name, guildID, channelID = "-1"):
+    with open("configdata\guildconfig.json", "r") as f:
+        data = json.load(f)
+        try:
+            if (not channelID == "-1") and (channelID in data['guilds'][guildID]['channels']) and (command_name in data['guilds'][guildID]['channels'][channelID]['blacklist']):
+                return True
+            return command_name in data['guilds'][guildID]['blacklist']
+        except KeyError as e:
+            # If a guild id isn't detected, add guild id to dictionary
+            # Return False since guilds are default false for every feature/command
+            add_guild(guildID)
+            return False
+
+
+def add_guild(guildID):
+    with open("configdata\guildconfig.json", "r") as f:
+        data = json.load(f)
+        # If guildID isn't in list, adds a default server template attached to guildID
+        if not guildID in data['guilds']:
+            data["guilds"][guildID] = {
+                "blacklist": [],
+                "channels": dict()
+            }
+    # New with open() resets pointer to beginning of file to overwrite
+    with open("configdata\guildconfig.json", "w") as f:
+        json.dump(data, f, indent=2)
 
 print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")

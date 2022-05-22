@@ -66,5 +66,6 @@ def binary_search(array, x):
 features = ["morbius","sad","sus","trade"]
 fun_commands = ["boowomp","copypasta","funky"]
 utility_commands = ["echo","ping"]
+all_features = features + fun_commands + utility_commands
 
 print(f"{cl.BOLD}{cl.GREEN}helper.py{cl.END}{cl.GREEN} initialized{cl.END}")
