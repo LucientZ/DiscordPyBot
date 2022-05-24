@@ -127,25 +127,25 @@ async def boowomp(ctx):
 
 @client.command()
 async def echo(ctx, *, arg):
-    if dt.is_blacklisted("echo", ctx.guild.id):
+    if dt.is_blacklisted("echo", str(ctx.guild.id)):
         return
     await ctx.channel.send(arg)
 
 @client.command()
 async def ping(ctx):
-    if dt.is_blacklisted("ping", ctx.guild.id):
+    if dt.is_blacklisted("ping", str(ctx.guild.id)):
         return
     await ctx.channel.send(f"Pong! {client.latency} ms")
 
 @client.command()
-async def disable(ctx, command_name, flag = "0"):
+async def disable(ctx, command_name, flag = "\0"):
     if flag == "-c":
-        await ctx.channel.send(dt.blacklist_feature(command_name, ctx.guild.id, ctx.channel.id))
+        await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id), str(ctx.channel.id)))
     else:
-        await ctx.channel.send(dt.blacklist_feature(command_name, ctx.guild.id))
+        await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id)))
 
 @client.command()
-async def enable(ctx, command_name, flag = "0"):
+async def enable(ctx, command_name, flag = "-1"):
     pass
 
 # Command used for testing
