@@ -129,7 +129,7 @@ async def boowomp(ctx):
 async def echo(ctx, *, arg):
     if dt.is_blacklisted("echo", str(ctx.guild.id)):
         return
-    await ctx.channel.send(arg)
+    await ctx.channel.send("Echo: " + arg)
 
 @client.command()
 async def ping(ctx):
