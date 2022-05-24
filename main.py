@@ -28,7 +28,7 @@ async def on_command_error(ctx, error):
 @client.event
 async def on_message(ctx):
     # Bot doesn't respond to itself
-    if ctx.author == client.user:
+    if ctx.author.bot:
         return
 
     ctx_size = len(ctx.content)
