@@ -99,10 +99,10 @@ async def help(ctx, arg = ""):
         
         "utility": ">>> __**Description**__\nThis section has commands that mainly serve a purpose to bot testers. You can use them tho :>",
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
-        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server\n\n__**Usage**__\ns-enable <command/feature name>\n\nThis command **cannot** be disabled!",
-        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server\n\n__**Usage**__\ns-disable <command/feature name>\n\nThis command **cannot** be disabled!",
-        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!",
-        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>"
+        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>",
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c after command to enable for specific channel.\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c after command to disable for specific channel.\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
     }
 
     if(not arg == ""):
@@ -118,7 +118,7 @@ async def copypasta(ctx):
     await ctx.channel.send(copypasta_text())
 
 @client.command()
-async def funky(ctx,arg = "null"):
+async def funky(ctx,arg = ""):
     await ctx.channel.send(fumo(arg))
 
 @client.command()
@@ -127,33 +127,36 @@ async def boowomp(ctx):
 
 @client.command()
 async def echo(ctx, *, arg):
-    if dt.is_blacklisted("echo", str(ctx.guild.id)):
+    if dt.is_blacklisted("echo", str(ctx.guild.id), str(ctx.channel.id)):
         return
     await ctx.channel.send("Echo: " + arg)
 
 @client.command()
 async def ping(ctx):
-    if dt.is_blacklisted("ping", str(ctx.guild.id)):
+    if dt.is_blacklisted("ping", str(ctx.guild.id), str(ctx.channel.id)):
         return
     await ctx.channel.send(f"Pong! {client.latency} ms")
 
 @client.command()
+async def enable(ctx, command_name, flag = "\0"):
+    if flag == "-c":
+        await ctx.channel.send(dt.whitelist_feature(command_name, str(ctx.guild.id), str(ctx.channel.id)))
+    else:
+        await ctx.channel.send(dt.whitelist_feature(command_name, str(ctx.guild.id)))
+
+@client.command()
 async def disable(ctx, command_name, flag = "\0"):
+    #if not ctx.guild_permissions.value 
     if flag == "-c":
         await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id), str(ctx.channel.id)))
     else:
         await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id)))
 
-@client.command()
-async def enable(ctx, command_name, flag = "-1"):
-    pass
-
 # Command used for testing
 #@client.command()
-#async def info(ctx):
-#    print("User ID:", ctx.author.id,"Type:", type(ctx.author.id))
-#    print("Guild ID:", ctx.guild.id,"Type:", type(ctx.guild.id))
-#    print("Channel ID:", ctx.channel.id,"Type:", type(ctx.channel.id))
+#async def ctxinfo(ctx):
+#    print("User ID:", ctx.author.id,"Type:", type(ctx.author.id), "\nGuild ID:", ctx.guild.id,"Type:", type(ctx.guild.id), "\nChannel ID:", ctx.channel.id,"Type:", type(ctx.channel.id))
+#    print("User Permissions:", ctx.author.guild_permissions.value)
 
 # Login information for the bot requires a token.
 # token is taken from a file named '.token'

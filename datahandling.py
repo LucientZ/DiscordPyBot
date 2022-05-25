@@ -97,15 +97,27 @@ def init_guild_config():
             }
             json.dump(data, f, indent=2)
             print(f"{cl.GREEN}{cl.BOLD}configdata\guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
-    except FileExistsError as e:
+    except FileExistsError:
         print(f'{cl.BOLD}{cl.YELLOW}\configdata\guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 
 def blacklist_feature(command_name, guildID, channelID = "\0"):
+    """
+    Adds a command name in a blacklist linked to the specified guild id. If a channel id is specified, adds command to a specific channel in a guild.
+
+    Parameters:
+    command_name (str): name of command to be blacklisted
+    guildID (str): guild id to be checked in configdata\guildconfig.json
+    channelID (str)[OPTIONAL]: guild id to be checked in guildconfig.json
+
+    Returns:
+    str: response for the bot to say when command, guildID, and channelID are parsed
+    """
     command_name = command_name.lower()
     # Function doesn't need to blacklist a command if it is already blacklisted
+    # is_blacklisted() also adds the guildID in guildconfig.json if needed
     if is_blacklisted(command_name, guildID, channelID):
-        return f"{command_name} already disabled"
+        return f"'{command_name}' already disabled"
 
     if command_name in all_features:
         with open("configdata\guildconfig.json", "r") as f:
@@ -123,19 +135,68 @@ def blacklist_feature(command_name, guildID, channelID = "\0"):
         # New with open() resets pointer to beginning of file to overwrite
         with open("configdata\guildconfig.json", "w") as f:
             json.dump(data, f, indent=2)
-            return f"{command_name} added to blacklist"
+            return f"'{command_name}' added to blacklist"
+    else:
+        return "Command does not exist"
+
+def whitelist_feature(command_name, guildID, channelID = "\0"):
+    """
+    Deletes a command name in a blacklist linked to the specified guild id. If a channel id is specified, deletes command to a specific channel in a guild.
+
+    Parameters:
+    command_name (str): name of command to be whitelisted
+    guildID (str): guild id to be checked in configdata\guildconfig.json
+    channelID (str)[OPTIONAL]: guild id to be checked in guildconfig.json
+
+    Returns:
+    str: response for the bot to say when command, guildID, and channelID are parsed
+    """
+    command_name = command_name.lower()
+    # Function doesn't need to blacklist a command if it is already blacklisted
+    if not is_blacklisted(command_name, guildID, channelID):
+        return f"'{command_name}' already enabled"
+
+    if command_name in all_features:
+        with open("configdata\guildconfig.json", "r") as f:
+            data = json.load(f)
+            # If the command is not in channel blacklist, adds command to blacklist
+            if channelID == "\0":
+                data["guilds"][guildID]['blacklist'].remove(command_name)
+            else:
+                # If channelID isn't in data, add a default construction
+                if not channelID in data['guilds'][guildID]['channels']:
+                    data['guilds'][guildID]['channels'][channelID] = {
+                        'blacklist': []
+                    }
+                else:
+                    data['guilds'][guildID]['channels'][channelID]['blacklist'].remove(command_name)
+        # New with open() resets pointer to beginning of file to overwrite
+        with open("configdata\guildconfig.json", "w") as f:
+            json.dump(data, f, indent=2)
+            return f"'{command_name}' removed from blacklist"
     else:
         return "Command does not exist"
 
 
-def is_blacklisted(command_name, guildID, channelID = "-1"):
+def is_blacklisted(command_name, guildID, channelID):
+    """
+    Returns if a command is blacklisted in a specific channel in a guild.
+
+    Parameters:
+    command_name (str): name of command to be checked
+    guildID (str): guild id to be checked in configdata\guildconfig.json
+    channelID (str)[OPTIONAL]: guild id to be checked in guildconfig.json
+
+    Returns:
+    bool: boolean whether or not command is blacklisted
+    """
     with open("configdata\guildconfig.json", "r") as f:
         data = json.load(f)
         try:
-            if (not channelID == "-1") and (channelID in data['guilds'][guildID]['channels']) and (command_name in data['guilds'][guildID]['channels'][channelID]['blacklist']):
+            if (channelID in data['guilds'][guildID]['channels']) and (command_name in data['guilds'][guildID]['channels'][channelID]['blacklist']):
                 return True
             return command_name in data['guilds'][guildID]['blacklist']
-        except KeyError as e:
+        except KeyError:
             # If a guild id isn't detected, add guild id to dictionary
             # Return False since guilds are default false for every feature/command
             add_guild(guildID)
@@ -143,6 +204,15 @@ def is_blacklisted(command_name, guildID, channelID = "-1"):
 
 
 def add_guild(guildID):
+    """
+    Adds a default template of a guildID in configdata\guildconfig.json
+
+    Parameters:
+    guildID (str): guild id to be added to configdata\guildconfig.json
+
+    Returns:
+    none
+    """
     with open("configdata\guildconfig.json", "r") as f:
         data = json.load(f)
         # If guildID isn't in list, adds a default server template attached to guildID

@@ -1,1 +1,1 @@
-This folder will fill with command permission files when s-enable or s-disable are used on a server
+This folder is used to store config data used by the bot.
