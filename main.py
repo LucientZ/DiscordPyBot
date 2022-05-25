@@ -40,26 +40,29 @@ async def on_message(ctx):
     # These are funny responses to if a user happens to type a certain phrase.
     if(not ctx.content.lower()[0:2] == "s-"):
         if 'sus' in ctx.content.lower():
-            if(not ctx_size > 665):
-                await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
-                return
-            else:
-                await ctx.channel.send("__Amogus Detected in Message__")
-                await ctx.channel.send(ctx.content)
+            if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)):
+                if(not ctx_size > 665):
+                    await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
+                else:
+                    await ctx.channel.send("__Amogus Detected in Message__")
+                    await ctx.channel.send(ctx.content)
                 return
             
 
         if 'morbius' in ctx.content.lower():
-            await ctx.channel.send(morbius())
-            return
+            if not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)):
+                await ctx.channel.send(morbius())
+                return
 
         if 'sad' in ctx.content.lower():
-            await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-            return
+            if not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)):
+                await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
+                return
 
         if 'trade' in ctx.content.lower():
-            await ctx.channel.send("yeah i trade :smile:")
-            return
+            if not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)):
+                await ctx.channel.send("yeah i trade :smile:")
+                return
 
         if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
             await ctx.channel.send(mom())
@@ -87,21 +90,25 @@ async def help(ctx, arg = ""):
     # Dictionary used for descriptions of every command
     desc = {
         "features": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands and happen passively.",
+        #####################################################
         "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
         "sad": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sad', the bot responds and sends a picture of sad Spongebob.\nExample: I am sad\nResponse: *picture of sad spongebob*",
         "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sus', the bot responds and highlights the message.\nExample: I am sus\nResponse: Amogus detected: I am ***sus***",
-        "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'trade', the bot responds with 'yeah i trade :smile:'.\nExample: I trade\nResponse: Amogus detected: yeah i trade :smile:",
-
+        "trade": ">>> __**Description**__\nAnytime a user sends a message that has the string 'trade', the bot responds with 'yeah i trade :smile:'.\nExample: I trade\nResponse: Amogus detected: yeah i trade :smile:",
+        
         "fun": ">>> __**Description**__\nThis section is full of commands that either serve no real functional purpose. They are just here for fun.",
+        #####################################################
         "boowomp": ">>> __**Description**__\nThis command sends a sad spongebob image.\n\n__**Usage**__\ns-boowomp <no arguments>",
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
         "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nExample: s-funky cirno",
-        
-        "utility": ">>> __**Description**__\nThis section has commands that mainly serve a purpose to bot testers. You can use them tho :>",
+        "gacha": ">>> __**Description**__\nComing Soon",
+
+        "utility": ">>> __**Description**__\nThis section has commands that mainly serve server admins. You can use them if you're allowed to though :>",
+        #####################################################
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
         "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>",
-        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c after command to enable for specific channel.\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
-        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c after command to disable for specific channel.\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c after command to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c after command to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
         "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
     }
 
@@ -111,18 +118,24 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command or feature. Type 's-help' for a list of things I can do.")
     else:
-        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\n\n__**Utility Commands**__ :tools:\necho\nenable (WIP)\ndisable (WIP)\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.")
+        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported directly to LucienZ#3376")
 
 @client.command()
 async def copypasta(ctx):
+    if dt.is_blacklisted("copypasta", str(ctx.guild.id), str(ctx.channel.id)):
+        return
     await ctx.channel.send(copypasta_text())
 
 @client.command()
 async def funky(ctx,arg = ""):
+    if dt.is_blacklisted("funky", str(ctx.guild.id), str(ctx.channel.id)):
+        return
     await ctx.channel.send(fumo(arg))
 
 @client.command()
 async def boowomp(ctx):
+    if dt.is_blacklisted("boowomp", str(ctx.guild.id), str(ctx.channel.id)):
+        return
     await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
 @client.command()
@@ -139,15 +152,18 @@ async def ping(ctx):
 
 @client.command()
 async def enable(ctx, command_name, flag = "\0"):
-    if flag == "-c":
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.channel.send(f"{ctx.user} does not have administrator permissions. If you believe that this is an issue with the bot, report issues to LucienZ#3376")
+    elif flag == "-c":
         await ctx.channel.send(dt.whitelist_feature(command_name, str(ctx.guild.id), str(ctx.channel.id)))
     else:
         await ctx.channel.send(dt.whitelist_feature(command_name, str(ctx.guild.id)))
 
 @client.command()
 async def disable(ctx, command_name, flag = "\0"):
-    #if not ctx.guild_permissions.value 
-    if flag == "-c":
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.channel.send(f"{ctx.user} does not have administrator permissions. If you believe that this is an issue with the bot, report issues to LucienZ#3376")
+    elif flag == "-c":
         await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id), str(ctx.channel.id)))
     else:
         await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id)))

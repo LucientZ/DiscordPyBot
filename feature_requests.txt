@@ -1,10 +1,16 @@
-Here is a list of feature requests from users
+Here is a list of features to be added. Some are requests by users
+Emote Key
+    :D - Complete and shouldn't be changed
+    :) - Complete
+    :/ - Partially complete
+    :( - Haven't started
 
-
-****PRIORITY***
-Make features and commands toggleable
-
+****PRIORITY****
+:) Make features and commands toggleable
+:( Add reporting system
 
 __Unprioritized__
-Add a bonk command
-Add a command that makes the bot join a channel and play a sound
+:( Add a bonk command
+:( Add a command that makes the bot join a channel and play a sound
+:( Add a gacha game
+:( Add a dating simulator
