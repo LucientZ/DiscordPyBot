@@ -168,6 +168,10 @@ async def disable(ctx, command_name, flag = "\0"):
     else:
         await ctx.channel.send(dt.blacklist_feature(command_name, str(ctx.guild.id)))
 
+@client.command()
+async def gacha(ctx):
+    await ctx.channel.send("This command is a Work In Progress")
+
 # Command used for testing
 #@client.command()
 #async def ctxinfo(ctx):
