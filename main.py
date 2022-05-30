@@ -47,7 +47,7 @@ async def on_message(ctx):
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
         elif 'morbius' in ctx.content.lower():
-            if not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)):
+            if not dt.is_blacklisted("morb", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send(morbius())
         elif 'sad' in ctx.content.lower():
             if not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)):
