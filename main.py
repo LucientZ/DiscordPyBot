@@ -37,7 +37,7 @@ async def on_message(ctx):
     if(ctx_size > 1500):
         return
 
-    # These are funny responses to if a user happens to type a certain phrase.
+    # Checks if the first two characters of the message starts with 's-' to either parse message as command or regular message
     if(not ctx.content.lower()[0:2] == "s-"):
         if 'sus' in ctx.content.lower():
             if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)):
@@ -46,27 +46,17 @@ async def on_message(ctx):
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
-                return
-            
-
-        if 'morbius' in ctx.content.lower():
+        elif 'morbius' in ctx.content.lower():
             if not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send(morbius())
-                return
-
-        if 'sad' in ctx.content.lower():
+        elif 'sad' in ctx.content.lower():
             if not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-                return
-
-        if 'trade' in ctx.content.lower():
+        elif 'trade' in ctx.content.lower():
             if not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send("yeah i trade :smile:")
-                return
-
-        if 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
+        elif 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
             await ctx.channel.send(mom())
-            return
 
     else:
         # Note: Since on_message() overrides what the bot does to during a message send, this process the message as a command.
@@ -77,7 +67,6 @@ async def on_message(ctx):
             pass
     
     
-
 
 ##################
 #Commands Section#
@@ -118,7 +107,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command or feature. Type 's-help' for a list of things I can do.")
     else:
-        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported directly to LucienZ#3376")
+        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported on GitHub at https://github.com/LucientZ/DiscordPyBot or directly to LucienZ#3376")
 
 @client.command()
 async def copypasta(ctx):

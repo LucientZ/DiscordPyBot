@@ -1,5 +1,5 @@
 Here is a list of features to be added. Some are requests by users
-Emote Key
+Progress Emote Key
     :D - Complete and shouldn't be changed
     :) - Complete
     :/ - Partially complete
