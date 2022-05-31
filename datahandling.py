@@ -1,5 +1,6 @@
 from helper import *
 import json
+import os
 
 ##################
 # TOKEN HANDLING #
@@ -78,12 +79,6 @@ def init_guild_config():
     """
     If configdata/guildconfig.json does not exists, creates a template file.
     Skips the process if configdata/guildconfig.json exists.
-
-    Parameters:
-    None
-
-    Returns:
-    None
     """
     try:
         with open("configdata/guildconfig.json", "x") as f:
@@ -98,7 +93,7 @@ def init_guild_config():
             json.dump(data, f, indent=2)
             print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
     except FileExistsError:
-        print(f'{cl.BOLD}{cl.YELLOW}/configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+        print(f'{cl.BOLD}/configdata/guildconfig.json{cl.END} exists. Skipping creation of file...')
 
 
 def blacklist_feature(command_name, guildID, channelID = "\0"):
@@ -224,5 +219,34 @@ def add_guild(guildID):
     # New with open() resets pointer to beginning of file to overwrite
     with open("configdata/guildconfig.json", "w") as f:
         json.dump(data, f, indent=2)
+
+
+##########################
+# Server Config Handling #
+##########################
+
+def init_file(filename):
+    """
+    If filaname does not exists, creates a blank file.
+    Skips the process if filename exists.
+
+    Parameters:
+    filename (str): name of file to be created
+
+    Returns:
+    none
+    """
+    try:
+        with open(filename, "x") as f:
+            print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created :){cl.END}")
+    except FileExistsError:
+        print(f'{cl.BOLD}{filename}{cl.END} exists. Skipping creation of file...')
+
+def get_copypasta_list():
+    with open("textdata/copypasta.dat", "r") as f:
+        data = f.read()
+        data = data.split('\n\n')
+        data.pop(len(data) - 1)
+        return data
 
 print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")

@@ -6,11 +6,20 @@ Progress Emote Key
     :( - Haven't started
 
 ****PRIORITY****
+__frontend__
 :) Make features and commands toggleable
 :( Add reporting system
 
-__Unprioritized__
+__backend__
+:D Remake how s-copypasta fetches copypastas
+
+
+
+****Unprioritized****
+__frontend__
 :( Add a bonk command
 :( Add a command that makes the bot join a channel and play a sound
 :( Add a gacha game
 :( Add a dating simulator
+
+__backend__

@@ -1,0 +1,1 @@
+This folder is used to store text data for functions that need multiple responses

@@ -175,6 +175,7 @@ async def gacha(ctx):
 def main():
     try:
         dt.init_guild_config()
+        dt.init_file("textdata/copypasta.dat")
         TOKEN = dt.get_token()
         client.run(TOKEN)
     except discord.LoginFailure as e:
