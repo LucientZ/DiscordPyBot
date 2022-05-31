@@ -2,7 +2,6 @@ import random as rand
 from helper import *
 import datahandling as dt
 #Silly messages to send in channels if something funny happens. Gives a random output.
-
 def copypasta_text():
     """
     Returns a random string from a list of copypastas
