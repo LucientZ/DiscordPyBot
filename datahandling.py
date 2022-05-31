@@ -247,6 +247,11 @@ def get_copypasta_list():
         data = f.read()
         data = data.split('\n\n')
         data.pop(len(data) - 1)
+        i = 0
+        for copy in data:
+            copy = copy.replace("\\n","\n")
+            data[i] = copy
+            i += 1
         return data
 
 print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")
