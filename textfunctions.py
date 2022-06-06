@@ -33,9 +33,10 @@ def morbius():
         4: "It's Morbin time",
         5: "I'm literally Morbing right now this is awesome!!",
         6: "A good morb is eventually morb. A bad morb is morbed forever...",
-        7: "I do not know with what weapons World War III will be fought, but what I do know is that Morbius is the top movie on Apple TV."
+        7: "I do not know with what weapons World War III will be fought, but what I do know is that Morbius is the top movie on Apple TV.",
+        8: '*Jared Leto looks through a collection of sheets of paper*\n\nCamera person: "What are you reading?"\n\nJared: "Uh, nothing really just uh..."\n\n*Camera person pans towards Jared\'s collection of papers*\n\nJared: "no no no no no"\n\nCamera person: "What are you reading? Come on!"\n\n*Paper shows the text "MORBIUS 2: IT\'S MORBIN\' TIME written by Bartholomew Cubbins" while theme from Curb your Enthusiasm plays in the background*'
     }
-    return texts[rand.randrange(0,8)]
+    return texts[rand.randrange(0,9)]
 
 
 def fumo(character):
