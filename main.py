@@ -37,22 +37,10 @@ async def on_message(ctx):
     if(ctx_size > 1500):
         return
 
-    # Checks if the first two characters of the message starts with 's-' to either parse message as command or regular message
+    # Current response in DMs is simply to say "Hello"
     if isinstance(ctx.channel, discord.channel.DMChannel):
-        if 'sus' in ctx.content.lower():
-            if(not ctx_size > 665):
-                await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
-            else:
-                await ctx.channel.send("__Amogus Detected in Message__")
-                await ctx.channel.send(ctx.content)
-        elif 'morb' in ctx.content.lower():
-            await ctx.channel.send(morbius())
-        elif 'sad' in ctx.content.lower():
-            await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-        elif 'trade' in ctx.content.lower():
-            await ctx.channel.send("yeah i trade :smile:")
-        elif 'do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]:
-            await ctx.channel.send(mom())
+        await ctx.channel.send("Hello")
+    # Checks if the first two characters of the message starts with 's-' to either parse message as command or regular message
     elif(not ctx.content.lower()[0:2] == "s-"):
         if 'sus' in ctx.content.lower():
             if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)):
