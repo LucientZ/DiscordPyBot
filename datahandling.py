@@ -87,7 +87,7 @@ def init_guild_config():
             }
             # Example guild with restrictions on certain commands and features
             data["guilds"]["EXAMPLE_SERVER_ID"] ={
-                "blacklist": ["sus", "morbius", "funky"],
+                "blacklist": ["sus", "morbius", "fumo"],
                 "channels": {"EXAMPLE_CHANNEL_ID": {"blacklist": ["copypasta"]}, "EXAMPLE_CHANNEL_ID_2": {"blacklist": ["sad"]}}
             }
             json.dump(data, f, indent=2)

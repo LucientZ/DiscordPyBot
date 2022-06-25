@@ -92,7 +92,7 @@ async def help(ctx, arg = ""):
         #####################################################
         "boowomp": ">>> __**Description**__\nThis command sends a sad spongebob image.\n\n__**Usage**__\ns-boowomp <no arguments>",
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
-        "funky": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-funky <optional name>\nExample: s-funky cirno",
+        "fumo": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-fumo <optional name>\nExample: s-fumo cirno",
         "gacha": ">>> __**Description**__\nComing Soon",
 
         "utility": ">>> __**Description**__\nThis section has commands that mainly serve server admins. You can use them if you're allowed to though :>",
@@ -110,7 +110,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command or feature. Type 's-help' for a list of things I can do.")
     else:
-        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfunky\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.send(">>> __**Features**__ :sparkles:\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 @client.command()
 async def copypasta(ctx):
@@ -119,10 +119,10 @@ async def copypasta(ctx):
     await ctx.channel.send(copypasta_text())
 
 @client.command()
-async def funky(ctx,arg = ""):
-    if dt.is_blacklisted("funky", str(ctx.guild.id), str(ctx.channel.id)):
+async def fumo(ctx,arg = ""):
+    if dt.is_blacklisted("fumo", str(ctx.guild.id), str(ctx.channel.id)):
         return
-    await ctx.channel.send(fumo(arg))
+    await ctx.channel.send(get_fumo_url(arg))
 
 @client.command()
 async def boowomp(ctx):

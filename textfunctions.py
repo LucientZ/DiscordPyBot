@@ -39,7 +39,7 @@ def morbius():
     return texts[rand.randrange(0,9)]
 
 
-def fumo(character):
+def get_fumo_url(character):
     """
     Returns a random fumo character unless specified
 
@@ -49,20 +49,26 @@ def fumo(character):
     Returns:
     str: random fumo image link
     """
+    
     characters = {
         0: "reimu",
         1: "flandre",
-        2: "cirno"
+        2: "cirno",
+        3: "hayasaka",
+        4: "aqua"
     }
     texts = {
         "reimu": fumo_images.reimu[rand.randrange(0,len(fumo_images.reimu))],
         "flandre": fumo_images.flandre[rand.randrange(0,len(fumo_images.flandre))],
-        "cirno": fumo_images.cirno[rand.randrange(0,len(fumo_images.cirno))]
+        "flan": fumo_images.flandre[rand.randrange(0,len(fumo_images.flandre))],
+        "cirno": fumo_images.cirno[rand.randrange(0,len(fumo_images.cirno))],
+        "hayasaka": fumo_images.hayasaka[rand.randrange(0,len(fumo_images.hayasaka))],
+        "aqua": fumo_images.aqua[rand.randrange(0,len(fumo_images.aqua))]
     }
     try:
         return texts[character.lower()]
     except:
-        return texts[characters[rand.randrange(0,3)]]
+        return texts[characters[rand.randrange(0,5)]]
 
 
 def format_msg(msg, submsg, modifier = '**'):

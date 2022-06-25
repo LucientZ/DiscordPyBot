@@ -8,11 +8,11 @@ Progress Emote Key
 ****PRIORITY****
 __frontend__
 :) Make features and commands toggleable
-:( Add reporting system
+:) Add reporting system (added github link to help)
 
 __backend__
 :D Remake how s-copypasta fetches copypastas
-
+:( Make fumo images scalable
 
 
 ****Unprioritized****

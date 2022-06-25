@@ -15,18 +15,24 @@ class fumo_images:
         3: "https://cdn.discordapp.com/attachments/390692666897203211/970373408032423977/cirno-fumo.gif",
         4: "https://cdn.discordapp.com/attachments/390692666897203211/970373408367972462/41af2d3c2bf95a66718d354d438d432d.gif"
     }
-
     reimu = {
         0: "https://cdn.discordapp.com/attachments/390692666897203211/970374374429450302/s-l400.jpg",
         1: "https://cdn.discordapp.com/attachments/390692666897203211/970374374660132934/touhou-reimu.gif",
         2: "https://cdn.discordapp.com/attachments/390692666897203211/970374375171821669/images.jpg"
     }
-
     flandre = {
         0: "https://cdn.discordapp.com/attachments/390692666897203211/970374980611227758/2a9a8ebba16c4f47b281a6c27a1f5d8c.jpg",
         1: "https://cdn.discordapp.com/attachments/390692666897203211/970374980955172864/s-l640.jpg",
         2: "https://cdn.discordapp.com/attachments/390692666897203211/970374981202616320/fumo-fumo-touhou.gif",
         3: "https://cdn.discordapp.com/attachments/390692666897203211/970374981617864714/flandre-scarlet-fumo-touhou.gif"
+    }
+    hayasaka = {
+        0: "https://cdn.discordapp.com/attachments/390692666897203211/990389626676060210/Hayasaka_Fumo.jpg",
+        1: "https://cdn.discordapp.com/attachments/390692666897203211/990390507542839296/download.jpg",
+        2: "https://cdn.discordapp.com/attachments/390692666897203211/990390507807068210/51YMmkWR7yL._AC_SL1000_.jpg"
+    }
+    aqua = {
+        0: "https://cdn.discordapp.com/attachments/390692666897203211/990389626877382696/de7jvlp-7b5e7187-c26a-48e4-897f-c2755b2d85b4.jpg"
     }
 
 def binary_search(array, x):
@@ -64,7 +70,7 @@ def binary_search(array, x):
 # Lists of sections of features and commands
 # These lists are used in datahandling.py mainly for enabling/disabling commands
 features = ["morbius","sad","sus","trade"]
-fun_commands = ["boowomp","copypasta","funky", "gacha"]
+fun_commands = ["boowomp","copypasta","fumo", "gacha"]
 utility_commands = ["echo","ping"]
 all_features = features + fun_commands + utility_commands
 
