@@ -190,7 +190,8 @@ def is_blacklisted(command_name, guildID, channelID):
         try:
             if (channelID in data['guilds'][guildID]['channels']) and (command_name in data['guilds'][guildID]['channels'][channelID]['blacklist']):
                 return True
-            return command_name in data['guilds'][guildID]['blacklist']
+            else:    
+                return command_name in data['guilds'][guildID]['blacklist']
         except KeyError:
             # If a guild id isn't detected, add guild id to dictionary
             # Return False since guilds are default false for every feature/command

@@ -69,7 +69,7 @@ def binary_search(array, x):
 
 # Lists of sections of features and commands
 # These lists are used in datahandling.py mainly for enabling/disabling commands
-features = ["morbius","sad","sus","trade"]
+features = ["morbius","sad","sus","trade", "mom"]
 fun_commands = ["boowomp","copypasta","fumo", "gacha"]
 utility_commands = ["echo","ping"]
 all_features = features + fun_commands + utility_commands
