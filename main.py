@@ -108,7 +108,7 @@ async def help(ctx, arg = ""):
         else:
             await ctx.channel.send(arg,"is not a valid command or feature. Type 's-help' for a list of things I can do.")
     else:
-        await ctx.send(">>> __**Automatic Features**__ :sparkles:\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses:\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools:\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.send(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nTo disable/enable an entire category, enter the word in brackets instead of each command.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 @client.command()
 async def copypasta(ctx):
