@@ -31,13 +31,9 @@ async def on_command_error(ctx, error):
 @client.event
 async def on_message(ctx):
     # Bot doesn't respond to itself
-    if ctx.author.bot:
-        return
-
-    ctx_size = len(ctx.content)
     # Protection for if a message parsed by the bot is too long.
-    # Discord messages may only be under 2000 characters long
-    if(ctx_size > 1500):
+    ctx_size = len(ctx.content)
+    if ctx.author.bot or ctx_size > 1500:
         return
 
     # Current response in DMs is simply to say "Hello"
@@ -141,7 +137,7 @@ async def echo(ctx, *, arg):
 async def ping(ctx):
     if dt.is_blacklisted("ping", str(ctx.guild.id), str(ctx.channel.id)):
         return
-    await ctx.channel.send(f"Pong! {client.latency} ms")
+    await ctx.channel.send(f"Pong!\n {int(client.latency * 1000)} ms")
 
 @client.command()
 async def enable(ctx, command_name, flag = "\0"):
