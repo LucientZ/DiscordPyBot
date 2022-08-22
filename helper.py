@@ -35,37 +35,6 @@ class fumo_images:
         0: "https://cdn.discordapp.com/attachments/390692666897203211/990389626877382696/de7jvlp-7b5e7187-c26a-48e4-897f-c2755b2d85b4.jpg"
     }
 
-def binary_search(array, x):
-    """
-    Returns index of a value in a sorted array
-
-    Parameters:
-    array (int/float/str): sorted array to be searched
-    x (int/float/str): value to find (must be of same type as array)
-
-    Returns:
-    int: index of value or -1 which means not found
-    """
-    left = 0
-    right = len(array) - 1
-    X = float(x)
-
-    while left <= right:
-        mid = (left + right) // 2
-
-        # If x is less, search left-half
-        if X < float(array[mid]):
-            right = mid - 1
-        # If x is greater, search right-half
-        elif X > float(array[mid]):
-            left = mid + 1
-        # If neither, mid is where x is
-        else:
-            return mid
-
-    # -1 means not in array
-    return -1
-
 
 # Lists of sections of features and commands
 # These lists are used in datahandling.py mainly for enabling/disabling commands
