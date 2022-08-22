@@ -55,19 +55,18 @@ def get_token() -> str:
                 else:
                     print(f"\nNo token will be added to {cl.BOLD}'.token'{cl.end}")
                     TOKEN = input('Please enter the bot token: ')                
-    except:
+    except OSError:
         # Handling when .token does not exist.
-        while(choice != "Y" and choice != "n"):
+        while(choice.lower() != "y" and choice.lower() != "n"):
             choice = input(f"\nIt looks like there isn't a file named {cl.BOLD}'.token'{cl.END} in this directory.\nWould you like to create this file? [Y/n] ")
 
-        if(choice == 'Y'):
+        if(choice.lower() == 'y'):
             TOKEN = input('\nPlease enter the bot token: ')
             write_token(TOKEN)
         else:
             print("\n.dat will not be created")
             TOKEN = input('Please enter the bot token: ')
 
-        
     return TOKEN
 
 

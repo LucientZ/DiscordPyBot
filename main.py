@@ -1,5 +1,8 @@
+# Packages
 import discord
 from discord.ext import commands
+
+# Other Files
 import datahandling as dt
 from textfunctions import *
 from helper import *
