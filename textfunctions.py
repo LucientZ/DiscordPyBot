@@ -67,7 +67,7 @@ def get_fumo_url(character):
     }
     try:
         return texts[character.lower()]
-    except:
+    except KeyError:
         return texts[characters[rand.randrange(0,5)]]
 
 
