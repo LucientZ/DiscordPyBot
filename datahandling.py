@@ -47,7 +47,7 @@ def get_token() -> str:
                 # If TOKEN == "", this means that .token is empty
                 
                 while(choice != "Y" and choice != "n"):
-                    choice = input(f"\nIt looks like there isn't anything in {cl.BOLD}'.token'{cl.END}.\nWould you like to add a token to this file? (It is recommended that this is done manually) [Y/n] ")
+                    choice = input(f"\nIt looks like there isn't anything in {cl.BOLD}'.token'{cl.END}.\nWould you like to add a token to this file? [Y/n] ")
                 
                 if(choice == 'Y'):
                     TOKEN = input('\nPlease enter the bot token: ')
