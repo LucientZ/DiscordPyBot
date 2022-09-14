@@ -1,6 +1,11 @@
+# Compiled files
 *.pyc
+
+# Data files
 *.dat
 *.json
-__pycache__/
 .token
+
+# Local directories
+__pycache__/
 legacy/
