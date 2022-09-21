@@ -130,7 +130,7 @@ async def boowomp(ctx):
     await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
 
 @client.command()
-async def echo(ctx, *, arg):
+async def echo(ctx, *, arg: str):
     if dt.is_blacklisted("echo", str(ctx.guild.id), str(ctx.channel.id)):
         return
     await ctx.channel.send("Echo: " + arg)
@@ -142,7 +142,7 @@ async def ping(ctx):
     await ctx.channel.send(f"Pong!\n {int(client.latency * 1000)} ms")
 
 @client.command()
-async def enable(ctx, command_name, flag = "\0"):
+async def enable(ctx, command_name: str, flag = "\0"):
     if not ctx.author.guild_permissions.administrator:
         await ctx.channel.send(f"{ctx.user} does not have administrator permissions. If you believe that this is an issue with the bot, report issues to LucienZ#3376")
     else:
@@ -173,7 +173,7 @@ async def enable(ctx, command_name, flag = "\0"):
             await ctx.channel.send(dt.whitelist_feature(command_name, str(ctx.guild.id), channel_id))
     
 @client.command()
-async def disable(ctx, command_name, flag = "\0"):
+async def disable(ctx, command_name: str, flag = "\0"):
     if not ctx.author.guild_permissions.administrator:
         await ctx.channel.send(f"{ctx.user} does not have administrator permissions. If you believe that this is an issue with the bot, report issues to LucienZ#3376")
     else:
