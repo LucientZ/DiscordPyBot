@@ -37,10 +37,10 @@ class aclient(discord.Client):
             b = time.time()
             print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
-        print(f"I exist as user '{self.user}' and can talk to people! :D")
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I exist as user '{self.user}' and can talk to people! :D")
 
     async def on_connect(self):
-        print("I'm initializing myself :)")
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I'm initializing myself as a bot :)")
 
     async def on_message(self, ctx: discord.Interaction):
         # Bot doesn't respond to itself
@@ -127,9 +127,27 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
     else:
         await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nTo disable/enable an entire category, enter the word in brackets instead of each command.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
+@tree.command(name = "copypasta", description = "Returns a copypasta from a select list.")
+async def copypasta(ctx: discord.Interaction):
+    if dt.is_blacklisted("copypasta", str(ctx.guild_id), str(ctx.channel_id)):
+        return
+    await ctx.response.send_message(copypasta_text())
+
+@tree.command(name = "fumo", description = "Gives an image of a fumo doll")
+async def fumo(ctx: discord.Interaction, name: str = "NA"):
+    """
+    Obtains a url for an image of a fumo (specified or not) and makes the bot send the url as a message
+    """
+    if dt.is_blacklisted("fumo", str(ctx.guild.id), str(ctx.channel.id)):
+        return
+    await ctx.response.send_message(get_fumo_url(name))
+
 
 @tree.command(name = "echo", description = "Makes bot echo what the user said. Adds small string at beginning to avoid issues with other bots.")
 async def echo(ctx: discord.Interaction, message: str):
+    """
+    Makes the bot echo an input from the user as long as the message is below 1500 characters
+    """
     if dt.is_blacklisted("echo", str(ctx.guild_id), str(ctx.channel_id)) or len(message) > 1500:
         return
     await ctx.response.send_message(f"Echo: {message}")
