@@ -13,10 +13,12 @@ from helper import *
 
 class aclient(discord.Client):
     def __init__(self):
-        super().__init__(command_prefix = 's-', activity = discord.Game(name = "s-help"), intents=discord.Intents.all())
+        super().__init__(activity = discord.Game(name = "s-help"), intents=discord.Intents.all())
+
+        # Asks user if global sync for commands should occur
         choice = ""
         while choice.lower() != "y" and choice.lower() != "n":
-            choice = input("Would you like to sync the bot? (Only do this if the bot has been updated or a command has changed) [Y/n] ")
+            choice = input("Would you like to sync the bot globally? (Only do this if the bot has been updated or a command has changed) [Y/n] ")
 
         if choice.lower() == "y":
             self.synced = False
@@ -25,12 +27,15 @@ class aclient(discord.Client):
 
     async def on_ready(self):
         await self.wait_until_ready()
+
+        # Once the bot is ready, will attempt to sync commands globally
         if not self.synced:
-            print(f"{cl.GREY}{cl.BOLD}{datetime.now()}{cl.BLUE} INFO{cl.END}    Awaiting command tree syncing...")
+            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Awaiting command tree syncing...")
             a = time.time()
+            # Syncs command tree globally
             await tree.sync()
             b = time.time()
-            print(f"{cl.GREY}{cl.BOLD}{datetime.now()}{cl.BLUE} INFO{cl.END}    Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
+            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
         print(f"I exist as '{self.user}' and can talk to people! :D")
 
@@ -41,8 +46,28 @@ class aclient(discord.Client):
 client = aclient()
 tree = app_commands.CommandTree(client)
 
+@tree.error
+async def on_app_command_error(ctx: discord.Interaction, error: discord.app_commands.AppCommandError):
+    """
+    Handles errors on the bot's command tree.
+    """
+    # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user. 
+    # Otherwise, give a generic response for the user to file a bug report.
+    if isinstance(error, discord.app_commands.errors.CommandNotFound):
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}     Ignoring error in command tree:", error)
+        await ctx.response.send_message(f"The command you just tried using doesn't seem to exist. This is either due to a global sync issue or my developer was too lazy to fix it. :dolphin::dolphin::dolphin:\n\nTo report an issue, please go to <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
+    else:
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}     An error occurred in command tree. Ignoring for now:", error)
+        await ctx.response.send_message(f"An error occurred while trying to process a command. If this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
+
+
+
+
 @tree.command(name = "ping", description = "Responds and states client latency in milliseconds")
 async def ping(ctx: discord.Interaction):
+    """
+    Makes the bot respond to the user and reply with the client latency in ms
+    """
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
 
 
