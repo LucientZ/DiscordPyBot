@@ -5,6 +5,7 @@
 *.dat
 *.json
 .token
+.sync
 
 # Local directories
 __pycache__/
