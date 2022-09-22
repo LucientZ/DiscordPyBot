@@ -222,9 +222,10 @@ def add_guild(guildID):
         json.dump(data, f, indent=2)
 
 
-##########################
-# Server Config Handling #
-##########################
+
+#################
+# Miscellaneous #
+#################
 
 def init_file(filename):
     """
