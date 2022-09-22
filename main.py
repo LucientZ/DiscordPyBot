@@ -13,7 +13,7 @@ from helper import *
 
 class aclient(discord.Client):
     def __init__(self):
-        super().__init__(activity = discord.Game(name = "s-help"), intents=discord.Intents.all())
+        super().__init__(activity = discord.Game(name = "/help"), intents=discord.Intents.all())
 
         # Asks user if global sync for commands should occur
         choice = ""
@@ -37,7 +37,7 @@ class aclient(discord.Client):
             b = time.time()
             print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
-        print(f"I exist as '{self.user}' and can talk to people! :D")
+        print(f"I exist as user '{self.user}' and can talk to people! :D")
 
     async def on_connect(self):
         print("I'm initializing myself :)")
@@ -67,6 +67,7 @@ class aclient(discord.Client):
             elif 'trade' in ctx.content.lower() and not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send("yeah i trade :smile:")
             elif (('do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]) or ('do?' in ctx.content.lower()[ctx_size - 3:] or 'doing?' in ctx.content.lower()[ctx_size - 6:] or 'doin?' in ctx.content.lower()[ctx_size - 5:] or 'did?' in ctx.content.lower()[ctx_size - 4:] or 'wyd?' in ctx.content.lower()[ctx_size - 4:])) and not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)):
+                #TODO Make this more elegant and work with punctuation better
                 await ctx.channel.send(mom())
 
 
@@ -81,13 +82,57 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
     # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user. 
     # Otherwise, give a generic response for the user to file a bug report.
     if isinstance(error, discord.app_commands.errors.CommandNotFound):
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}     Ignoring error in command tree:", error)
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Ignoring error in command tree:", error)
         await ctx.response.send_message(f"The command you just tried using doesn't seem to exist. This is either due to a global sync issue or my developer was too lazy to fix it. :dolphin::dolphin::dolphin:\n\nTo report an issue, please go to <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     else:
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}     An error occurred in command tree. Ignoring for now:", error)
-        await ctx.response.send_message(f"An error occurred while trying to process a command. If this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    An error occurred in command tree. Ignoring for now:", error)
+        await ctx.response.send_message(f"An error occurred while trying to process a command.\n\n[{error}]\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
 
 
+####################
+# Commands Section #
+####################
+
+@tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
+async def help(ctx: discord.Interaction, item_name: str = "NA"):
+    desc = {
+        "auto": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands and happen passively.",
+        #####################################################
+        "mom": ">>> __**Description**__\nAnytime a user sends a message that has a string similar to 'do' at the end, the bot responds with 'Your Mom'.\nExample: What are you doing?\nResponse: Your Mom\n\nKeywords: do, doin, doing, wyd, did",
+        "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
+        "sad": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sad', the bot responds and sends a picture of sad Spongebob.\nExample: I am sad\nResponse: *picture of sad spongebob*",
+        "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sus', the bot responds and highlights the message.\nExample: I am sus\nResponse: Amogus detected: I am ***sus***",
+        "trade": ">>> __**Description**__\nAnytime a user sends a message that has the string 'trade', the bot responds with 'yeah i trade :smile:'.\nExample: I trade\nResponse: Amogus detected: yeah i trade :smile:",
+        
+        "fun": ">>> __**Description**__\nThis section is full of commands that either serve no real functional purpose. They are just here for fun.",
+        #####################################################
+        "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
+        "fumo": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-fumo <optional name>\nExample: s-fumo cirno",
+        "gacha": ">>> __**Description**__\nComing Soon",
+
+        "utility": ">>> __**Description**__\nThis section has commands that mainly serve server admins. You can use them if you're allowed to though :>",
+        #####################################################
+        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
+        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>",
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c after command to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c after command to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
+    }
+
+    if not item_name == "NA":
+        if item_name.lower() in desc:
+            await ctx.response.send_message(desc[item_name.lower()])
+        else:
+            await ctx.response.send_message(f"{item_name} is not a valid command or feature. Type '/help' for a list of things I can do")
+    else:
+        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nTo disable/enable an entire category, enter the word in brackets instead of each command.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+
+
+@tree.command(name = "echo", description = "Makes bot echo what the user said. Adds small string at beginning to avoid issues with other bots.")
+async def echo(ctx: discord.Interaction, message: str):
+    if dt.is_blacklisted("echo", str(ctx.guild_id), str(ctx.channel_id)) or len(message) > 1500:
+        return
+    await ctx.response.send_message(f"Echo: {message}")
 
 
 @tree.command(name = "ping", description = "Responds and states client latency in milliseconds")
@@ -95,6 +140,8 @@ async def ping(ctx: discord.Interaction):
     """
     Makes the bot respond to the user and reply with the client latency in ms
     """
+    if dt.is_blacklisted("ping", str(ctx.guild_id), str(ctx.channel_id)):
+        return
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
 
 
