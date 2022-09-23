@@ -13,4 +13,8 @@ Notes:
     The bot will prompt the user for a token. This token is used for login and verification purposes on the discord client.
     The token is stored in a .token file. Temporary login is an option that is prompted, but this isn't recommended since discord tokens are only able to be viewed once on the devportal.
 
-    Some commands are requests from users. These are toggleable via admin commands.
+    setup.py is a work in progress console that can add or remove copypastas from a list for the /copypasta command. This will have more functionality in the future, but for now it is a very rudimentary program.
+
+    In order for the bot to work, the client the bot is logging into must have all intents enabled or intents must be changed in main.py to reflect the permissions of the bot.
+
+
