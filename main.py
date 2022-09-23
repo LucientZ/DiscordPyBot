@@ -84,6 +84,8 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
     if isinstance(error, discord.app_commands.errors.CommandNotFound):
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Ignoring error in command tree:", error)
         await ctx.response.send_message(f"The command you just tried using doesn't seem to exist. This is either due to a global sync issue or my developer was too lazy to fix it. :dolphin::dolphin::dolphin:\n\nTo report an issue, please go to <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
+    elif isinstance(error, discord.app_commands.errors.MissingPermissions):
+        await ctx.response.send_message(f"You lack the required administrator permissions for this command.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     else:
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    An error occurred in command tree. Ignoring for now:", error)
         await ctx.response.send_message(f"An error occurred while trying to process a command.\n\n[{error}]\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
@@ -108,14 +110,13 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         #####################################################
         "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
         "fumo": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-fumo <optional name>\nExample: s-fumo cirno",
-        "gacha": ">>> __**Description**__\nComing Soon",
 
         "utility": ">>> __**Description**__\nThis section has commands that mainly serve server admins. You can use them if you're allowed to though :>",
         #####################################################
         "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
         "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>",
-        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c after command to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
-        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c after command to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
         "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
     }
 
@@ -125,7 +126,8 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         else:
             await ctx.response.send_message(f"{item_name} is not a valid command or feature. Type '/help' for a list of things I can do")
     else:
-        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType s-help command for more info on a command or feature.\nYou may also use s-help for categories.\n\nTo disable/enable an entire category, enter the word in brackets instead of each command.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType /help command for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list.")
 async def copypasta(ctx: discord.Interaction):
@@ -133,7 +135,8 @@ async def copypasta(ctx: discord.Interaction):
         return
     await ctx.response.send_message(copypasta_text())
 
-@tree.command(name = "fumo", description = "Gives an image of a fumo doll")
+
+@tree.command(name = "fumo", description = "Gives an image of a fumo doll with the option of specifying the character")
 async def fumo(ctx: discord.Interaction, name: str = "NA"):
     """
     Obtains a url for an image of a fumo (specified or not) and makes the bot send the url as a message
@@ -161,6 +164,65 @@ async def ping(ctx: discord.Interaction):
     if dt.is_blacklisted("ping", str(ctx.guild_id), str(ctx.channel_id)):
         return
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
+
+@tree.command(name = "enable", description = "Enables a feature/command with optional flag [-c]")
+@app_commands.checks.has_permissions(administrator = True)
+async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
+    channel_id = ""
+    msg_end = ""
+    if flag == "-c":
+        channel_id = str(ctx.channel.id)
+        msg_end = " in this channel."
+    else:
+        channel_id = "\0"
+        msg_end = " globally in the server."
+    # Whitelists all automatic features
+    if "auto" in command_name.lower():
+        for command in features:
+            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All automatic features enabled" + msg_end)
+    # Whitelists all fun commands
+    elif "fun" in command_name.lower():
+        for command in fun_commands:
+            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All fun commands enabled" + msg_end)
+    # Whitelists all utility commands
+    elif "utility" in command_name.lower():
+        for command in utility_commands:
+            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All utility commands enabled" + msg_end)
+    else:
+        await ctx.response.send_message(dt.whitelist_feature(command_name, str(ctx.guild.id), channel_id))
+
+@tree.command(name = "disable", description = "Disables a feature/command with optional flag [-c]")
+@app_commands.checks.has_permissions(administrator = True)
+async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
+    channel_id = ""
+    msg_end = ""
+    if flag == "-c":
+        channel_id = str(ctx.channel.id)
+        msg_end = " in this channel."
+    else:
+        channel_id = "\0"
+        msg_end = " globally in the server."
+    # Whitelists all automatic features
+    if "auto" in command_name.lower():
+        for command in features:
+            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All automatic features disabled" + msg_end)
+    # Whitelists all fun commands
+    elif "fun" in command_name.lower():
+        for command in fun_commands:
+            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All fun commands disabled" + msg_end)
+    # Whitelists all utility commands
+    elif "utility" in command_name.lower():
+        for command in utility_commands:
+            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+        await ctx.response.send_message("All utility commands disabled" + msg_end)
+    else:
+        await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild.id), channel_id))
+
 
 
 def main():
