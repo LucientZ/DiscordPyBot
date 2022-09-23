@@ -132,6 +132,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list.")
 async def copypasta(ctx: discord.Interaction):
     if dt.is_blacklisted("copypasta", str(ctx.guild_id), str(ctx.channel_id)):
+        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
         return
     await ctx.response.send_message(copypasta_text())
 
@@ -142,6 +143,7 @@ async def fumo(ctx: discord.Interaction, name: str = "NA"):
     Obtains a url for an image of a fumo (specified or not) and makes the bot send the url as a message
     """
     if dt.is_blacklisted("fumo", str(ctx.guild.id), str(ctx.channel.id)):
+        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
         return
     await ctx.response.send_message(get_fumo_url(name))
 
@@ -152,6 +154,7 @@ async def echo(ctx: discord.Interaction, message: str):
     Makes the bot echo an input from the user as long as the message is below 1500 characters
     """
     if dt.is_blacklisted("echo", str(ctx.guild_id), str(ctx.channel_id)) or len(message) > 1500:
+        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
         return
     await ctx.response.send_message(f"Echo: {message}")
 
@@ -162,6 +165,7 @@ async def ping(ctx: discord.Interaction):
     Makes the bot respond to the user and reply with the client latency in ms
     """
     if dt.is_blacklisted("ping", str(ctx.guild_id), str(ctx.channel_id)):
+        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
         return
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
 
