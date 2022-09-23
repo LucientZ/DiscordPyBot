@@ -227,7 +227,7 @@ def add_guild(guildID):
 # Miscellaneous #
 #################
 
-def init_file(filename):
+def init_file(filename: str, logging = False):
     """
     If filaname does not exists, creates a blank file.
     Skips the process if filename exists.
@@ -240,9 +240,11 @@ def init_file(filename):
     """
     try:
         with open(filename, "x") as f:
-            print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created :){cl.END}")
+            if logging == True:
+                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created :){cl.END}")
     except FileExistsError:
-        print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+        if logging == True:
+            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 def get_copypasta_list():
     with open("textdata/copypasta.dat", "r") as f:
