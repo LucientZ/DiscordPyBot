@@ -228,12 +228,12 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
 def main():
     try:
         dt.init_guild_config()
-        dt.init_file("textdata/copypasta.dat")
+        dt.init_file("textdata/copypasta.dat", True)
         TOKEN = dt.get_token(".token", "Logging In")
         client.run(TOKEN)
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
-        print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
         print(f"{cl.RED}The program will exit.{cl.END}\n")
         choice = input("Would you like to enter a new token? [Y/n] ")
         while(choice.lower() != "y" and choice.lower() != "n"):
@@ -244,7 +244,7 @@ def main():
         print("Terminating program...\n")
         exit()
     except Exception as e:
-        print(f"{cl.RED}[ERROR] Issue logging into bot:{cl.BLUE}",e,f'{cl.END}\n')
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
         print("Terminating program...\n")
         exit()
         
