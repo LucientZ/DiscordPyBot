@@ -28,7 +28,7 @@ class aclient(discord.Client):
     async def on_ready(self):
         await self.wait_until_ready()
 
-        # Once the bot is ready, will attempt to sync commands globally
+        # Once the bot is ready, will attempt to sync commands globally if self.synced is false
         if not self.synced:
             print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Awaiting command tree syncing...")
             a = time.time()
@@ -129,7 +129,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType /help command for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 
-@tree.command(name = "copypasta", description = "Returns a copypasta from a select list.")
+@tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
 async def copypasta(ctx: discord.Interaction):
     if dt.is_blacklisted("copypasta", str(ctx.guild_id), str(ctx.channel_id)):
         await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
@@ -254,3 +254,4 @@ def main():
         
 if __name__ == '__main__':
     main()
+    

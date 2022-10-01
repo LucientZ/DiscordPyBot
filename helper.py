@@ -9,6 +9,7 @@ class cl:
     BOLD = "\033[1m"
     END = "\033[0m" # Resets output to default
 
+# TODO move these to datahandling.py and store them in a JSON file instead of perpetually in RAM
 class fumo_images:
     cirno = {
         0: "https://cdn.discordapp.com/attachments/390692666897203211/970373406979674152/Cirnofumo.webp",
@@ -41,7 +42,7 @@ class fumo_images:
 # Lists of sections of features and commands
 # These lists are used in datahandling.py mainly for enabling/disabling commands
 features = ["morbius","sad","sus","trade", "mom"]
-fun_commands = ["boowomp","copypasta","fumo", "gacha"]
+fun_commands = ["boowomp","copypasta","fumo"]
 utility_commands = ["echo","ping"]
 all_features = features + fun_commands + utility_commands
 

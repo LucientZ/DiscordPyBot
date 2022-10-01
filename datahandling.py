@@ -75,28 +75,7 @@ def get_token(filename: str, use_case = "Unspecified") -> str:
 # Server Config Handling #
 ##########################
 
-def init_guild_config():
-    """
-    If configdata/guildconfig.json does not exists, creates a template file.
-    Skips the process if configdata/guildconfig.json exists.
-    """
-    try:
-        with open("configdata/guildconfig.json", "x") as f:
-            data = {
-                "guilds": dict()
-            }
-            # Example guild with restrictions on certain commands and features
-            data["guilds"]["EXAMPLE_SERVER_ID"] ={
-                "blacklist": ["sus", "morbius", "fumo"],
-                "channels": {"EXAMPLE_CHANNEL_ID": {"blacklist": ["copypasta"]}, "EXAMPLE_CHANNEL_ID_2": {"blacklist": ["sad"]}}
-            }
-            json.dump(data, f, indent=2)
-            print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
-    except FileExistsError:
-        print(f'{cl.YELLOW}{cl.BOLD}/configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
-
-
-def blacklist_feature(command_name, guildID, channelID = "\0"):
+def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:
     """
     Adds a command name in a blacklist linked to the specified guild id. If a channel id is specified, adds command to a specific channel in a guild.
 
@@ -134,7 +113,7 @@ def blacklist_feature(command_name, guildID, channelID = "\0"):
     else:
         return "Command does not exist"
 
-def whitelist_feature(command_name, guildID, channelID = "\0"):
+def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:
     """
     Deletes a command name in a blacklist linked to the specified guild id. If a channel id is specified, deletes command to a specific channel in a guild.
 
@@ -173,7 +152,7 @@ def whitelist_feature(command_name, guildID, channelID = "\0"):
         return "Command does not exist"
 
 
-def is_blacklisted(command_name, guildID, channelID):
+def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
     """
     Returns if a command is blacklisted in a specific channel in a guild.
 
@@ -199,7 +178,7 @@ def is_blacklisted(command_name, guildID, channelID):
             return False
 
 
-def add_guild(guildID):
+def add_guild(guildID: str) -> None:
     """
     Adds a default template of a guildID in configdata/guildconfig.json
 
@@ -222,12 +201,31 @@ def add_guild(guildID):
         json.dump(data, f, indent=2)
 
 
+############################
+# Data File Initialization #
+############################
 
-#################
-# Miscellaneous #
-#################
+def init_guild_config() -> None:
+    """
+    If configdata/guildconfig.json does not exists, creates a template file.
+    Skips the process if configdata/guildconfig.json exists.
+    """
+    try:
+        with open("configdata/guildconfig.json", "x") as f:
+            data = {
+                "guilds": dict()
+            }
+            # Example guild with restrictions on certain commands and features
+            data["guilds"]["EXAMPLE_SERVER_ID"] ={
+                "blacklist": ["sus", "morbius", "fumo"],
+                "channels": {"EXAMPLE_CHANNEL_ID": {"blacklist": ["copypasta"]}, "EXAMPLE_CHANNEL_ID_2": {"blacklist": ["sad"]}}
+            }
+            json.dump(data, f, indent=2)
+            print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
+    except FileExistsError:
+        print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
-def init_file(filename: str, logging = False):
+def init_file(filename: str, logging: bool = False) -> None:
     """
     If filaname does not exists, creates a blank file.
     Skips the process if filename exists.
@@ -240,13 +238,18 @@ def init_file(filename: str, logging = False):
     """
     try:
         with open(filename, "x") as f:
-            if logging == True:
+            if logging:
                 print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created :){cl.END}")
     except FileExistsError:
-        if logging == True:
+        if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
-def get_copypasta_list():
+
+#################
+# Miscellaneous #
+#################
+
+def get_copypasta_list() -> list:
     with open("textdata/copypasta.dat", "r") as f:
         data = f.read()
         data = data.split('\n\n')

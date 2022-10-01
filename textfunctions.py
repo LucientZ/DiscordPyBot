@@ -2,7 +2,7 @@ import random as rand
 from helper import *
 import datahandling as dt
 #Silly messages to send in channels if something funny happens. Gives a random output.
-def copypasta_text():
+def copypasta_text() -> str:
     """
     Returns a random string from a list of copypastas
 
@@ -12,16 +12,16 @@ def copypasta_text():
     Returns:
     str: random copypasta from a dictionary
     """
-
-    # Some of these texts contain strong language. These are all requests from other users
     texts = dt.get_copypasta_list()
     return texts[rand.randrange(0,len(texts))]
 
-def morbius():
+def morbius() -> str:
     """
     Returns a random string from a list of copypastas that are Morbius themed
     
+    Parameters:
     None
+
     Returns:
     str: random copypasta from a dictionary
     """
@@ -39,7 +39,7 @@ def morbius():
     return texts[rand.randrange(0,9)]
 
 
-def get_fumo_url(character):
+def get_fumo_url(character: str) -> str:
     """
     Returns a random fumo character unless specified
 
@@ -71,7 +71,7 @@ def get_fumo_url(character):
         return texts[characters[rand.randrange(0,5)]]
 
 
-def format_msg(msg, submsg, modifier = '**'):
+def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
     Formats a string so that a selected substring (non case-sensative) will have a modifier surround it.
     eg: the chicken broke the house --> **the** chicken broke **the** house
@@ -104,7 +104,16 @@ def format_msg(msg, submsg, modifier = '**'):
         
     return msg
 
-def mom():
+def mom() -> str:
+    """
+    returns string "Your Mom" 95% of the time. returns string "Your Dad :sunglasses:" 5% of the time
+
+    Parameters:
+    none
+
+    Returns:
+    str: random message
+    """
     num = rand.randrange(0,20)
     if num == 19:
         return "Your Dad :sunglasses:"
