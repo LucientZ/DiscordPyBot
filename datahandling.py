@@ -1,6 +1,6 @@
 from helper import *
 import json
-import os
+from datetime import datetime
 
 ##################
 # TOKEN HANDLING #
@@ -94,6 +94,7 @@ def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
         return f"'{command_name}' already disabled"
 
     if command_name in all_features:
+        data: dict
         with open("configdata/guildconfig.json", "r") as f:
             data = json.load(f)
             # If the command is not in channel blacklist, adds command to blacklist
@@ -131,6 +132,7 @@ def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
         return f"'{command_name}' already enabled"
 
     if command_name in all_features:
+        data: dict
         with open("configdata/guildconfig.json", "r") as f:
             data = json.load(f)
             # If the command is not in channel blacklist, adds command to blacklist
@@ -188,6 +190,7 @@ def add_guild(guildID: str) -> None:
     Returns:
     none
     """
+    data: dict
     with open("configdata/guildconfig.json", "r") as f:
         data = json.load(f)
         # If guildID isn't in list, adds a default server template attached to guildID
@@ -239,10 +242,39 @@ def init_file(filename: str, logging: bool = False) -> None:
     try:
         with open(filename, "x") as f:
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created :){cl.END}")
+                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
     except FileExistsError:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+
+
+def init_json(filename: str, logging: bool = False) -> None:
+    try:
+        with open(filename, "x") as f:
+            # Adds a blank dictionary into the file
+            data = {}
+            json.dump(data, f, indent = 2)
+
+            if logging:
+                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
+    except FileExistsError:
+        if logging:
+            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+
+
+def add_json_dict_keys(filename: str, *keynames: str):
+    data: dict
+    for i in range(len(keynames)):
+        try:
+            with open(filename, "r") as f:
+                data = json.load(f)
+    
+            with open(filename, "w") as f:
+                data[keynames[i]] = {}
+                json.dump(data, f, indent = 2)
+    
+        except Exception as e:
+            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue adding key as dictionary to {filename}: {e}")
 
 
 #################
