@@ -52,8 +52,8 @@ class aclient(discord.Client):
         # Current response in DMs is simply to say "Hello"
         if isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.channel.send("Hello")
-        # Checks if the first two characters of the message starts with 's-' to either parse message as command or regular message
-        elif(not ctx.content.lower()[0:2] == "s-"):
+        # Default response
+        else:
             if 'sus' in ctx.content.lower() and not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)):
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
@@ -98,7 +98,7 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
 @tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
 async def help(ctx: discord.Interaction, item_name: str = "NA"):
     desc = {
-        "auto": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands and happen passively.",
+        "auto": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands happen passively.\n\nTo prevent the bot from spamming, only one of these is usually called. The general hierarchy of what process is called is the order in which the automatic features are listed in the default /help section.",
         #####################################################
         "mom": ">>> __**Description**__\nAnytime a user sends a message that has a string similar to 'do' at the end, the bot responds with 'Your Mom'.\nExample: What are you doing?\nResponse: Your Mom\n\nKeywords: do, doin, doing, wyd, did",
         "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
@@ -106,18 +106,18 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         "sus": ">>> __**Description**__\nAnytime a user sends a message that has the string 'sus', the bot responds and highlights the message.\nExample: I am sus\nResponse: Amogus detected: I am ***sus***",
         "trade": ">>> __**Description**__\nAnytime a user sends a message that has the string 'trade', the bot responds with 'yeah i trade :smile:'.\nExample: I trade\nResponse: Amogus detected: yeah i trade :smile:",
         
-        "fun": ">>> __**Description**__\nThis section is full of commands that either serve no real functional purpose. They are just here for fun.",
+        "fun": ">>> __**Fun Commands Description**__\nThis section is full of commands that either serve no real functional purpose. They are just here for fun.",
         #####################################################
-        "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\ns-copypasta <no arguments>",
-        "fumo": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\ns-fumo <optional name>\nExample: s-fumo cirno",
+        "copypasta": ">>> __**Description**__\nThis command makes the bot say a random copypasta from a list.\n\n__**Usage**__\n/copypasta <no arguments>",
+        "fumo": ">>> __**Description**__\nThis command gives an image of a fumo with the optional argument of a specific character\n\n__**Usage**__\n/fumo <optional name>\nExample: /fumo cirno",
 
-        "utility": ">>> __**Description**__\nThis section has commands that mainly serve server admins. You can use them if you're allowed to though :>",
+        "utility": ">>> __**Utility Commands Description**__\nThis section has commands that mainly serve server admins and bot testers.",
         #####################################################
-        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\ns-echo <sentence>",
-        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\ns-ping <no arguments>",
-        "enable": ">>> __**Description**__\nThis command whitelists a command/feature for a server. Use flag -c to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-enable <command/feature name>\ns-enable <command/feature name> -c\n\nThis command **cannot** be disabled!",
-        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\ns-disable <command/feature name>\ns-disable <command/feature name> -c\n\nThis command **cannot** be disabled!",
-        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\ns-help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
+        "echo": ">>> __**Description**__\nThis command makes the bot echo anything.\n\n__**Usage**__\n/echo <sentence>",
+        "ping": ">>> __**Description**__\nResponds to command and says time for response\n\n__**Usage**__\n/ping <no arguments>",
+        "enable": ">>> __**Description**__\nThis command removes a command/feature from the blacklist for a server. Use flag -c to enable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\n/enable <command/feature name>\n/enable <command/feature name> <-c>\n\nThis command **cannot** be disabled!",
+        "disable": ">>> __**Description**__\nThis command blacklists a command/feature for a server. Use flag -c to disable for specific channel.\nUser must have **admin** permission to use\n\n__**Usage**__\n/disable <command/feature name>\n/disable <command/feature name> <-c>\n\nThis command **cannot** be disabled!",
+        "help": ">>> __**Description**__\nOh? Getting meta are we? This command lists every command/feature possible for the bot. Optionally, a command/feature/section name may be added as an argument to get info on said command/feature/section\n\n__**Usage**__\n/help <optional command/feature/section name>\n\nThis command **cannot** be disabled!"
     }
 
     if not item_name == "NA":
@@ -126,7 +126,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         else:
             await ctx.response.send_message(f"{item_name} is not a valid command or feature. Type '/help' for a list of things I can do")
     else:
-        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nmom\nmorbius\nsad\nsus\ntrade\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\ngacha (WIP)\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse s- as the prefix for commands.\nType /help command for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nsus\nmorbius\nsad\ntrade\nmom\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse / as the prefix for commands.\nType /help command for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
