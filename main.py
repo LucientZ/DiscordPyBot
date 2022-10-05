@@ -54,19 +54,19 @@ class aclient(discord.Client):
             await ctx.channel.send("Hello")
         # Default response
         else:
-            if 'sus' in ctx.content.lower() and not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)):
+            if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)) and 'sus' in ctx.content.lower():
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
-            elif 'morb' in ctx.content.lower() and not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)):
+            elif not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)) and 'morb' in ctx.content.lower():
                 await ctx.channel.send(morbius())
-            elif 'sad' in ctx.content.lower() and not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)):
+            elif not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)) and 'sad' in ctx.content.lower():
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-            elif 'trade' in ctx.content.lower() and not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)):
+            elif not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
-            elif ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did")):
+            elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did"))):
                 #TODO Make this more elegant and work with punctuation better
                 await ctx.channel.send(mom())
 
