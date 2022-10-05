@@ -3,7 +3,7 @@ import os
 from helper import *
 
 # TODO add GUI with tkinter to streamline
-# Most of this code is temporary and should not exist on release
+# Most of this code is temporary
 
 user_in = ""
 dt.init_file("textdata/copypasta.dat")
