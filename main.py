@@ -66,7 +66,7 @@ class aclient(discord.Client):
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
             elif 'trade' in ctx.content.lower() and not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)):
                 await ctx.channel.send("yeah i trade :smile:")
-            elif (('do' in ctx.content.lower()[ctx_size - 2:] or 'doing' in ctx.content.lower()[ctx_size - 5:] or 'doin' in ctx.content.lower()[ctx_size - 4:] or 'did' in ctx.content.lower()[ctx_size - 3:] or 'wyd' in ctx.content.lower()[ctx_size - 3:]) or ('do?' in ctx.content.lower()[ctx_size - 3:] or 'doing?' in ctx.content.lower()[ctx_size - 6:] or 'doin?' in ctx.content.lower()[ctx_size - 5:] or 'did?' in ctx.content.lower()[ctx_size - 4:] or 'wyd?' in ctx.content.lower()[ctx_size - 4:])) and not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)):
+            elif ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did")):
                 #TODO Make this more elegant and work with punctuation better
                 await ctx.channel.send(mom())
 
@@ -233,6 +233,7 @@ def main():
     try:
         dt.init_guild_config()
         dt.init_file("textdata/copypasta.dat", True)
+        dt.init_json("textdata/urls.json", True)
         TOKEN = dt.get_token(".token", "Logging In")
         client.run(TOKEN)
     except discord.LoginFailure as e:
