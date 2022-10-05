@@ -45,5 +45,3 @@ features = ["morbius","sad","sus","trade", "mom"]
 fun_commands = ["boowomp","copypasta","fumo"]
 utility_commands = ["echo","ping"]
 all_features = features + fun_commands + utility_commands
-
-print(f"{cl.BOLD}{cl.GREEN}helper.py{cl.END}{cl.GREEN} initialized{cl.END}")
