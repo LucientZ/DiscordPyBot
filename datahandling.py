@@ -230,11 +230,13 @@ def init_guild_config() -> None:
 
 def init_file(filename: str, logging: bool = False) -> None:
     """
-    If filaname does not exists, creates a blank file.
+    Creates a file specified.
+    If filename does not exists, creates a blank file.
     Skips the process if filename exists.
 
     Parameters:
-    filename (str): name of file to be created
+    filename (str): name of file to be created.
+    logging (bool): option to make function print when file creation is successful or skipped.
 
     Returns:
     none
@@ -249,6 +251,17 @@ def init_file(filename: str, logging: bool = False) -> None:
 
 
 def init_json(filename: str, logging: bool = False) -> None:
+    """
+    Initializes a file as a json dictionary.
+    Skips the process if filename exists.
+
+    Parameters:
+    filename (str): name of file to be created
+    logging (bool): option to make function print when file creation is successful or skipped.
+
+    Returns:
+    none
+    """
     try:
         with open(filename, "x") as f:
             # Adds a blank dictionary into the file
@@ -263,18 +276,24 @@ def init_json(filename: str, logging: bool = False) -> None:
 
 
 def add_json_dict_keys(filename: str, *keynames: str):
+    """
+    Adds keys to a json dictionary as dictionaries.
+    
+    """
     data: dict
+    with open(filename, "r") as f:
+                data = json.load(f)
+
+    # Goes through each key and attempts to add each keyname as a dictionary
     for i in range(len(keynames)):
         try:
-            with open(filename, "r") as f:
-                data = json.load(f)
-    
-            with open(filename, "w") as f:
+            if not keynames[i] in data:
                 data[keynames[i]] = {}
-                json.dump(data, f, indent = 2)
-    
         except Exception as e:
             print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue adding key as dictionary to {filename}: {e}")
+
+    with open(filename, "w") as f:
+                json.dump(data, f, indent = 2)
 
 
 #################
@@ -292,5 +311,3 @@ def get_copypasta_list() -> list:
             data[i] = copy
             i += 1
         return data
-
-print(f"{cl.GREEN}{cl.BOLD}datahandling.py{cl.END}{cl.GREEN} initialized{cl.END}")
