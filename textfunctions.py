@@ -119,7 +119,3 @@ def mom() -> str:
         return "Your Dad :sunglasses:"
     else:
         return "Your Mom"
-
-
-
-print(f"{cl.GREEN}{cl.BOLD}textfunctions.py{cl.END}{cl.GREEN} initialized{cl.END}")
