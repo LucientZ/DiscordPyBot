@@ -84,11 +84,6 @@ def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     Returns:
     str: modified msg
     """
-    if not type(msg) == str:
-        raise TypeError("Argument 1: msg not type string")
-    elif not type(submsg) == str:
-        raise TypeError("Argument 2: submsg not type string")
-
 
     submsg_length = len(submsg)
     i = len(msg) - submsg_length
