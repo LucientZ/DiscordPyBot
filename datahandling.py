@@ -208,7 +208,7 @@ def add_guild(guildID: str) -> None:
 # Data File Initialization #
 ############################
 
-def init_guild_config() -> None:
+def init_guild_config(logging: bool = False) -> None:
     """
     If configdata/guildconfig.json does not exists, creates a template file.
     Skips the process if configdata/guildconfig.json exists.
@@ -224,9 +224,11 @@ def init_guild_config() -> None:
                 "channels": {"EXAMPLE_CHANNEL_ID": {"blacklist": ["copypasta"]}, "EXAMPLE_CHANNEL_ID_2": {"blacklist": ["sad"]}}
             }
             json.dump(data, f, indent=2)
-            print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
+            if logging:
+                print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
     except FileExistsError:
-        print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+        if logging:
+            print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 def init_file(filename: str, logging: bool = False) -> None:
     """
