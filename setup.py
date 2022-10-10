@@ -30,7 +30,7 @@ def delete_copypasta(index: int) -> None:
         with open("textdata/copypasta.dat", "w") as f:
             for copies in copypastas:
                 f.write(copies + "\n\n")
-            print(copy, "removed from textdata/copypasta.dat")
+            print(f"'{copy}'removed from textdata/copypasta.dat")
     except IndexError:
         print(f"{cl.YELLOW}Index number [{index}] not in range{cl.END}")
 
@@ -47,9 +47,14 @@ def copypasta_widget() -> None:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
         print(f"Here are the available copypasta options:\n\n1: Add Copypasta to list\n2: Get list of copypastas\n3: Remove a copypasta from list\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
+
         if user_in == "1":
-            text = input("Enter copypasta to be added: ")
-            add_copypasta(text)
+            text = input("Enter copypasta to be added (q to quit. b to go back): ")
+            if text != "b" and text != "q":
+                add_copypasta(text)
+            elif text == "q":
+                print("See you later :)")
+                exit()
 
         elif user_in == "2":
             print_copypastas()
@@ -57,17 +62,16 @@ def copypasta_widget() -> None:
         elif user_in == "3":
             print_copypastas()
             index = input("Enter an index to be deleted. (q to quit. b to go back)")
-            if index != "b":
+            if index != "b" and index != "q":
                 try:
                     delete_copypasta(int(index))
                 except ValueError:
                     print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
             elif index == "q":
                 exit()
-            input("\nPress Enter to continue...")
 
-            
         elif user_in == "q":
+            print("See you later :)")
             exit()
         
         elif user_in == "b":
