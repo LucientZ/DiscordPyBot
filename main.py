@@ -25,6 +25,11 @@ class aclient(discord.Client):
             self.synced = True
 
     async def on_ready(self):
+        """
+        When the bot is ready, checks if the bot's commands should be synced or not.
+        Once commands are synced, the bot will be fully ready.
+        """
+
         await self.wait_until_ready()
 
         # Once the bot is ready, will attempt to sync commands globally if self.synced is false
@@ -39,9 +44,16 @@ class aclient(discord.Client):
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I exist as user '{self.user}' and can talk to people! :D")
 
     async def on_connect(self):
+        """
+        States when the bot has connected to discord
+        """
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I'm initializing myself as a bot :)")
 
     async def on_message(self, ctx: discord.Interaction):
+        """
+        When a user sends a message to a channel the bot has access to, processes the message and responds accordingly.
+        """
+
         # Bot doesn't respond to itself
         # Protection for if a message parsed by the bot is too long.
         ctx_size = len(ctx.content)
@@ -66,7 +78,6 @@ class aclient(discord.Client):
             elif not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
             elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did"))):
-                #TODO Make this more elegant and work with punctuation better
                 await ctx.channel.send(mom())
 
 
@@ -96,8 +107,11 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
 
 @tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
 async def help(ctx: discord.Interaction, item_name: str = "NA"):
+    """
+    Returns information about the bot in general or about a specific command/feature/category.
+    """
     desc = {
-        "auto": ">>> __**Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands happen passively.\n\nTo prevent the bot from spamming, only one of these is usually called. The general hierarchy of what process is called is the order in which the automatic features are listed in the default /help section.",
+        "auto": ">>> __**Automatic Features Description**__\nThis is a set of automatic processes that the bot can do. Note that these are __not__ commands happen passively.\n\nTo prevent the bot from spamming, only one of these is usually called. The general hierarchy of what process is called is the order in which the automatic features are listed in the default /help section.",
         #####################################################
         "mom": ">>> __**Description**__\nAnytime a user sends a message that has a string similar to 'do' at the end, the bot responds with 'Your Mom'.\nExample: What are you doing?\nResponse: Your Mom\n\nKeywords: do, doin, doing, wyd, did",
         "morbius": ">>> __**Description**__\nAnytime a user sends a message that has the string 'morbius', the bot responds with a morbius-themed copypasta.\nExample: I am morbius\nResponse: I love Morbius so much <3",
@@ -125,7 +139,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         else:
             await ctx.response.send_message(f"{item_name} is not a valid command or feature. Type '/help' for a list of things I can do")
     else:
-        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nsus\nmorbius\nsad\ntrade\nmom\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse / as the prefix for commands.\nType /help command for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nsus\nmorbius\nsad\ntrade\nmom\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse / as the prefix for commands.\nType /help [command] for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
@@ -230,9 +244,13 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
 
 def main():
     try:
+        # Initializes all files the bot will work with
         dt.init_guild_config()
         dt.init_file("textdata/copypasta.dat", True)
         dt.init_json("textdata/urls.json", True)
+        dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
+
+        # Obtains bot token and uses it to log in
         TOKEN = dt.get_token(".token", "Logging In")
         client.run(TOKEN)
     except discord.LoginFailure as e:
