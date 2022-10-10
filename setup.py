@@ -6,11 +6,6 @@ from helper import *
 ###########################
 
 
-
-
-
-
-
 def print_copypastas() -> None:
     copypastas = dt.get_copypasta_list()
     print()
@@ -21,16 +16,6 @@ def print_copypastas() -> None:
         print(f"{i}: {copies}")
         i += 1
 
-def delete_copypasta(index: int) -> None:
-    try:
-        copypastas = dt.get_copypasta_list()
-        copy = copypastas.pop(index)
-        with open("textdata/copypasta.dat", "w") as f:
-            for copies in copypastas:
-                f.write(copies + "\n\n")
-            print(f"'{copy}'removed from textdata/copypasta.dat")
-    except IndexError:
-        print(f"{cl.YELLOW}Index number [{index}] not in range{cl.END}")
 
 ###########
 # WIDGETS #
@@ -62,7 +47,7 @@ def copypasta_widget() -> None:
             index = input("Enter an index to be deleted. (q to quit. b to go back)")
             if index != "b" and index != "q":
                 try:
-                    delete_copypasta(int(index))
+                    dt.delete_copypasta(int(index))
                 except ValueError:
                     print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
             elif index == "q":
