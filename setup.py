@@ -95,7 +95,7 @@ def main():
 
     while True:
         print(f"\n{cl.BLUE}------------------------------------------------------------{cl.END}")
-        print(f"Here are the available setup options:\n\n1: copypasta\n2: fumo\n3: Remove a copypasta from list\n")
+        print(f"Here are the available setup options:\n\n1: Modify copypasta list\n2: Modify fumo image urls\n3: WIP\n")
         user_in = input("Please enter an option (q to quit): ")
 
         if user_in == "1":
