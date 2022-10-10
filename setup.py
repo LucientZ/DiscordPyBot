@@ -33,7 +33,7 @@ def copypasta_widget() -> None:
 
     while True:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
-        print(f"Here are the available copypasta options:\n\n1: Add Copypasta to list\n2: Get list of copypastas\n3: Remove a copypasta from list\n")
+        print(f"Here are the available copypasta options:\n\n1: Add Copypasta to list\n2: Remove a copypasta from list\n3: Get list of copypastas\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
         if user_in == "1":
@@ -45,12 +45,10 @@ def copypasta_widget() -> None:
                 print("See you later :)")
                 exit()
         elif user_in == "2":
-            print_copypastas()
-        elif user_in == "3":
             # Since the user must know what is in each index, print the copypastas so that the user can decide which one to remove.
             print_copypastas()
             # If the user input is 'b', skips removing an item from the list. 'q' quits the program.
-            index = input("Enter an index to be deleted. (q to quit. b to go back)")
+            index = input("Enter an index to be deleted. (q to quit. b to go back): ")
             if index != "b" and index != "q":
                 try:
                     dt.delete_copypasta(int(index))
@@ -58,6 +56,8 @@ def copypasta_widget() -> None:
                     print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
             elif index == "q":
                 exit()
+        elif user_in == "3":
+            print_copypastas()
         elif user_in == "q":
             print("See you later :)")
             exit()
@@ -78,7 +78,7 @@ def fumo_widget() -> None:
 
     while True:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
-        print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Get list of Fumo URLS\n3: Remove a Fumo Image URL from list\n")
+        print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get list of Fumo URLS\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
 
