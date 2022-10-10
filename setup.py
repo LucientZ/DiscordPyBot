@@ -1,9 +1,9 @@
 import datahandling as dt
 from helper import *
 
-###########################
-# DATA HANDLING FUNCTIONS #
-###########################
+#########################
+# DATA HELPER FUNCTIONS #
+#########################
 
 
 def print_copypastas() -> None:
@@ -38,10 +38,8 @@ def copypasta_widget() -> None:
             elif text == "q":
                 print("See you later :)")
                 exit()
-
         elif user_in == "2":
             print_copypastas()
-
         elif user_in == "3":
             print_copypastas()
             index = input("Enter an index to be deleted. (q to quit. b to go back)")
@@ -52,16 +50,38 @@ def copypasta_widget() -> None:
                     print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
             elif index == "q":
                 exit()
-
         elif user_in == "q":
             print("See you later :)")
             exit()
-        
         elif user_in == "b":
             break
 
         else:
             print("Unknown option. Please enter a number, 'q', or 'b'")
+
+        input("\nPress Enter to continue...")
+
+
+def fumo_widget():
+    user_in = ""
+
+    while True:
+        print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
+        print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Get list of Fumo URLS\n3: Remove a Fumo Image URL from list\n")
+        user_in = input("Please enter an option (q to quit. b to go back): ")
+
+
+        if user_in == "1":
+            print("STUB")
+        elif user_in == "2":
+            print("STUB")
+        elif user_in == "3":
+            print("STUB")
+        elif user_in == "q":
+            print("See you later :)")
+            exit()
+        elif user_in == "b":
+            break
 
         input("\nPress Enter to continue...")
 
@@ -84,7 +104,7 @@ def main():
         if user_in == "1":
             copypasta_widget()
         elif user_in == "2":
-            print("stub")
+            fumo_widget()
         elif user_in == "3":
             print("stub")
         elif user_in == "q":
