@@ -1,16 +1,14 @@
 import datahandling as dt
 from helper import *
 
+###########################
+# DATA HANDLING FUNCTIONS #
+###########################
 
-def add_copypasta(text: str) -> None:
-    # Checks if a given string is too long
-    if len(text) > 1999:
-        print(f"{cl.YELLOW}Text is too long to fit in a discord message.{cl.END}")
-        return
 
-    with open("textdata/copypasta.dat", "a") as f:
-        f.write(text + "\n\n")
-        print(f"\n'{text}' added to textdata/copypasta.dat")
+
+
+
 
 
 def print_copypastas() -> None:
@@ -51,7 +49,7 @@ def copypasta_widget() -> None:
         if user_in == "1":
             text = input("Enter copypasta to be added (q to quit. b to go back): ")
             if text != "b" and text != "q":
-                add_copypasta(text)
+                dt.add_copypasta(text)
             elif text == "q":
                 print("See you later :)")
                 exit()
