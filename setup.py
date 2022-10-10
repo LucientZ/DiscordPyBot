@@ -19,9 +19,34 @@ def print_copypastas() -> None:
         print(f"{i}: {copies}")
         i += 1
 
-def print_fumo_names() -> None:...
+def print_fumo_names() -> None:
+    """
+    Prints each fumo name in an easily readable format
+    """
+    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    print()
+    i = 0
+    for name in fumos:
+        print(f"{i}: {name}")
+        i += 1
 
-def print_fumo_urls(name: str) -> None:...
+
+def print_fumo_urls(name: str) -> None:
+    """
+    Prints each fumo image URL in an easily readable format
+    """
+    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    if name in fumos:
+        print(f"\nSize of list: {len(fumos[name])}")
+        i = 0
+        for url in fumos[name]:
+            if len(url) > 25:
+                url = url[:24] + "..."
+            print(f"{i}: {url}")
+            i += 1
+    else:
+        print(f"\n{name} not in list of fumos")
+
 
 
 ###########
@@ -83,7 +108,7 @@ def fumo_widget() -> None:
     while True:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
         print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get a list of Fumo Names\n4: Get list of Fumo URLS\n")
-        user_in = input("Please enter an option (b to go back): ")
+        user_in = input("Please enter an option (q to quit. b to go back): ")
 
 
         if user_in == "1":
@@ -108,12 +133,10 @@ def fumo_widget() -> None:
                         print(f"{cl.RED}{cl.BOLD}ERROR: Invalid value. Please enter in index number (eg: 0, 1, 2...){cl.END}\n")
                     except Exception as e:
                         print(f"{cl.RED}ERROR: Issue removing URL at index [{index}]: {e}{cl.END}")
-
-
         elif user_in == "3":
             print_fumo_names()
         elif user_in == "4":
-            name = input("Please enter the name of the fumo (b to go back): ")
+            name = input("\nPlease enter the name of the fumo (b to go back): ")
             if name != "b":
                 print_fumo_urls(name)
         elif user_in == "q":
