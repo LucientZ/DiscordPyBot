@@ -19,6 +19,10 @@ def print_copypastas() -> None:
         print(f"{i}: {copies}")
         i += 1
 
+def print_fumo_names() -> None:...
+
+def print_fumo_urls(name: str) -> None:...
+
 
 ###########
 # WIDGETS #
@@ -37,25 +41,25 @@ def copypasta_widget() -> None:
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
         if user_in == "1":
-            # Asks the user to enter a copypasta. If the input is 'b', skips adding the input to the list. 'q' quits the program.
-            text = input("Enter copypasta to be added (q to quit. b to go back): ")
+            # Asks the user to enter a copypasta. If the input is 'b', skips adding the input to the list.
+            text = input("Enter copypasta to be added (b to go back): ")
             if text != "b" and text != "q":
-                dt.add_copypasta(text)
-            elif text == "q":
-                print("See you later :)")
-                exit()
+                try:
+                    dt.add_copypasta(text)
+                except Exception as e:
+                    print(f"{cl.RED}ERROR: Issue adding copypasta to list: {e}{cl.END}")
         elif user_in == "2":
             # Since the user must know what is in each index, print the copypastas so that the user can decide which one to remove.
             print_copypastas()
-            # If the user input is 'b', skips removing an item from the list. 'q' quits the program.
-            index = input("Enter an index to be deleted. (q to quit. b to go back): ")
-            if index != "b" and index != "q":
+            # If the user input is 'b', skips removing an item from the list.
+            index = input("Enter an index to be deleted. (b to go back): ")
+            if index != "b":
                 try:
                     dt.delete_copypasta(int(index))
                 except ValueError:
-                    print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
-            elif index == "q":
-                exit()
+                    print(f"{cl.RED}{cl.BOLD}Error: Invalid value. Please enter in index number (eg: 0, 1, 2...){cl.END}\n")
+                except Exception as e:
+                        print(f"{cl.RED}Error: Issue removing copypasta at index [{index}]: {e}{cl.END}")
         elif user_in == "3":
             print_copypastas()
         elif user_in == "q":
@@ -78,16 +82,40 @@ def fumo_widget() -> None:
 
     while True:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
-        print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get list of Fumo URLS\n")
+        print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get a list of Fumo Names\n4: Get list of Fumo URLS\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
 
         if user_in == "1":
-            print("STUB")
+            name = input("Please enter the name of the fumo (b to go back): ")
+            if name != "b":
+                url = input("\nPlease enter URL for fumo image (b to go back): ")
+                if url != "b":
+                    try:
+                        dt.add_fumo_url(name, url)
+                    except Exception as e:
+                        print(f"{cl.RED}ERROR: Issue adding URL ['{url}'] to ['{name}']: {e}{cl.END}")
+
         elif user_in == "2":
-            print("STUB")
+            name = input("Please enter the name of the fumo (b to go back): ")
+            if name != "b":
+                print_fumo_urls(name)
+                index = input("\nPlease enter index to remove (b to go back): ")
+                if index != "b":
+                    try:
+                        dt.remove_fumo_url(name, int(index))
+                    except ValueError:
+                        print(f"{cl.RED}{cl.BOLD}ERROR: Invalid value. Please enter in index number (eg: 0, 1, 2...){cl.END}\n")
+                    except Exception as e:
+                        print(f"{cl.RED}ERROR: Issue removing URL at index [{index}]: {e}{cl.END}")
+
+
         elif user_in == "3":
-            print("STUB")
+            print_fumo_names()
+        elif user_in == "4":
+            name = input("Please enter the name of the fumo (b to go back): ")
+            if name != "b":
+                print_fumo_urls(name)
         elif user_in == "q":
             print("See you later :)")
             exit()
@@ -125,8 +153,5 @@ def main():
             print(f"{cl.BOLD}{cl.YELLOW}Unknown option. Please enter a number, 'q', or 'b'{cl.END}")
             input("\nPress Enter to continue...")
         
-
-
 if __name__ == "__main__":
     main()
-

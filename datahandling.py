@@ -153,7 +153,6 @@ def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     else:
         return "Command does not exist"
 
-
 def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
     """
     Returns if a command is blacklisted in a specific channel in a guild.
@@ -178,7 +177,6 @@ def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
             # Return False since guilds are default false for every feature/command
             add_guild(guildID)
             return False
-
 
 def add_guild(guildID: str) -> None:
     """
@@ -251,7 +249,6 @@ def init_file(filename: str, logging: bool = False) -> None:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
-
 def init_json(filename: str, logging: bool = False) -> None:
     """
     Initializes a file as a json dictionary.
@@ -276,7 +273,6 @@ def init_json(filename: str, logging: bool = False) -> None:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
-
 def add_json_dict_keys(filename: str, *keynames: str):
     """
     Adds keys to a json dictionary as dictionaries.
@@ -298,14 +294,14 @@ def add_json_dict_keys(filename: str, *keynames: str):
                 json.dump(data, f, indent = 2)
 
 
-######################
-# Copypasta Handling #
-######################
+#####################
+# Textdata Handling #
+#####################
 
 def add_copypasta(text: str, logging: bool = False) -> None:
     # Checks if a given string is too long
     if len(text) > 1999:
-        print(f"{cl.YELLOW}Text is too long to fit in a discord message.{cl.END}")
+        print(f"{cl.RED}Text is too long to fit in a discord message.{cl.END}")
         return
 
     with open("textdata/copypasta.dat", "a") as f:
@@ -323,8 +319,22 @@ def delete_copypasta(index: int, logging: bool = False) -> None:
             if logging:
                 print(f"'{copy}'removed from textdata/copypasta.dat")
     except IndexError:
-        print(f"{cl.YELLOW}Index number [{index}] not in range{cl.END}")
+        print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
 
+def get_json_dict(filename: str) -> dict:
+    data: dict
+    with open(filename, "r") as f:
+                data = json.load(f)
+    return data
+
+def set_json_dict(filename: str, data: dict) -> None:
+    with open(filename, "w") as f:
+            json.dump(data, f, indent=2)
+
+def add_fumo_url(name: str, url: str) -> None:...
+    
+
+def remove_fumo_url(name: str, index: int) -> None:...
 
 #################
 # Miscellaneous #
