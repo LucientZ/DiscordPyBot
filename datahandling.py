@@ -1,3 +1,4 @@
+from matplotlib.streamplot import OutOfBounds
 from helper import *
 import json
 from datetime import datetime
@@ -153,7 +154,6 @@ def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     else:
         return "Command does not exist"
 
-
 def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
     """
     Returns if a command is blacklisted in a specific channel in a guild.
@@ -178,7 +178,6 @@ def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
             # Return False since guilds are default false for every feature/command
             add_guild(guildID)
             return False
-
 
 def add_guild(guildID: str) -> None:
     """
@@ -208,7 +207,7 @@ def add_guild(guildID: str) -> None:
 # Data File Initialization #
 ############################
 
-def init_guild_config() -> None:
+def init_guild_config(logging: bool = False) -> None:
     """
     If configdata/guildconfig.json does not exists, creates a template file.
     Skips the process if configdata/guildconfig.json exists.
@@ -224,9 +223,11 @@ def init_guild_config() -> None:
                 "channels": {"EXAMPLE_CHANNEL_ID": {"blacklist": ["copypasta"]}, "EXAMPLE_CHANNEL_ID_2": {"blacklist": ["sad"]}}
             }
             json.dump(data, f, indent=2)
-            print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
+            if logging:
+                print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
     except FileExistsError:
-        print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+        if logging:
+            print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 def init_file(filename: str, logging: bool = False) -> None:
     """
@@ -248,7 +249,6 @@ def init_file(filename: str, logging: bool = False) -> None:
     except FileExistsError:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
-
 
 def init_json(filename: str, logging: bool = False) -> None:
     """
@@ -274,7 +274,6 @@ def init_json(filename: str, logging: bool = False) -> None:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
-
 def add_json_dict_keys(filename: str, *keynames: str):
     """
     Adds keys to a json dictionary as dictionaries.
@@ -294,6 +293,111 @@ def add_json_dict_keys(filename: str, *keynames: str):
 
     with open(filename, "w") as f:
                 json.dump(data, f, indent = 2)
+
+
+#####################
+# Textdata Handling #
+#####################
+
+def add_copypasta(text: str, logging: bool = False) -> None:
+    # Checks if a given string is too long
+    if len(text) > 1999:
+        print(f"{cl.RED}Text is too long to fit in a discord message.{cl.END}")
+        return
+
+    with open("textdata/copypasta.dat", "a") as f:
+        f.write(text + "\n\n")
+        if logging:
+            print(f"\n'{text}' added to textdata/copypasta.dat")
+
+def delete_copypasta(index: int, logging: bool = False) -> None:
+    try:
+        copypastas = get_copypasta_list()
+        copy = copypastas.pop(index)
+        with open("textdata/copypasta.dat", "w") as f:
+            for copies in copypastas:
+                f.write(copies + "\n\n")
+            if logging:
+                print(f"'{copy}'removed from textdata/copypasta.dat")
+    except IndexError:
+        print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
+
+def get_json_dict(filename: str) -> dict:
+    """
+    Returns entire dictionary from JSON
+
+    Parameters:
+    filename (str): file to obtain dictionary from
+
+    Returns:
+    dict: JSON file as a dictionary
+    """
+
+    data: dict
+    with open(filename, "r") as f:
+                data = json.load(f)
+    return data
+
+def set_json_dict(filename: str, data: dict) -> None:
+    """
+    Takes a dictionary and sets a JSON as the dictionary.
+
+    Parameters:
+    filename (str): file to be modified
+    data (dict): dictionary to be written to json
+
+    Returns:
+    none
+    """
+    with open(filename, "w") as f:
+            json.dump(data, f, indent=2)
+
+def add_fumo_url(name: str, url: str) -> None:
+    """
+    Adds a fumo image url to the file textdata/urls.json
+
+    Parameters:
+    name (str): name of fumo character
+    url (str): url of the image of fumo
+
+    Returns:
+    none
+    """
+    data = get_json_dict("textdata/urls.json")
+    try:
+        if name in data["fumo"]:
+            data["fumo"][name].append(url)
+        else:
+            data["fumo"][name] = [url]
+        set_json_dict("textdata/urls.json", data)
+        print(f"URL '{url}' added to collection of images for character '{name}'")
+    except Exception as e:
+        print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
+    
+    
+def remove_fumo_url(name: str, index: int) -> None:
+    """
+    Removes a fumo image url from the file textdata/urls.json
+
+    Parameters:
+    name (str): name of fumo character
+    index (int): index of url to be removed
+
+    Returns:
+    none
+    """
+    data = get_json_dict("textdata/urls.json")
+    try:
+        if name in data["fumo"]:
+            data["fumo"][name].pop(index)
+            set_json_dict("textdata/urls.json", data)
+            print(f"URL at index [{index}] removed to collection of images for character '{name}'")
+        else:
+            print(f"{name} doesn't have any umage URL's")
+    except IndexError:
+        print(f"{cl.RED}ERROR: Index out of range{cl.END}")
+    except Exception as e:
+        print(f"{cl.RED}ERROR: Issue removing fumo url: {e}{cl.END}")
 
 
 #################
