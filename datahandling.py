@@ -322,16 +322,46 @@ def delete_copypasta(index: int, logging: bool = False) -> None:
         print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
 
 def get_json_dict(filename: str) -> dict:
+    """
+    Returns entire dictionary from JSON
+
+    Parameters:
+    filename (str): file to obtain dictionary from
+
+    Returns:
+    dict: JSON file as a dictionary
+    """
+
     data: dict
     with open(filename, "r") as f:
                 data = json.load(f)
     return data
 
 def set_json_dict(filename: str, data: dict) -> None:
+    """
+    Takes a dictionary and sets a JSON as the dictionary.
+
+    Parameters:
+    filename (str): file to be modified
+    data (dict): dictionary to be written to json
+
+    Returns:
+    none
+    """
     with open(filename, "w") as f:
             json.dump(data, f, indent=2)
 
 def add_fumo_url(name: str, url: str) -> None:
+    """
+    Adds a fumo image url to
+
+    Parameters:
+    name (str): name of fumo character
+    url (str): url of the image of fumo
+
+    Returns:
+    none
+    """
     data = get_json_dict("textdata/urls.json")
     try:
         if name in data["fumo"]:
@@ -342,7 +372,6 @@ def add_fumo_url(name: str, url: str) -> None:
         print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
     set_json_dict("textdata/urls.json", data)
     
-
 def remove_fumo_url(name: str, index: int) -> None:...
 
 #################
