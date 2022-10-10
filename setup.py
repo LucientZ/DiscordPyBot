@@ -83,11 +83,11 @@ def fumo_widget() -> None:
     while True:
         print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
         print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get a list of Fumo Names\n4: Get list of Fumo URLS\n")
-        user_in = input("Please enter an option (q to quit. b to go back): ")
+        user_in = input("Please enter an option (b to go back): ")
 
 
         if user_in == "1":
-            name = input("Please enter the name of the fumo (b to go back): ")
+            name = input("\nPlease enter the name of the fumo (b to go back): ")
             if name != "b":
                 url = input("\nPlease enter URL for fumo image (b to go back): ")
                 if url != "b":
@@ -97,7 +97,7 @@ def fumo_widget() -> None:
                         print(f"{cl.RED}ERROR: Issue adding URL ['{url}'] to ['{name}']: {e}{cl.END}")
 
         elif user_in == "2":
-            name = input("Please enter the name of the fumo (b to go back): ")
+            name = input("\nPlease enter the name of the fumo (b to go back): ")
             if name != "b":
                 print_fumo_urls(name)
                 index = input("\nPlease enter index to remove (b to go back): ")
