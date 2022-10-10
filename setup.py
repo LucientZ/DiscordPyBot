@@ -1,67 +1,114 @@
 import datahandling as dt
-import os
 from helper import *
 
-# TODO add GUI with tkinter to streamline
-# Most of this code is temporary
 
-user_in = ""
-dt.init_file("textdata/copypasta.dat")
-option_text = "1: Add Copypasta to s-copypasta list\n2: Get list of copypasta\n3: Remove a copypasta"
+def add_copypasta(text: str) -> None:
+    # Checks if a given string is too long
+    if len(text) > 1999:
+        print(f"{cl.YELLOW}Text is too long to fit in a discord message.{cl.END}")
+        return
 
-print("\nWelcome to this bot's setup application. Here are the available options:\n")
-print(option_text, "\n")
-
-def add_copypasta():
-    text = input("Enter copypasta to be added: ")
     with open("textdata/copypasta.dat", "a") as f:
         f.write(text + "\n\n")
-        print(text, "added to textdata/copypasta.dat")
-    print("\nHere are the available options for commands:\n\n" + option_text + '\n')
+        print(f"\n'{text}' added to textdata/copypasta.dat")
 
 
-def get_copypastas():
+def print_copypastas() -> None:
     copypastas = dt.get_copypasta_list()
     print()
     i = 0
     for copies in copypastas:
-        print(i, ":",copies)
+        if len(copies) > 25:
+            copies = copies[:24] + "..."
+        print(f"{i}: {copies}")
         i += 1
-    print("\nHere are the available options for commands:\n\n" + option_text + '\n')
 
-
-def delete_copypasta():
-    copypastas = dt.get_copypasta_list()
-    i = 0
-    for copies in copypastas:
-        print(i, ":",copies)
-        i += 1
-    index = input("Enter an index to remove: ")
-
+def delete_copypasta(index: int) -> None:
     try:
-        copy = copypastas.pop(int(index))
+        copypastas = dt.get_copypasta_list()
+        copy = copypastas.pop(index)
         with open("textdata/copypasta.dat", "w") as f:
             for copies in copypastas:
                 f.write(copies + "\n\n")
             print(copy, "removed from textdata/copypasta.dat")
     except IndexError:
-        print(index,"not in range")
-    except TypeError as e:
-        print(e)
+        print(f"{cl.YELLOW}Index number [{index}] not in range{cl.END}")
 
-    print("\nHere are the available options for commands:\n\n" + option_text + '\n')
+###########
+# WIDGETS #
+###########
 
-while True:
-    options = {
-        "1": add_copypasta,
-        "2": get_copypastas,
-        "3": delete_copypasta
-    }
-    user_in = input("Please enter an option (q to quit): ")
-    try:
-        options[user_in]()
-    except KeyError:
-        if user_in == "q":
+
+def copypasta_widget() -> None:
+
+    user_in = ""
+
+    while True:
+        print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
+        print(f"Here are the available copypasta options:\n\n1: Add Copypasta to list\n2: Get list of copypastas\n3: Remove a copypasta from list\n")
+        user_in = input("Please enter an option (q to quit. b to go back): ")
+        if user_in == "1":
+            text = input("Enter copypasta to be added: ")
+            add_copypasta(text)
+
+        elif user_in == "2":
+            print_copypastas()
+
+        elif user_in == "3":
+            print_copypastas()
+            index = input("Enter an index to be deleted. (q to quit. b to go back)")
+            if index != "b":
+                try:
+                    delete_copypasta(int(index))
+                except ValueError:
+                    print(f"{cl.YELLOW}{cl.BOLD}Invalid value. Please enter in index number (eg: 1, 2, 3...){cl.END}\n")
+            elif index == "q":
+                exit()
+            input("\nPress Enter to continue...")
+
+            
+        elif user_in == "q":
+            exit()
+        
+        elif user_in == "b":
             break
-        print("Unknown option. Please enter a number or 'q'")
-    
+
+        else:
+            print("Unknown option. Please enter a number, 'q', or 'b'")
+
+        input("\nPress Enter to continue...")
+
+
+def main():
+    # Initializes all files that are to be worked with
+    dt.init_guild_config()
+    dt.init_file("textdata/copypasta.dat")
+    dt.init_json("textdata/urls.json")
+    dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
+
+
+    print(f"\n{cl.BLUE}Welcome to this bot's setup application.{cl.END}")
+
+    while True:
+        print(f"\n{cl.BLUE}------------------------------------------------------------{cl.END}")
+        print(f"Here are the available setup options:\n\n1: copypasta\n2: fumo\n3: Remove a copypasta from list\n")
+        user_in = input("Please enter an option (q to quit): ")
+
+        if user_in == "1":
+            copypasta_widget()
+        elif user_in == "2":
+            print("stub")
+        elif user_in == "3":
+            print("stub")
+        elif user_in == "q":
+            print("See you later :)")
+            exit()
+        else:
+            print(f"{cl.BOLD}{cl.YELLOW}Unknown option. Please enter a number, 'q', or 'b'{cl.END}")
+            input("\nPress Enter to continue...")
+        
+
+
+if __name__ == "__main__":
+    main()
+
