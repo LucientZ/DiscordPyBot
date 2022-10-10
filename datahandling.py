@@ -313,6 +313,18 @@ def add_copypasta(text: str, logging: bool = False) -> None:
         if logging:
             print(f"\n'{text}' added to textdata/copypasta.dat")
 
+def delete_copypasta(index: int, logging: bool = False) -> None:
+    try:
+        copypastas = get_copypasta_list()
+        copy = copypastas.pop(index)
+        with open("textdata/copypasta.dat", "w") as f:
+            for copies in copypastas:
+                f.write(copies + "\n\n")
+            if logging:
+                print(f"'{copy}'removed from textdata/copypasta.dat")
+    except IndexError:
+        print(f"{cl.YELLOW}Index number [{index}] not in range{cl.END}")
+
 
 #################
 # Miscellaneous #
