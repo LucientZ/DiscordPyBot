@@ -1,4 +1,3 @@
-from matplotlib.streamplot import OutOfBounds
 from helper import *
 import json
 from datetime import datetime
