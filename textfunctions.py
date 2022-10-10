@@ -50,26 +50,13 @@ def get_fumo_url(character: str) -> str:
     str: random fumo image link
     """
     
-    characters = {
-        0: "reimu",
-        1: "flandre",
-        2: "cirno",
-        3: "hayasaka",
-        4: "aqua"
-    }
-    texts = {
-        "reimu": fumo_images.reimu[rand.randrange(0,len(fumo_images.reimu))],
-        "flandre": fumo_images.flandre[rand.randrange(0,len(fumo_images.flandre))],
-        "flan": fumo_images.flandre[rand.randrange(0,len(fumo_images.flandre))],
-        "cirno": fumo_images.cirno[rand.randrange(0,len(fumo_images.cirno))],
-        "hayasaka": fumo_images.hayasaka[rand.randrange(0,len(fumo_images.hayasaka))],
-        "aqua": fumo_images.aqua[rand.randrange(0,len(fumo_images.aqua))]
-    }
-    try:
-        return texts[character.lower()]
-    except KeyError:
-        return texts[characters[rand.randrange(0,5)]]
+    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
 
+    if character in fumos:
+        return fumos[character][rand.randrange(0,len(fumos[character]))]
+    else:
+        character = rand.choice(list(fumos))
+        return fumos[character][rand.randrange(0,len(fumos[character]))]
 
 def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
