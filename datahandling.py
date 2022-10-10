@@ -1,3 +1,4 @@
+from matplotlib.streamplot import OutOfBounds
 from helper import *
 import json
 from datetime import datetime
@@ -353,7 +354,7 @@ def set_json_dict(filename: str, data: dict) -> None:
 
 def add_fumo_url(name: str, url: str) -> None:
     """
-    Adds a fumo image url to
+    Adds a fumo image url to the file textdata/urls.json
 
     Parameters:
     name (str): name of fumo character
@@ -368,11 +369,36 @@ def add_fumo_url(name: str, url: str) -> None:
             data["fumo"][name].append(url)
         else:
             data["fumo"][name] = [url]
+        set_json_dict("textdata/urls.json", data)
+        print(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
         print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
-    set_json_dict("textdata/urls.json", data)
     
-def remove_fumo_url(name: str, index: int) -> None:...
+    
+def remove_fumo_url(name: str, index: int) -> None:
+    """
+    Removes a fumo image url from the file textdata/urls.json
+
+    Parameters:
+    name (str): name of fumo character
+    index (int): index of url to be removed
+
+    Returns:
+    none
+    """
+    data = get_json_dict("textdata/urls.json")
+    try:
+        if name in data["fumo"]:
+            data["fumo"][name].pop(index)
+            set_json_dict("textdata/urls.json", data)
+            print(f"URL at index [{index}] removed to collection of images for character '{name}'")
+        else:
+            print(f"{name} doesn't have any umage URL's")
+    except IndexError:
+        print(f"{cl.RED}ERROR: Index out of range{cl.END}")
+    except Exception as e:
+        print(f"{cl.RED}ERROR: Issue removing fumo url: {e}{cl.END}")
+
 
 #################
 # Miscellaneous #
