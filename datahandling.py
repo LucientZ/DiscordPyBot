@@ -298,6 +298,22 @@ def add_json_dict_keys(filename: str, *keynames: str):
                 json.dump(data, f, indent = 2)
 
 
+######################
+# Copypasta Handling #
+######################
+
+def add_copypasta(text: str, logging: bool = False) -> None:
+    # Checks if a given string is too long
+    if len(text) > 1999:
+        print(f"{cl.YELLOW}Text is too long to fit in a discord message.{cl.END}")
+        return
+
+    with open("textdata/copypasta.dat", "a") as f:
+        f.write(text + "\n\n")
+        if logging:
+            print(f"\n'{text}' added to textdata/copypasta.dat")
+
+
 #################
 # Miscellaneous #
 #################
