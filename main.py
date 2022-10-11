@@ -65,19 +65,19 @@ class aclient(discord.Client):
             await ctx.channel.send("Hello")
         # Default response
         else:
-            if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)) and 'sus' in ctx.content.lower():
+            if not dt.is_blacklisted("sus", str(ctx.guild_id), str(ctx.channel_id)) and 'sus' in ctx.content.lower():
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
-            elif not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)) and 'morb' in ctx.content.lower():
+            elif not dt.is_blacklisted("morbius", str(ctx.guild_id), str(ctx.channel_id)) and 'morb' in ctx.content.lower():
                 await ctx.channel.send(morbius())
-            elif not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)) and 'sad' in ctx.content.lower():
+            elif not dt.is_blacklisted("sad", str(ctx.guild_id), str(ctx.channel_id)) and 'sad' in ctx.content.lower():
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-            elif not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)) and 'trade' in ctx.content.lower():
+            elif not dt.is_blacklisted("trade", str(ctx.guild_id), str(ctx.channel_id)) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
-            elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did"))):
+            elif not dt.is_blacklisted("mom", str(ctx.guild_id), str(ctx.channel_id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did"))):
                 await ctx.channel.send(mom())
 
 
@@ -155,7 +155,7 @@ async def fumo(ctx: discord.Interaction, name: str = "NA"):
     """
     Obtains a url for an image of a fumo (specified or not) and makes the bot send the url as a message
     """
-    if dt.is_blacklisted("fumo", str(ctx.guild.id), str(ctx.channel.id)):
+    if dt.is_blacklisted("fumo", str(ctx.guild_id), str(ctx.channel_id)):
         await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
         return
     await ctx.response.send_message(get_fumo_url(name))
@@ -188,7 +188,7 @@ async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
     channel_id = ""
     msg_end = ""
     if flag == "-c":
-        channel_id = str(ctx.channel.id)
+        channel_id = str(ctx.channel_id)
         msg_end = " in this channel."
     else:
         channel_id = "\0"
@@ -196,20 +196,20 @@ async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
     # Whitelists all automatic features
     if "auto" in command_name.lower():
         for command in features:
-            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All automatic features enabled" + msg_end)
     # Whitelists all fun commands
     elif "fun" in command_name.lower():
         for command in fun_commands:
-            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All fun commands enabled" + msg_end)
     # Whitelists all utility commands
     elif "utility" in command_name.lower():
         for command in utility_commands:
-            dt.whitelist_feature(command, str(ctx.guild.id), channel_id)
+            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All utility commands enabled" + msg_end)
     else:
-        await ctx.response.send_message(dt.whitelist_feature(command_name, str(ctx.guild.id), channel_id))
+        await ctx.response.send_message(dt.whitelist_feature(command_name, str(ctx.guild_id), channel_id))
 
 @tree.command(name = "disable", description = "Disables a feature/command with optional flag [-c]")
 @app_commands.checks.has_permissions(administrator = True)
@@ -217,7 +217,7 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
     channel_id = ""
     msg_end = ""
     if flag == "-c":
-        channel_id = str(ctx.channel.id)
+        channel_id = str(ctx.channel_id)
         msg_end = " in this channel."
     else:
         channel_id = "\0"
@@ -225,20 +225,20 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
     # Whitelists all automatic features
     if "auto" in command_name.lower():
         for command in features:
-            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All automatic features disabled" + msg_end)
     # Whitelists all fun commands
     elif "fun" in command_name.lower():
         for command in fun_commands:
-            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All fun commands disabled" + msg_end)
     # Whitelists all utility commands
     elif "utility" in command_name.lower():
         for command in utility_commands:
-            dt.blacklist_feature(command, str(ctx.guild.id), channel_id)
+            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All utility commands disabled" + msg_end)
     else:
-        await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild.id), channel_id))
+        await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild_id), channel_id))
 
 
 
