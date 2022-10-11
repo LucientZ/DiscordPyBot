@@ -49,7 +49,8 @@ def get_fumo_url(character: str) -> str:
     Returns:
     str: random fumo image link
     """
-    
+    character = character.lower()
+
     fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
 
     if character in fumos:
