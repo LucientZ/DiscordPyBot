@@ -351,7 +351,7 @@ def set_json_dict(filename: str, data: dict) -> None:
     with open(filename, "w") as f:
             json.dump(data, f, indent=2)
 
-def add_fumo_url(name: str, url: str) -> None:
+def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
     """
     Adds a fumo image url to the file textdata/urls.json
 
@@ -365,16 +365,18 @@ def add_fumo_url(name: str, url: str) -> None:
     data = get_json_dict("textdata/urls.json")
     try:
         if name in data["fumo"]:
-            data["fumo"][name].append(url)
+            if not url in data["fumo"][name]:
+                data["fumo"][name].append(url)
         else:
             data["fumo"][name] = [url]
         set_json_dict("textdata/urls.json", data)
-        print(f"URL '{url}' added to collection of images for character '{name}'")
+        if logging:
+            print(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
         print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
     
     
-def remove_fumo_url(name: str, index: int) -> None:
+def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
     """
     Removes a fumo image url from the file textdata/urls.json
 
