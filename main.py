@@ -249,6 +249,7 @@ def main():
         dt.init_file("textdata/copypasta.dat", True)
         dt.init_json("textdata/urls.json", True)
         dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
+        dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
         # Obtains bot token and uses it to log in
         TOKEN = dt.get_token(".token", "Logging In")
