@@ -40,8 +40,8 @@ def print_fumo_urls(name: str) -> None:
         print(f"\nSize of list: {len(fumos[name])}")
         i = 0
         for url in fumos[name]:
-            if len(url) > 25:
-                url = url[:24] + "..."
+            if len(url) > 150:
+                url = url[:149] + "..."
             print(f"{i}: {url}")
             i += 1
     else:
@@ -117,7 +117,7 @@ def fumo_widget() -> None:
                 url = input("\nPlease enter URL for fumo image (b to go back): ")
                 if url != "b":
                     try:
-                        dt.add_fumo_url(name, url)
+                        dt.add_fumo_url(name, url, True)
                     except Exception as e:
                         print(f"{cl.RED}ERROR: Issue adding URL ['{url}'] to ['{name}']: {e}{cl.END}")
 
