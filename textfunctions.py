@@ -1,6 +1,9 @@
 import random as rand
 from helper import *
 import datahandling as dt
+
+
+
 #Silly messages to send in channels if something funny happens. Gives a random output.
 def copypasta_text() -> str:
     """
@@ -62,7 +65,9 @@ def get_fumo_url(character: str) -> str:
 def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
     Formats a string so that a selected substring (non case-sensative) will have a modifier surround it.
-    eg: the chicken broke the house --> **the** chicken broke **the** house
+    eg: the chicken broke the house --> **the** chicken broke **the** house.
+    eg: the chicken broke the house --> *_the_* chicken broke *_the_* house.
+    Modifiers will be reversed after the submessage. Modifiers happening twice in succession will be replaced with an empty string as to keep formatting conciseness.
     
     Parameters:
     msg (str): Message to be modified
@@ -73,18 +78,9 @@ def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     str: modified msg
     """
 
-    submsg_length = len(submsg)
-    i = len(msg) - submsg_length
-
-    # Iterates backwards in string to make replacing easier
-    # i == -1 is so it checks the first index as well
-    while(not i == -1):
-        temp_str = msg[i:i+submsg_length]
-        if temp_str.lower() == submsg.lower():
-            # Operation that wraps modifier around submsg
-            msg = msg[:i] + modifier + temp_str + modifier + msg[i + submsg_length:]
-        i -= 1
-        
+    msg = msg.replace(submsg, modifier + submsg + modifier[::-1])
+    if modifier + modifier in msg:
+        msg = msg.replace(modifier + modifier, "")
     return msg
 
 def mom() -> str:
