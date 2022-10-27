@@ -2,8 +2,6 @@ import random as rand
 from helper import *
 import datahandling as dt
 
-
-
 #Silly messages to send in channels if something funny happens. Gives a random output.
 def copypasta_text() -> str:
     """
@@ -64,7 +62,7 @@ def get_fumo_url(character: str) -> str:
 
 def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
-    Formats a string so that a selected substring (non case-sensative) will have a modifier surround it.
+    Formats a string so that a selected substring (non case-sensative) will have a markdown modifier surround it.
     eg: the chicken broke the house --> **the** chicken broke **the** house.
     eg: the chicken broke the house --> *_the_* chicken broke *_the_* house.
     Modifiers will be reversed after the submessage. Modifiers happening twice in succession will be replaced with an empty string as to keep formatting conciseness.
