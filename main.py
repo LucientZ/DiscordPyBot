@@ -240,6 +240,34 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
     else:
         await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild_id), channel_id))
 
+@tree.command(name="get-blacklist", description="Returns a list of blacklisted features in the channel and server")
+async def get_blacklist(ctx: discord.Interaction):
+    # initializes the blacklist of server and channel
+    server_dict = dt.get_json_dict("configdata/guildconfig.json")["guilds"][str(ctx.guild_id)]
+    server_blacklist = server_dict["blacklist"]
+    
+
+    # Builds string to be sent to user
+    msg = ">>> __Server Blacklist__\n"
+    if len(server_blacklist) == 0:
+        msg += " - None\n"
+    else:
+        for item in server_blacklist:
+            msg += f" - {item}\n"
+    msg += "\n __Channel Blacklist__\n"
+
+    try:
+        channel_blacklist = server_dict["channels"][str(ctx.channel_id)]["blacklist"]
+        if len(channel_blacklist) == 0:
+            msg += " - None\n\n"
+        else:
+            for item in channel_blacklist:
+                msg += f" - {item}\n"
+    except KeyError:
+        msg += " - None\n\n"
+
+    await ctx.response.send_message(msg)
+
 
 
 def main():
