@@ -77,7 +77,7 @@ class aclient(discord.Client):
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
             elif not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
-            elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum():
+            elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
 
 
