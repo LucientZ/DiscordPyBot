@@ -4,11 +4,11 @@ This is a small discord bot that has basic functionality. Most of the features a
 Everything here is run in Python 3.8.10 and above which can be found here:
 - https://www.python.org/downloads/
 
-### <u>Dependencies</u>
+### <ins>Dependencies</ins>
 - discord.py
 
 
-### <u>How to setup</u>
+### <ins>How to setup</ins>
 Everything here is assuming that you already have a discord application set up with a bot token. Make sure the bot has all intents enabled.
 
 Before starting the bot, install python on your machine. The bot is written in python 3.8.10, but it will work with most versions of python that are supported by discord.py. Once python is installed, check to ensure you're running the desire version by entering the following command into your terminal without the dollar sign:
@@ -48,7 +48,7 @@ Once you make this decision, you'll be prompted to enter your token. If the toke
 ```
 Once you get the message where the bot says "I exist...", then you're all good to go.
 
-### <u>How to customize</u>
+### <ins>How to customize</ins>
 Certain commands like /fumo and /copypasta don't have much functionality by default. This is because the outputs are stored locally in the directory './textdata/'. In order to add functionality, run ./setup.py in the terminal.
 ```
 $ python3 ./setup.py
