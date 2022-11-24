@@ -35,7 +35,9 @@ Would you like to sync the bot globally? (Only do this if the bot has been updat
 ```
 If this is your first time running the bot, type 'y' since none of the commands should be synced yet. 
 
-Afterwards, you'll be prompted with whether or not a file named '.token' should be created in the directory. '.token' is used by the program so that the bot token does not need to be entered every single time. If you happen to only want to use the token once, type 'n'. Otherwise, type 'y'. Once you make this decision, you'll be prompted to enter your token. If the token is valid, the bot will log in and you should get an output like this:
+Afterwards, you'll be prompted with whether or not a file named '.token' should be created in the directory. '.token' is used by the program so that the bot token does not need to be entered every single time. If you happen to only want to use the token once, type 'n'. Otherwise, type 'y'. 
+
+Once you make this decision, you'll be prompted to enter your token. If the token is valid, the bot will log in and you should get an output like this:
 ```
 2022-11-23 22:41:10 INFO     discord.client logging in using static token
 2022-11-23 22:41:10 INFO     discord.gateway Shard ID None has connected to Gateway (Session ID: ID).   
@@ -47,3 +49,21 @@ Afterwards, you'll be prompted with whether or not a file named '.token' should 
 Once you get the message where the bot says "I exist...", then you're all good to go.
 
 ### <u>How to customize</u>
+Certain commands like /fumo and /copypasta don't have much functionality by default. This is because the outputs are stored locally in the directory './textdata/'. In order to add functionality, run ./setup.py in the terminal.
+```
+$ python3 ./setup.py
+```
+Once ran, you should see an output like this:
+```
+Welcome to this bot's setup application.
+
+------------------------------------------------------------
+Here are the available setup options:
+
+1: Copypasta List Modification
+2: Fumo Image URL List Modification
+3: WIP
+
+Please enter an option (q to quit):
+```
+Type the number corresponding to what you want to modify. Note that this tool is relatively limited at the moment and more is expected to be added later.
