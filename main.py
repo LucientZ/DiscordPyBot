@@ -24,6 +24,8 @@ class aclient(discord.Client):
         else:
             self.synced = True
 
+        self.index = 0
+
     async def on_ready(self):
         """
         When the bot is ready, checks if the bot's commands should be synced or not.
@@ -84,11 +86,8 @@ class aclient(discord.Client):
     async def status_loop(self):
         await super().change_presence(activity = discord.Game(name = self.status_frames[self.index]))
         self.index += 1
-        print(f"Delay: {datetime.now() - self.previous_time}\nHash: {hash(datetime.now())}")
-        self.previous_time = datetime.now()
-        if self.index == len(self.status_frames):
-            print(f"Restarted. Finish time: {datetime.now()}\nElapsed time: {datetime.now() - self.begin_time}")
-            exit()
+        if self.index >= len(self.status_frames):
+            self.index = 0
 
 def format_string_frame(frame: str) -> str:
     frame_lines = frame.split("\n")
