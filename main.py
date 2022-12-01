@@ -26,6 +26,8 @@ class aclient(discord.Client):
 
         self.index = 0
         self.status_frames: list = get_status_frames()
+        self.begin_time = datetime.now()
+        self.previous_time = datetime.now()
 
     async def on_ready(self):
         """
@@ -45,6 +47,7 @@ class aclient(discord.Client):
             print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I exist as user '{self.user}' and can talk to people! :D")
+        self.status_loop.start()
 
     async def on_connect(self):
         """
@@ -87,7 +90,10 @@ class aclient(discord.Client):
     async def status_loop(self):
         await super().change_presence(activity = discord.Game(name = self.status_frames[self.index]))
         self.index += 1
-        if self.index >= len(self.status_frames):
+        print(f"Delay: {datetime.now() - self.previous_time}\nHash:  {hash(datetime.now())}")
+        self.previous_time = datetime.now()
+        if self.index == len(self.status_frames):
+            print(f"Restarted. Finish time: {datetime.now()}\nElapsed time: {datetime.now() - self.begin_time}")
             self.index = 0
 
 def format_string_frame(frame: str) -> str:
