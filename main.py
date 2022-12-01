@@ -25,6 +25,7 @@ class aclient(discord.Client):
             self.synced = True
 
         self.index = 0
+        self.status_frames: list = get_status_frames()
 
     async def on_ready(self):
         """
