@@ -3,7 +3,7 @@ import discord
 from discord import app_commands
 import time
 from datetime import datetime
-
+from discord.ext import tasks
 # Other Files
 import datahandling as dt
 from textfunctions import *
@@ -80,6 +80,29 @@ class aclient(discord.Client):
             elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
 
+    @tasks.loop(seconds = 5.0)
+    async def status_loop(self):
+        await super().change_presence(activity = discord.Game(name = self.status_frames[self.index]))
+        self.index += 1
+        print(f"Delay: {datetime.now() - self.previous_time}\nHash: {hash(datetime.now())}")
+        self.previous_time = datetime.now()
+        if self.index == len(self.status_frames):
+            print(f"Restarted. Finish time: {datetime.now()}\nElapsed time: {datetime.now() - self.begin_time}")
+            exit()
+
+def format_string_frame(frame: str) -> str:
+    frame_lines = frame.split("\n")
+    frame = f"_{frame_lines[0]} _________________________________ _{frame_lines[1]} _________________________________ _{frame_lines[2]} _________________________________"
+    return frame
+
+def get_status_frames() -> list:
+    data: list
+    new_data: list = []
+    with open('Bad-Apple.dat', encoding="utf8") as f:
+        data = f.readlines()[5:]
+    for i in range(0, len(data), 4):
+        new_data.append(data[i] + data[i+1] + data[i+2] + data[i+3])
+    return [format_string_frame(frame) for frame in new_data]
 
 client = aclient()
 tree = app_commands.CommandTree(client)
