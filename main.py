@@ -27,7 +27,6 @@ class aclient(discord.Client):
         self.index = 0
         self.status_frames: list = get_status_frames()
         self.begin_time = datetime.now()
-        self.previous_time = datetime.now()
 
     async def on_ready(self):
         """
@@ -86,19 +85,18 @@ class aclient(discord.Client):
             elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
 
-    @tasks.loop(seconds = 5.0)
+    @tasks.loop(seconds = 6.0)
     async def status_loop(self):
         await super().change_presence(activity = discord.Game(name = self.status_frames[self.index]))
         self.index += 1
-        print(f"Delay: {datetime.now() - self.previous_time}\nHash:  {hash(datetime.now())}")
-        self.previous_time = datetime.now()
         if self.index == len(self.status_frames):
             print(f"Restarted. Finish time: {datetime.now()}\nElapsed time: {datetime.now() - self.begin_time}")
+            self.begin_time = datetime.now()
             self.index = 0
 
 def format_string_frame(frame: str) -> str:
     frame_lines = frame.split("\n")
-    frame = f"_{frame_lines[0]} _________________________________ _{frame_lines[1]} _________________________________ _{frame_lines[2]} _________________________________"
+    frame = f"_{frame_lines[0]} _____________________________ _{frame_lines[1]} _____________________________ _{frame_lines[2]} _____________________________"
     return frame
 
 def get_status_frames() -> list:
