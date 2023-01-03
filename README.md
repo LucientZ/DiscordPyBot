@@ -1,17 +1,7 @@
 # DiscordPyBot
 This is a small discord bot that has basic functionality. Most of the features are for fun with the main purpose being to entertain.
 
-Everything here is run in Python 3.8.10 and above which can be found here:
-- https://www.python.org/downloads/
-
-### <ins>Dependencies</ins>
-- discord.py
-
-
-### <ins>How to setup</ins>
-Everything here is assuming that you already have a discord application set up with a bot token. Make sure the bot has all intents enabled.
-
-Before starting the bot, install python on your machine. The bot is written in python 3.8.10, but it will work with most versions of python that are supported by discord.py. Once python is installed, check to ensure you're running the desire version by entering the following command into your terminal without the dollar sign:
+This bot is made with python 3.8.
 ```
 $ python3 --version
 ```
@@ -19,15 +9,27 @@ The output should be something like the following:
 ```
 Python 3.8.10
 ```
-To install the dependencies, install discord.py by entering the following:
-```
-$ pip install 
-```
+
 Having a python environment tool like virtualenv or pipenv is recommended to keep things from conflicting from other possible python projects you may have.
 
-Once everything is setup, run main.py in the root directory with python. This can easily be done in the console using:
+### <ins>How to setup with make</ins>
+
+```bash
+$ make run
 ```
-$ python3 ./main.py
+To remove the 
+
+### <ins>How to setup manually</ins>
+Everything here is assuming that you already have a discord application set up with a bot token. Make sure the bot has all intents enabled.
+
+To install the dependencies, install the dependencies by entering the following:
+```
+$ pip install -r requirements.txt
+```
+
+Once everything is setup, run `main.py` in the `./src` directory with python. This can easily be done in the console using:
+```
+$ python3 ./src/main.py
 ```
 When the program is run, you should see this output:
 ```
@@ -51,7 +53,7 @@ Once you get the message where the bot says "I exist...", then you're all good t
 ### <ins>How to customize</ins>
 Certain commands like /fumo and /copypasta don't have much functionality by default. This is because the outputs are stored locally in the directory './textdata/'. In order to add functionality, run ./setup.py in the terminal.
 ```
-$ python3 ./setup.py
+$ python3 ./src/config.py
 ```
 Once ran, you should see an output like this:
 ```
