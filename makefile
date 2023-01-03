@@ -8,4 +8,4 @@ config:
 	python3 ./src/config.py
 
 clean: 
-	rm -rf __pycache__
+	rm -rf ./src/__pycache__
