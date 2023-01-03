@@ -156,7 +156,7 @@ def main():
     dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
 
 
-    print(f"\n{cl.BLUE}Welcome to this bot's setup application.{cl.END}")
+    print(f"\n{cl.BLUE}Welcome to this bot's config application.{cl.END}")
 
     while True:
         print(f"\n{cl.BLUE}------------------------------------------------------------{cl.END}")
