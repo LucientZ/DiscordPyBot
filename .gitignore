@@ -6,6 +6,7 @@
 *.json
 .token
 .sync
+.env
 
 # Local directories
 __pycache__/
