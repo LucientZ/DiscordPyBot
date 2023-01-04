@@ -277,10 +277,13 @@ def main():
         client.run(env_vars.TOKEN)
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
+        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
+        print("This is likely an issue with the bot token being invalid. Please recreate the .env file in ./config/.env or delete it and re-run ./src/init.py")
+        input("Press ENTER to exit program")
         exit()
     except Exception as e:
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
-        print("Terminating program...\n")
+        input("Press ENTER to exit program")
         exit()
         
 if __name__ == '__main__':
