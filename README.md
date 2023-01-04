@@ -13,11 +13,9 @@ Python 3.8.10
 Having a python environment tool like virtualenv or pipenv is recommended to keep things from conflicting from other possible python projects you may have.
 
 ### <ins>How to setup with make</ins>
+When in the environment you want to run the bot in, simply run the command `make run` in the console. This will prompt you to enter config variables for the bot including its token, status, and whether it should sync its slash commands on start.
 
-```bash
-$ make run
-```
-To remove the 
+To remove __pycache__, run the command `make clean`
 
 ### <ins>How to setup manually</ins>
 Everything here is assuming that you already have a discord application set up with a bot token. Make sure the bot has all intents enabled.
@@ -27,19 +25,20 @@ To install the dependencies, install the dependencies by entering the following:
 $ pip install -r requirements.txt
 ```
 
-Once everything is setup, run `main.py` in the `./src` directory with python. This can easily be done in the console using:
+Once the dependencies are installed run `init.py` followed by `main.py`. This can be done with the consecutive commands:
 ```
+$ python3 ./src/init.py
 $ python3 ./src/main.py
 ```
-When the program is run, you should see this output:
+When `init.py` is run, you should see this output:
 ```
-Would you like to sync the bot globally? (Only do this if the bot has been updated or a command has changed) [Y/n]
+Please enter the bot token: 
+Please enter the bot's status: 
+Should the bot sync on start? (Y/n): 
 ```
-If this is your first time running the bot, type 'y' since none of the commands should be synced yet. 
+Input the prompted information. If this is your first time running the bot, type 'y' since none of the commands should be synced yet.  
 
-Afterwards, you'll be prompted with whether or not a file named '.token' should be created in the directory. '.token' is used by the program so that the bot token does not need to be entered every single time. If you happen to only want to use the token once, type 'n'. Otherwise, type 'y'. 
-
-Once you make this decision, you'll be prompted to enter your token. If the token is valid, the bot will log in and you should get an output like this:
+When main is run and if the token is valid, the bot will log in and you should get an output like this:
 ```
 2022-11-23 22:41:10 INFO     discord.client logging in using static token
 2022-11-23 22:41:10 INFO     discord.gateway Shard ID None has connected to Gateway (Session ID: ID).   
