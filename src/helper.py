@@ -1,3 +1,13 @@
+import os
+from dotenv import load_dotenv
+load_dotenv("./config/.env")
+
+# Environment Variables
+class env_vars:
+    TOKEN = os.environ.get("TOKEN")
+    STATUS = os.environ.get("STATUS")
+    SYNC_ON_START= os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
+
 # Used for console formatting
 class cl:
     GREY = "\033[90m"
