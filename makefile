@@ -1,6 +1,5 @@
 run: setup
-	python3 ./src/init.py
-	python3 ./src/main.py
+	python3 ./src/init.py && python3 ./src/main.py
 
 setup: requirements.txt
 	pip install -r requirements.txt
