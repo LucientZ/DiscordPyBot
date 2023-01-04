@@ -10,3 +10,4 @@
 # Local directories
 __pycache__/
 legacy/
+.vscode/
