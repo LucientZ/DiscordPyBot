@@ -9,17 +9,11 @@ import datahandling as dt
 from textfunctions import *
 from helper import *
 
-
 class aclient(discord.Client):
     def __init__(self):
-        super().__init__(activity = discord.Game(name = "/help"), intents=discord.Intents.all())
+        super().__init__(activity = discord.Game(name = env_vars.STATUS), intents=discord.Intents.all())
 
-        # Asks user if global sync for commands should occur
-        choice = ""
-        while choice.lower() != "y" and choice.lower() != "n":
-            choice = input("Would you like to sync the bot globally? (Only do this if the bot has been updated or a command has changed) [Y/n] ")
-
-        if choice.lower() == "y":
+        if env_vars.SYNC_ON_START:
             self.synced = False
         else:
             self.synced = True
@@ -280,19 +274,9 @@ def main():
         dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
         # Obtains bot token and uses it to log in
-        TOKEN = dt.get_token(".token", "Logging In")
-        client.run(TOKEN)
+        client.run(env_vars.TOKEN)
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
-        print(f"{cl.RED}The program will exit.{cl.END}\n")
-        choice = input("Would you like to enter a new token? [Y/n] ")
-        while(choice.lower() != "y" and choice.lower() != "n"):
-            choice = input("\nWould you like to write a new token? [Y/n] ")    
-        if(choice.lower() == "y"):
-            TOKEN = input("Please enter bot token: ")
-            dt.write_token(TOKEN, ".token")
-        print("Terminating program...\n")
         exit()
     except Exception as e:
         print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
