@@ -1,0 +1,7 @@
+# Compiled files
+*.pyc
+
+# Local directories
+__pycache__/
+legacy/
+.vscode/
