@@ -1,13 +1,6 @@
 # Compiled files
 *.pyc
 
-# Data files
-*.dat
-*.json
-.token
-.sync
-.env
-
 # Local directories
 __pycache__/
 legacy/
