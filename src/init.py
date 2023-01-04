@@ -1,5 +1,4 @@
 import os
-from helper import *
 
 def append_env_variable(var_name: str, var_val: str, is_string: bool = False):
     with open("./config/.env", 'a') as env_file:
@@ -16,7 +15,7 @@ def ask_yes_no(query: str):
     else:
         return "False"
 
-def main():
+def query_env_vars():
     if(not os.path.exists('./config/.env')):
         TOKEN = input("Please enter the bot token: ")
         STATUS = input("Please enter the bot's status: ")
@@ -29,4 +28,4 @@ def main():
         print("./src/.env file found")
 
 if __name__ == "__main__":
-    main()
+    query_env_vars()
