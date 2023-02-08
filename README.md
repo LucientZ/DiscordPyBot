@@ -1,12 +1,15 @@
-# DiscordPyBot
-This is a small discord bot that has basic functionality. Most of the features are for fun with the main purpose being to entertain.
+# DEPRECATED
+This version of the bot is **deprecated** meaning it does not reflect current versions anymore. The bot will still work with discord.py 2.0 and above, but it is a lot harder to use and messy in organization. Please go to https://github.com/LucientZ/DiscordPyBot in order to see the latest version of my bot. Thank you.
+
+If you must use this version since it's the only version that has the bad apple playing on the status, here are the instructions for how to use the bot:
+
+# Instructions
 
 Everything here is run in Python 3.8.10 and above which can be found here:
 - https://www.python.org/downloads/
 
 ### <ins>Dependencies</ins>
 - discord.py
-
 
 ### <ins>How to setup</ins>
 Everything here is assuming that you already have a discord application set up with a bot token. Make sure the bot has all intents enabled.
@@ -21,7 +24,7 @@ Python 3.8.10
 ```
 To install the dependencies, install discord.py by entering the following:
 ```
-$ pip install 
+$ pip install discord.py
 ```
 Having a python environment tool like virtualenv or pipenv is recommended to keep things from conflicting from other possible python projects you may have.
 
