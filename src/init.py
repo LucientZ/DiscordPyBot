@@ -10,7 +10,7 @@ def ask_yes_no(query: str):
     response = ""
     while not (response.lower() == 'y' or response.lower() == 'n'):
         response = input(query)
-    if response == 'y':
+    if response.lower() == 'y':
         return "True"
     else:
         return "False"

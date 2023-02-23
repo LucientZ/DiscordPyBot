@@ -133,7 +133,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
         else:
             await ctx.response.send_message(f"{item_name} is not a valid command or feature. Type '/help' for a list of things I can do")
     else:
-        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nsus\nmorbius\nsad\ntrade\nmom\n\n__**Fun Commands**__ :sunglasses: [fun]\nboowomp\ncopypasta\nfumo\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse / as the prefix for commands.\nType /help [command] for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
+        await ctx.response.send_message(">>> __**Automatic Features**__ :sparkles: [auto]\nsus\nmorbius\nsad\ntrade\nmom\n\n__**Fun Commands**__ :sunglasses: [fun]\ncopypasta\nfumo\n\n__**Utility Commands**__ :tools: [utility]\necho\nenable\ndisable\nhelp\nping\n\nUse / as the prefix for commands.\nType /help [command] for more info on a command or feature.\nYou may also use /help for categories.\n\nTo disable or enable an entire category, enter the keyword associated with the category.\n\nAny issues with the bot should be reported on GitHub at <https://github.com/LucientZ/DiscordPyBot> or directly to LucienZ#3376")
 
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
@@ -176,6 +176,7 @@ async def ping(ctx: discord.Interaction):
         return
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
 
+
 @tree.command(name = "enable", description = "Enables a feature/command with optional flag [-c]")
 @app_commands.checks.has_permissions(administrator = True)
 async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
@@ -204,6 +205,7 @@ async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
         await ctx.response.send_message("All utility commands enabled" + msg_end)
     else:
         await ctx.response.send_message(dt.whitelist_feature(command_name, str(ctx.guild_id), channel_id))
+
 
 @tree.command(name = "disable", description = "Disables a feature/command with optional flag [-c]")
 @app_commands.checks.has_permissions(administrator = True)
@@ -234,6 +236,7 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
     else:
         await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild_id), channel_id))
 
+
 @tree.command(name="get-blacklist", description="Returns a list of blacklisted features in the channel and server")
 async def get_blacklist(ctx: discord.Interaction):
     # initializes the blacklist of server and channel
@@ -261,8 +264,7 @@ async def get_blacklist(ctx: discord.Interaction):
         msg += " - None\n\n"
 
     await ctx.response.send_message(msg)
-
-
+    
 
 def main():
     try:
