@@ -1,10 +1,71 @@
 from helper import *
-import json
+import json, sys
 from datetime import datetime
 
-##########################
-# Server Config Handling #
-##########################
+#===========================================================
+# Server Config Handling
+#===========================================================
+
+class guild_profile():
+    def __init__(self, guild_id: str) -> None:
+        self._data: dict
+        self._guild_id: str = guild_id
+        try:
+            self.load(guild_id)
+        except Exception as e:
+            raise ValueError(f"Issue initializing guild_profile object with id {guild_id}:\n{e}")
+
+    def load(self, guild_id: str) -> None:
+        try:
+            with open(f"data/guild-profiles/{guild_id}.json", "r") as f:
+                self._data: dict = json.load(f)
+        except FileNotFoundError:
+            self._data = {
+                "enabled_auto_features" : [],
+                "channels": {}
+            }
+            self.save()
+
+    def save(self) -> None:
+        with open(f"data/guild-profiles/{self._guild_id}.json", "w") as f:
+            json.dump(self._data, f, indent=2)
+    
+    def get_data(self) -> dict:
+        return self._data
+
+    def add_channel(self, channel_id: str) -> None:
+        if not channel_id in self._data["channels"]:
+            channel_data: dict = {
+                "enabled_auto_features" : []
+            }
+            self._data["channels"][channel_id] = channel_data
+            self.save()
+    
+    def guild_enable_auto(self, feature_name: str) -> None:
+        if feature_name in all_features and not (feature_name in self._data["enabled_auto_features"]):
+            self._data["enabled_auto_features"].append(feature_name)
+            self.save()
+
+    def guild_disable_auto(self, feature_name: str) -> None:
+        if feature_name in all_features and (feature_name in self._data["enabled_auto_features"]):
+            self._data["enabled_auto_features"].remove(feature_name)
+            self.save()
+
+    def channel_enable_auto(self, feature_name: str, channel_id: str) -> None:
+        if feature_name in all_features and channel_id in self._data["channels"] and not (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
+            self._data["channels"][channel_id]["enabled_auto_features"].append(feature_name)
+            self.save()
+
+    def channel_disable_auto(self, feature_name: str, channel_id: str):
+        if feature_name in all_features and channel_id in self._data["channels"] and (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
+            self._data["channels"][channel_id]["enabled_auto_features"].remove(feature_name)
+            self.save()
+
+    def is_enabled(self, feature_name: str, channel_id: str) -> bool:
+        if feature_name in self._data["enabled_auto_features"] or feature_name in self._data["channels"][channel_id]["enabled_auto_features"]:
+            return True
+        else:
+            return False
 
 def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:
     """
@@ -132,10 +193,9 @@ def add_guild(guildID: str) -> None:
     with open("configdata/guildconfig.json", "w") as f:
         json.dump(data, f, indent=2)
 
-
-############################
+#===========================================================
 # Data File Initialization #
-############################
+#===========================================================
 
 def init_guild_config(logging: bool = False) -> None:
     """
@@ -225,9 +285,10 @@ def add_json_dict_keys(filename: str, *keynames: str):
                 json.dump(data, f, indent = 2)
 
 
-#####################
-# Textdata Handling #
-#####################
+#===========================================================
+# Textdata Handling
+#===========================================================
+
 
 def add_copypasta(text: str, logging: bool = False) -> None:
     # Checks if a given string is too long
@@ -332,9 +393,9 @@ def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
         print(f"{cl.RED}ERROR: Issue removing fumo url: {e}{cl.END}")
 
 
-#################
+#===========================================================
 # Miscellaneous #
-#################
+#===========================================================
 
 def get_copypasta_list() -> list:
     with open("textdata/copypasta.dat", "r") as f:
