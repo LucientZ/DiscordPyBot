@@ -18,13 +18,17 @@
     - trade
     - mom
 3. [Server Config](#server-config)
+    - Front-End
+    - Back-End
 
 
 <a id='commands'></a>
 
 ## <ins>Commands</ins>
 
-The bot has a 
+This bot has a variety of commands with different functions. 
+
+<a id='fun-commands'></a>
 
 ### *Fun Commands*
 
@@ -34,8 +38,17 @@ The bot has a
 
 #### Echo
 
+<a id='utility-commands'></a>
 
 ### *Utility Commands*
+
+#### Enable
+
+#### Disable
+
+#### Echo
+
+#### Echo
 
 <a id='auto-features'></a>
 
@@ -45,3 +58,9 @@ The bot has a
 <a id='server-config'></a>
 
 ## <ins>Server Config</ins>
+
+### *Front-End*
+
+When the bot joins a new server, by default it will allow every command to be used and 
+
+### *Back-End*
