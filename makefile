@@ -13,3 +13,6 @@ docker:
 
 clean: 
 	rm -rf ./src/__pycache__
+
+test:
+	python3 ./src/tests.py
