@@ -1,37 +1,52 @@
 from helper import *
-import json, sys
+import json, os
 from datetime import datetime
 
 #===========================================================
 # Server Config Handling
 #===========================================================
 
-class guild_profile():
-    def __init__(self, guild_id: str) -> None:
+class GuildProfile():
+    def __init__(self, guild_id: str, valid_features: list) -> None:
         self._data: dict
         self._guild_id: str = guild_id
+        self._valid_features: list = valid_features
         try:
             self.load(guild_id)
         except Exception as e:
-            raise ValueError(f"Issue initializing guild_profile object with id {guild_id}:\n{e}")
+            raise ValueError(f"Issue initializing GuildProfile object with id '{guild_id}':\n{e}")
 
     def load(self, guild_id: str) -> None:
-        try:
+        """
+        Loads dictionary from JSON file into interface 
+        If file doesn't exist, creates said file
+        """
+        if(os.path.isfile(f"data/guild-profiles/{guild_id}.json")):
             with open(f"data/guild-profiles/{guild_id}.json", "r") as f:
                 self._data: dict = json.load(f)
-        except FileNotFoundError:
+        else:
             self._data = {
                 "enabled_auto_features" : [],
                 "channels": {}
             }
             self.save()
+        self._guild_id = guild_id
 
     def save(self) -> None:
+        """
+        Saves _data dictionary into the 
+        """
         with open(f"data/guild-profiles/{self._guild_id}.json", "w") as f:
             json.dump(self._data, f, indent=2)
     
     def get_data(self) -> dict:
         return self._data
+    
+    def get_id(self) -> str:
+        return self._guild_id
+    
+    def get_valid_features(self) -> list:
+        return self._valid_features
 
     def add_channel(self, channel_id: str) -> None:
         if not channel_id in self._data["channels"]:
@@ -42,22 +57,35 @@ class guild_profile():
             self.save()
     
     def guild_enable_auto(self, feature_name: str) -> None:
-        if feature_name in all_features and not (feature_name in self._data["enabled_auto_features"]):
+        if not feature_name in self._valid_features:
+            raise ValueError("Not a valid feature to enable")
+        
+        if not (feature_name in self._data["enabled_auto_features"]):
             self._data["enabled_auto_features"].append(feature_name)
             self.save()
 
     def guild_disable_auto(self, feature_name: str) -> None:
-        if feature_name in all_features and (feature_name in self._data["enabled_auto_features"]):
+        if feature_name in self._valid_features and (feature_name in self._data["enabled_auto_features"]):
             self._data["enabled_auto_features"].remove(feature_name)
             self.save()
 
     def channel_enable_auto(self, feature_name: str, channel_id: str) -> None:
-        if feature_name in all_features and channel_id in self._data["channels"] and not (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
+        if not feature_name in self._valid_features:
+            raise ValueError("Not a valid feature to enable")
+        elif not channel_id in self._data["channels"]:
+            self.add_channel(channel_id)
+            self.save()
+        
+        if not (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
             self._data["channels"][channel_id]["enabled_auto_features"].append(feature_name)
             self.save()
 
     def channel_disable_auto(self, feature_name: str, channel_id: str):
-        if feature_name in all_features and channel_id in self._data["channels"] and (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
+        if not channel_id in self._data["channels"]:
+            self.add_channel(channel_id)
+            self.save()
+
+        if feature_name in self._valid_features and channel_id in self._data["channels"] and (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
             self._data["channels"][channel_id]["enabled_auto_features"].remove(feature_name)
             self.save()
 
@@ -66,6 +94,7 @@ class guild_profile():
             return True
         else:
             return False
+
 
 def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:
     """
@@ -106,6 +135,7 @@ def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     else:
         return "Command does not exist"
 
+
 def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:
     """
     Deletes a command name in a blacklist linked to the specified guild id. If a channel id is specified, deletes command to a specific channel in a guild.
@@ -145,6 +175,7 @@ def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     else:
         return "Command does not exist"
 
+
 def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
     """
     Returns if a command is blacklisted in a specific channel in a guild.
@@ -169,6 +200,7 @@ def is_blacklisted(command_name: str, guildID: str, channelID: str) -> bool:
             # Return False since guilds are default false for every feature/command
             add_guild(guildID)
             return False
+
 
 def add_guild(guildID: str) -> None:
     """
@@ -219,6 +251,7 @@ def init_guild_config(logging: bool = False) -> None:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
+
 def init_file(filename: str, logging: bool = False) -> None:
     """
     Creates a file specified.
@@ -264,6 +297,7 @@ def init_json(filename: str, logging: bool = False) -> None:
         if logging:
             print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
+
 def add_json_dict_keys(filename: str, *keynames: str):
     """
     Adds keys to a json dictionary as dictionaries.
@@ -301,6 +335,7 @@ def add_copypasta(text: str, logging: bool = False) -> None:
         if logging:
             print(f"\n'{text}' added to textdata/copypasta.dat")
 
+
 def delete_copypasta(index: int, logging: bool = False) -> None:
     try:
         copypastas = get_copypasta_list()
@@ -312,6 +347,7 @@ def delete_copypasta(index: int, logging: bool = False) -> None:
                 print(f"'{copy}'removed from textdata/copypasta.dat")
     except IndexError:
         print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
+
 
 def get_json_dict(filename: str) -> dict:
     """
@@ -329,6 +365,7 @@ def get_json_dict(filename: str) -> dict:
                 data = json.load(f)
     return data
 
+
 def set_json_dict(filename: str, data: dict) -> None:
     """
     Takes a dictionary and sets a JSON as the dictionary.
@@ -342,6 +379,7 @@ def set_json_dict(filename: str, data: dict) -> None:
     """
     with open(filename, "w") as f:
             json.dump(data, f, indent=2)
+
 
 def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
     """

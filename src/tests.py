@@ -66,6 +66,22 @@ def clean():
             logger.exception(err)
 
 
+def assertRaises(func: callable, err: Exception, *args, **kwargs):
+    """
+    Similar to the basic operator assert, assertRaises tests if a function with specific parameters throws a specific exception
+
+    Arguments:
+    - func: Function to be called
+    - err: Exception to be raised
+    - *args: Any arguments that should be 
+    """
+    try:
+        func(*args, **kwargs)
+    except err:
+        return
+    except Exception as e:
+        raise AssertionError(f"Expected exception {err}, but {type(e)} raised")
+
 def get_json_dict(filename: str) -> dict:
     """
     Returns dictionary from JSON
@@ -75,24 +91,29 @@ def get_json_dict(filename: str) -> dict:
                 data = json.load(f)
     return data
 
+
 def guild_interface_init() -> None:
     """
     Tests behavior when guild profile is initialized.
     """
-    guild1 = dt.guild_profile(test_guild_ids[0])
-    guild2 = dt.guild_profile(test_guild_ids[1])
+    guild1 = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild2 = dt.GuildProfile(test_guild_ids[1], hlp.all_features)
+    
     
     # Makes sure both objects initialized correctly
     assert(guild1.get_data()["enabled_auto_features"] == [])
     assert(guild1.get_data()["channels"] == {})
+    assert(guild1.get_id() == test_guild_ids[0])
     assert(guild2.get_data()["enabled_auto_features"] == [])
     assert(guild2.get_data()["channels"] == {})
+    assert(guild2.get_id() == test_guild_ids[1])
 
     assert(guild1 != guild2)
     guild2.get_data()["enabled_auto_features"].append("test")
     assert(guild1.get_data() != guild2.get_data())
 
     guild2.load(test_guild_ids[0])
+    assert(guild2.get_id() == test_guild_ids[0])
 
     assert(guild1.get_data() == guild2.get_data())
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild1.get_data())
@@ -100,7 +121,10 @@ def guild_interface_init() -> None:
 
     
 def guild_interface_add_channel() -> None:
-    guild = dt.guild_profile(test_guild_ids[0])
+    """
+    Tests behavior when channel is added
+    """
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
 
     guild.add_channel(test_channel_ids[0])
     assert(guild.get_data()["channels"][test_channel_ids[0]] == {"enabled_auto_features": []})
@@ -111,19 +135,20 @@ def guild_interface_add_channel() -> None:
 
 
 def guild_interface_guild_enable_auto() -> None:
-    guild = dt.guild_profile(test_guild_ids[0])
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
 
     guild.guild_enable_auto("fumo") # Should add to enable list
     guild.guild_enable_auto("fumo") # Should NOT add again to enable list
-    guild.guild_enable_auto("not-real-command") # Should NOT add to enable list
-    guild.guild_enable_auto("") # Should NOT add to enable list
+
+    assertRaises(guild.guild_enable_auto, ValueError, "not-real-command")
+    assertRaises(guild.guild_enable_auto, ValueError, "")
 
     assert(guild.get_data()["enabled_auto_features"] == ["fumo"])
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
 
 
 def guild_interface_guild_disable_auto() -> None:
-    guild = dt.guild_profile(test_guild_ids[0])
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
     enabled_features = []
 
     # Enable all features iteratively
@@ -147,24 +172,36 @@ def guild_interface_guild_disable_auto() -> None:
 
 
 def guild_interface_channel_enable_auto() -> None:
-    guild = dt.guild_profile(test_guild_ids[0])
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
     guild.add_channel(test_channel_ids[0])
-    guild.add_channel(test_channel_ids[1])
 
     guild.channel_enable_auto("fumo", test_channel_ids[0])
     guild.channel_enable_auto("fumo", test_channel_ids[0])
-    guild.channel_enable_auto("not_A-real_commAnD", test_channel_ids[0])
-    guild.channel_enable_auto("", test_channel_ids[0])
+
+    assertRaises(guild.channel_enable_auto, ValueError, "not_A-real_commAnD", test_channel_ids[0])
+    assertRaises(guild.channel_enable_auto, ValueError, "", test_channel_ids[0])
 
     assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["fumo"])
-    assert(guild.get_data()["channels"][test_channel_ids[1]]["enabled_auto_features"] == [])
 
+    assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
+
+    # Same behavior with a channel that wasn't already added to the server
+    guild.channel_enable_auto("sad", test_channel_ids[1])
+    guild.channel_enable_auto("fumo", test_channel_ids[1])
+    guild.channel_enable_auto("fumo", test_channel_ids[1])
+
+    assertRaises(guild.channel_enable_auto, ValueError, "not_A-real_commAnD", test_channel_ids[1])
+    assertRaises(guild.channel_enable_auto, ValueError, "", test_channel_ids[1])
+
+    assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["fumo"])
+    assert(guild.get_data()["channels"][test_channel_ids[1]]["enabled_auto_features"] == ["sad", "fumo"])
 
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
 
 
+
 def guild_interface_channel_disable_auto() -> None:
-    guild = dt.guild_profile(test_guild_ids[0])
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
     guild.add_channel(test_channel_ids[0])
     enabled_features = []
 
