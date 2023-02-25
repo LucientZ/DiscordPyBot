@@ -24,5 +24,4 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
-          pip install pytest-cov
-          pytest ./src/tests/. --doctest-modules --cov=com --cov-report=xml --cov-report=html
+          pytest ./src/tests/.
