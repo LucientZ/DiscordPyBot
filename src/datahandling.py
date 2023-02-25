@@ -7,6 +7,9 @@ from datetime import datetime
 #===========================================================
 
 class GuildProfile():
+    """
+    Interface used for modifying and obtaining guild config information
+    """
     def __init__(self, guild_id: str, valid_features: list) -> None:
         self._data: dict
         self._guild_id: str = guild_id
@@ -34,21 +37,45 @@ class GuildProfile():
 
     def save(self) -> None:
         """
-        Saves _data dictionary into the 
+        Saves _data dictionary into the guild's respective json
         """
         with open(f"data/guild-profiles/{self._guild_id}.json", "w") as f:
             json.dump(self._data, f, indent=2)
     
     def get_data(self) -> dict:
+        """
+        Returns _data dictionary member
+        """
         return self._data
     
     def get_id(self) -> str:
+        """
+        Returns _guild_id string member
+        """
         return self._guild_id
     
     def get_valid_features(self) -> list:
+        """
+        Returns _valid_features list member
+        """
         return self._valid_features
 
+    def get_guild_enabled_features(self) -> list:
+        return self._data["enabled_auto_features"]
+    
+    def get_channel_enabled_features(self, channel_id: str) -> list:
+        """
+        Returns a list of valid features in the specific channel
+        """
+        if not channel_id in self._data["channels"]:
+            self.add_channel(channel_id)
+        
+        return self._data["channels"][channel_id]["enabled_auto_features"]
+
     def add_channel(self, channel_id: str) -> None:
+        """
+        Adds a channel to the collection of channels in the guild
+        """
         if not channel_id in self._data["channels"]:
             channel_data: dict = {
                 "enabled_auto_features" : []
@@ -57,6 +84,9 @@ class GuildProfile():
             self.save()
     
     def guild_enable_auto(self, feature_name: str) -> None:
+        """
+        Enables an automatic feature guild-wide
+        """
         if not feature_name in self._valid_features:
             raise ValueError("Not a valid feature to enable")
         
@@ -65,35 +95,49 @@ class GuildProfile():
             self.save()
 
     def guild_disable_auto(self, feature_name: str) -> None:
+        """
+        Disables an automatic feature guild-wide
+        """
         if feature_name in self._valid_features and (feature_name in self._data["enabled_auto_features"]):
             self._data["enabled_auto_features"].remove(feature_name)
             self.save()
 
     def channel_enable_auto(self, feature_name: str, channel_id: str) -> None:
+        """
+        Enables an automatic feature in a specific channel in a guild
+        """
         if not feature_name in self._valid_features:
             raise ValueError("Not a valid feature to enable")
         elif not channel_id in self._data["channels"]:
             self.add_channel(channel_id)
-            self.save()
         
         if not (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
             self._data["channels"][channel_id]["enabled_auto_features"].append(feature_name)
             self.save()
 
     def channel_disable_auto(self, feature_name: str, channel_id: str):
+        """
+        Disables an automatic feature in a specific channel in a guild
+        """
         if not channel_id in self._data["channels"]:
             self.add_channel(channel_id)
-            self.save()
 
         if feature_name in self._valid_features and channel_id in self._data["channels"] and (feature_name in self._data["channels"][channel_id]["enabled_auto_features"]):
             self._data["channels"][channel_id]["enabled_auto_features"].remove(feature_name)
             self.save()
 
     def is_enabled(self, feature_name: str, channel_id: str) -> bool:
+        """
+        Returns if an automatic feature is enabled (In the enable list)
+        """
+        if not channel_id in self._data["channels"]:
+            self.add_channel(channel_id)
+
         if feature_name in self._data["enabled_auto_features"] or feature_name in self._data["channels"][channel_id]["enabled_auto_features"]:
             return True
         else:
             return False
+        
 
 
 def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") -> str:

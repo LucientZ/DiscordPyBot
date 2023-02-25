@@ -15,5 +15,6 @@ clean:
 	rm -rf ./src/__pycache__
 
 test: setup
+	pip install -U pytest
 	python3 ./src/init.py
-	python3 ./src/tests.py
+	pytest  ./src/tests/.
