@@ -3,17 +3,27 @@ import discord
 from discord import app_commands
 import time
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 # Other Files
 import datahandling as dt
 from textfunctions import *
-from helper import *
+import helper as hlp
+
+# Environment Variables
+load_dotenv("./config/.env")
+class ENV_VARS:
+    TOKEN = os.environ.get("TOKEN")
+    STATUS = os.environ.get("STATUS")
+    SYNC_ON_START= os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
+
 
 class aclient(discord.Client):
     def __init__(self):
-        super().__init__(activity = discord.Game(name = env_vars.STATUS), intents=discord.Intents.all())
+        super().__init__(activity = discord.Game(name = ENV_VARS.STATUS), intents=discord.Intents.all())
 
-        if env_vars.SYNC_ON_START:
+        if ENV_VARS.SYNC_ON_START:
             self.synced = False
         else:
             self.synced = True
@@ -28,20 +38,20 @@ class aclient(discord.Client):
 
         # Once the bot is ready, will attempt to sync commands globally if self.synced is false
         if not self.synced:
-            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Awaiting command tree syncing...")
+            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} INFO{hlp.cl.END}     Awaiting command tree syncing...")
             a = time.time()
             # Syncs command tree globally
             await tree.sync()
             b = time.time()
-            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} INFO{cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
+            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} INFO{hlp.cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I exist as user '{self.user}' and can talk to people! :D")
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} STATUS{hlp.cl.END}   I exist as user '{self.user}' and can talk to people! :D")
 
     async def on_connect(self):
         """
         States when the bot has connected to discord
         """
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.BLUE} STATUS{cl.END}   I'm initializing myself as a bot :)")
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} STATUS{hlp.cl.END}   I'm initializing myself as a bot :)")
 
     async def on_message(self, ctx: discord.Interaction):
         """
@@ -86,12 +96,12 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
     # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user. 
     # Otherwise, give a generic response for the user to file a bug report.
     if isinstance(error, discord.app_commands.errors.CommandNotFound):
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Ignoring error in command tree:", error)
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Ignoring error in command tree:", error)
         await ctx.response.send_message(f"The command you just tried using doesn't seem to exist. This is either due to a global sync issue or my developer was too lazy to fix it. :dolphin::dolphin::dolphin:\n\nTo report an issue, please go to <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     elif isinstance(error, discord.app_commands.errors.MissingPermissions):
         await ctx.response.send_message(f"You lack the required administrator permissions for this command.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     else:
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    An error occurred in command tree. Ignoring for now:", error)
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    An error occurred in command tree. Ignoring for now:", error)
         await ctx.response.send_message(f"An error occurred while trying to process a command.\n\n[{error}]\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
 
 
@@ -190,17 +200,17 @@ async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
         msg_end = " globally in the server."
     # Whitelists all automatic features
     if "auto" in command_name.lower():
-        for command in features:
+        for command in hlp.features:
             dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All automatic features enabled" + msg_end)
     # Whitelists all fun commands
     elif "fun" in command_name.lower():
-        for command in fun_commands:
+        for command in hlp.fun_commands:
             dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All fun commands enabled" + msg_end)
     # Whitelists all utility commands
     elif "utility" in command_name.lower():
-        for command in utility_commands:
+        for command in hlp.utility_commands:
             dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All utility commands enabled" + msg_end)
     else:
@@ -220,17 +230,17 @@ async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0")
         msg_end = " globally in the server."
     # Whitelists all automatic features
     if "auto" in command_name.lower():
-        for command in features:
+        for command in hlp.features:
             dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All automatic features disabled" + msg_end)
     # Whitelists all fun commands
     elif "fun" in command_name.lower():
-        for command in fun_commands:
+        for command in hlp.fun_commands:
             dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All fun commands disabled" + msg_end)
     # Whitelists all utility commands
     elif "utility" in command_name.lower():
-        for command in utility_commands:
+        for command in hlp.utility_commands:
             dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
         await ctx.response.send_message("All utility commands disabled" + msg_end)
     else:
@@ -276,15 +286,15 @@ def main():
         dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
         # Obtains bot token and uses it to log in
-        client.run(env_vars.TOKEN)
+        client.run(ENV_VARS.TOKEN)
     except discord.LoginFailure as e:
         #This error is raised when the token is not valid
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue logging into bot:{hlp.cl.BLUE} {e}{hlp.cl.END}\n")
         print("This is likely an issue with the bot token being invalid. Please recreate the .env file in ./config/.env or delete it and re-run ./src/init.py")
         input("Press ENTER to exit program")
         exit()
     except Exception as e:
-        print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue logging into bot:{cl.BLUE} {e}{cl.END}\n")
+        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue logging into bot:{hlp.cl.BLUE} {e}{hlp.cl.END}\n")
         input("Press ENTER to exit program")
         exit()
         

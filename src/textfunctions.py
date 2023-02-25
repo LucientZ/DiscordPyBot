@@ -1,5 +1,5 @@
 import random as rand
-from helper import *
+import helper as hlp
 import datahandling as dt
 
 #Silly messages to send in channels if something funny happens. Gives a random output.

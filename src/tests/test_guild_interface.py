@@ -24,7 +24,7 @@ def clean():
         except FileNotFoundError:
             pass
         except Exception as err:
-            print(f"{hlp.cl.RED}[ERROR]{hlp.cl.END} There was an issue removing temporary guild profile file {guild_id}.json")
+            print(f"{hlp.hlp.cl.RED}[ERROR]{hlp.hlp.cl.END} There was an issue removing temporary guild profile file {guild_id}.json")
             logger.exception(err)
     
     for user_id in test_user_ids:
@@ -33,7 +33,7 @@ def clean():
         except FileNotFoundError:
             pass
         except Exception as err:
-            print(f"{hlp.cl.RED}[ERROR]{hlp.cl.END} There was an issue removing temporary user profile file {guild_id}.json")
+            print(f"{hlp.hlp.cl.RED}[ERROR]{hlp.hlp.cl.END} There was an issue removing temporary user profile file {guild_id}.json")
             logger.exception(err)
 
 

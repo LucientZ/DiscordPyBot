@@ -1,4 +1,4 @@
-from helper import *
+import helper as hlp
 import json, os
 from datetime import datetime
 
@@ -158,7 +158,7 @@ def blacklist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     if is_blacklisted(command_name, guildID, channelID):
         return f"'{command_name}' already disabled"
 
-    if command_name in all_features:
+    if command_name in hlp.all_features:
         data: dict
         with open("configdata/guildconfig.json", "r") as f:
             data = json.load(f)
@@ -197,7 +197,7 @@ def whitelist_feature(command_name: str, guildID: str, channelID: str = "\0") ->
     if not is_blacklisted(command_name, guildID, channelID):
         return f"'{command_name}' already enabled"
 
-    if command_name in all_features:
+    if command_name in hlp.all_features:
         data: dict
         with open("configdata/guildconfig.json", "r") as f:
             data = json.load(f)
@@ -290,10 +290,10 @@ def init_guild_config(logging: bool = False) -> None:
             }
             json.dump(data, f, indent=2)
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.GREEN} created :){cl.END}")
+                print(f"{hlp.cl.GREEN}{hlp.cl.BOLD}configdata/guildconfig.json{hlp.cl.END}{hlp.cl.GREEN} created :){hlp.cl.END}")
     except FileExistsError:
         if logging:
-            print(f'{cl.YELLOW}{cl.BOLD}configdata/guildconfig.json{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+            print(f'{hlp.cl.YELLOW}{hlp.cl.BOLD}configdata/guildconfig.json{hlp.cl.END}{hlp.cl.YELLOW} exists. Skipping creation of file...{hlp.cl.END}')
 
 
 def init_file(filename: str, logging: bool = False) -> None:
@@ -312,10 +312,10 @@ def init_file(filename: str, logging: bool = False) -> None:
     try:
         with open(filename, "x") as f:
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
+                print(f"{hlp.cl.GREEN}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.GREEN} created.{hlp.cl.END}")
     except FileExistsError:
         if logging:
-            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+            print(f'{hlp.cl.YELLOW}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.YELLOW} exists. Skipping creation of file...{hlp.cl.END}')
 
 def init_json(filename: str, logging: bool = False) -> None:
     """
@@ -336,10 +336,10 @@ def init_json(filename: str, logging: bool = False) -> None:
             json.dump(data, f, indent = 2)
 
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
+                print(f"{hlp.cl.GREEN}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.GREEN} created.{hlp.cl.END}")
     except FileExistsError:
         if logging:
-            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+            print(f'{hlp.cl.YELLOW}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.YELLOW} exists. Skipping creation of file...{hlp.cl.END}')
 
 
 def add_json_dict_keys(filename: str, *keynames: str):
@@ -357,7 +357,7 @@ def add_json_dict_keys(filename: str, *keynames: str):
             if not keynames[i] in data:
                 data[keynames[i]] = {}
         except Exception as e:
-            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue adding key as dictionary to {filename}: {e}")
+            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue adding key as dictionary to {filename}: {e}")
 
     with open(filename, "w") as f:
                 json.dump(data, f, indent = 2)
@@ -371,7 +371,7 @@ def add_json_dict_keys(filename: str, *keynames: str):
 def add_copypasta(text: str, logging: bool = False) -> None:
     # Checks if a given string is too long
     if len(text) > 1999:
-        print(f"{cl.RED}Text is too long to fit in a discord message.{cl.END}")
+        print(f"{hlp.cl.RED}Text is too long to fit in a discord message.{hlp.cl.END}")
         return
 
     with open("textdata/copypasta.dat", "a") as f:
@@ -390,7 +390,7 @@ def delete_copypasta(index: int, logging: bool = False) -> None:
             if logging:
                 print(f"'{copy}'removed from textdata/copypasta.dat")
     except IndexError:
-        print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
+        print(f"{hlp.cl.RED}Index number [{index}] not in range{hlp.cl.END}")
 
 
 def get_json_dict(filename: str) -> dict:
@@ -447,7 +447,7 @@ def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
         if logging:
             print(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
-        print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
+        print(f"{hlp.cl.RED}ERROR: Issue adding fumo url: {e}{hlp.cl.END}")
     
     
 def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
@@ -470,9 +470,9 @@ def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
         else:
             print(f"{name} doesn't have any umage URL's")
     except IndexError:
-        print(f"{cl.RED}ERROR: Index out of range{cl.END}")
+        print(f"{hlp.cl.RED}ERROR: Index out of range{hlp.cl.END}")
     except Exception as e:
-        print(f"{cl.RED}ERROR: Issue removing fumo url: {e}{cl.END}")
+        print(f"{hlp.cl.RED}ERROR: Issue removing fumo url: {e}{hlp.cl.END}")
 
 
 #===========================================================
