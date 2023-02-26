@@ -1,1 +1,0 @@
-This folder is used to store config data used by the bot.

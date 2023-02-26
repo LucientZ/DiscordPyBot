@@ -3,5 +3,6 @@
 
 # Local directories
 __pycache__/
+.pytest_cache/
 legacy/
 .vscode/
