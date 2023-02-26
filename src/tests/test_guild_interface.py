@@ -68,8 +68,8 @@ def test_guild_interface_init() -> None:
     """
     Tests behavior when guild profile is initialized.
     """
-    guild1 = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
-    guild2 = dt.GuildProfile(test_guild_ids[1], hlp.all_features)
+    guild1 = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
+    guild2 = dt.GuildProfile(test_guild_ids[1], hlp.auto_features)
     
     
     # Makes sure both objects initialized correctly
@@ -97,7 +97,7 @@ def test_guild_interface_add_channel() -> None:
     """
     Tests behavior when channel is added
     """
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
 
     guild.add_channel(test_channel_ids[0])
     assert(guild.get_data()["channels"][test_channel_ids[0]] == {"enabled_auto_features": []})
@@ -109,37 +109,37 @@ def test_guild_interface_add_channel() -> None:
 
 
 def test_guild_interface_guild_enable_auto() -> None:
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
 
-    guild.guild_enable_auto("fumo") # Should add to enable list
-    guild.guild_enable_auto("fumo") # Should NOT add again to enable list
+    guild.guild_enable_auto("sad") # Should add to enable list
+    guild.guild_enable_auto("sad") # Should NOT add again to enable list
 
     assertRaises(guild.guild_enable_auto, ValueError, "not-real-command")
     assertRaises(guild.guild_enable_auto, ValueError, "")
 
-    assert(guild.get_data()["enabled_auto_features"] == ["fumo"])
+    assert(guild.get_data()["enabled_auto_features"] == ["sad"])
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
     clean()
 
 
 def test_guild_interface_guild_disable_auto() -> None:
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
     enabled_features = []
 
     # Enable all features iteratively
-    for feature in hlp.all_features:
+    for feature in hlp.auto_features:
         guild.guild_enable_auto(feature)
         enabled_features.append(feature)
         assert(guild.get_data()["enabled_auto_features"] == enabled_features)
     
     # Disable all features iteratively in reverse
-    for feature in reversed(hlp.all_features):
+    for feature in reversed(hlp.auto_features):
         guild.guild_disable_auto(feature)
         enabled_features.remove(feature)
         assert(guild.get_data()["enabled_auto_features"] == enabled_features)
 
     # Attempts to disable all features again to see if any errors are thrown
-    for feature in reversed(hlp.all_features):
+    for feature in reversed(hlp.auto_features):
         guild.guild_disable_auto(feature)
         assert(guild.get_data()["enabled_auto_features"] == [])
 
@@ -148,54 +148,53 @@ def test_guild_interface_guild_disable_auto() -> None:
 
 
 def test_guild_interface_channel_enable_auto() -> None:
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
     guild.add_channel(test_channel_ids[0])
 
-    guild.channel_enable_auto("fumo", test_channel_ids[0])
-    guild.channel_enable_auto("fumo", test_channel_ids[0])
+    guild.channel_enable_auto("sad", test_channel_ids[0])
+    guild.channel_enable_auto("sad", test_channel_ids[0])
 
     assertRaises(guild.channel_enable_auto, ValueError, "not_A-real_commAnD", test_channel_ids[0])
     assertRaises(guild.channel_enable_auto, ValueError, "", test_channel_ids[0])
 
-    assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["fumo"])
+    assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["sad"])
 
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
 
     # Same behavior with a channel that wasn't already added to the server
+    guild.channel_enable_auto("sus", test_channel_ids[1])
     guild.channel_enable_auto("sad", test_channel_ids[1])
-    guild.channel_enable_auto("fumo", test_channel_ids[1])
-    guild.channel_enable_auto("fumo", test_channel_ids[1])
+    guild.channel_enable_auto("sad", test_channel_ids[1])
 
     assertRaises(guild.channel_enable_auto, ValueError, "not_A-real_commAnD", test_channel_ids[1])
     assertRaises(guild.channel_enable_auto, ValueError, "", test_channel_ids[1])
 
-    assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["fumo"])
-    assert(guild.get_data()["channels"][test_channel_ids[1]]["enabled_auto_features"] == ["sad", "fumo"])
+    assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == ["sad"])
+    assert(guild.get_data()["channels"][test_channel_ids[1]]["enabled_auto_features"] == ["sus", "sad"])
 
     assert(get_json_dict(f"./data/guild-profiles/{test_guild_ids[0]}.json") == guild.get_data())
     clean()
 
 
-
 def test_guild_interface_channel_disable_auto() -> None:
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
     guild.add_channel(test_channel_ids[0])
     enabled_features = []
 
     # Enable all features iteratively
-    for feature in hlp.all_features:
+    for feature in hlp.auto_features:
         guild.channel_enable_auto(feature, test_channel_ids[0])
         enabled_features.append(feature)
         assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == enabled_features)
     
     # Disable all features iteratively in reverse
-    for feature in reversed(hlp.all_features):
+    for feature in reversed(hlp.auto_features):
         guild.channel_disable_auto(feature, test_channel_ids[0])
         enabled_features.remove(feature)
         assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == enabled_features)
 
     # Attempts to disable all features again to see if any errors are thrown
-    for feature in reversed(hlp.all_features):
+    for feature in reversed(hlp.auto_features):
         guild.channel_disable_auto(feature, test_channel_ids[0])
         assert(guild.get_data()["channels"][test_channel_ids[0]]["enabled_auto_features"] == [])
 
@@ -203,24 +202,37 @@ def test_guild_interface_channel_disable_auto() -> None:
     clean()
 
 
-def test_guild_interface_enable_disable_guild_and_channel() -> None:
-    guild = dt.GuildProfile(test_guild_ids[0], hlp.all_features)
+def test_guild_interface_is_enabled() -> None:
+    """
+    Test the behavior of GuildProfile.is_enabled()
+    """
+    guild = dt.GuildProfile(test_guild_ids[0], hlp.auto_features)
     
-    guild.channel_enable_auto("copypasta", test_channel_ids[0])
-    guild.channel_enable_auto("fumo", test_channel_ids[0])
+    guild.channel_enable_auto("sad", test_channel_ids[0])
     guild.channel_enable_auto("sus", test_channel_ids[1])
 
-    guild.guild_enable_auto("ping")
+    guild.guild_enable_auto("sad")
     guild.guild_disable_auto("sus")
 
-    assert(guild.get_guild_enabled_features() == ["ping"])
-    assert(guild.get_channel_enabled_features(test_channel_ids[0]) == ["copypasta", "fumo"])
+    assert(guild.get_guild_enabled_features() == ["sad"])
+    assert(guild.get_channel_enabled_features(test_channel_ids[0]) == ["sad"])
     assert(guild.get_channel_enabled_features(test_channel_ids[1]) == ["sus"])
+    assert(guild.is_enabled("sad", test_channel_ids[0]))
+    assert(not guild.is_enabled("trade", test_channel_ids[0]))
+    assert(not guild.is_enabled("sus", test_channel_ids[0]))
+    assert(guild.is_enabled("sad", test_channel_ids[1]))
+    assert(guild.is_enabled("sus", test_channel_ids[1]))
 
-    guild.channel_disable_auto("copypasta", test_channel_ids[0])
-    guild.channel_disable_auto("copypasta", test_channel_ids[1])
+    guild.channel_enable_auto("trade", test_channel_ids[0])
 
-    assert(guild.get_guild_enabled_features() == ["ping"])
-    assert(guild.get_channel_enabled_features(test_channel_ids[0]) == ["fumo"])
+    assert(guild.get_guild_enabled_features() == ["sad"])
+    assert(guild.get_channel_enabled_features(test_channel_ids[0]) == ["sad", "trade"])
     assert(guild.get_channel_enabled_features(test_channel_ids[1]) == ["sus"])
+    assert(guild.is_enabled("sad", test_channel_ids[0]))
+    assert(guild.is_enabled("trade", test_channel_ids[0]))
+    assert(not guild.is_enabled("sus", test_channel_ids[0]))
+    assert(guild.is_enabled("sad", test_channel_ids[1]))
+    assert(guild.is_enabled("sus", test_channel_ids[1]))
+    assert(not guild.is_enabled("trade", test_channel_ids[1]))
+
     clean()

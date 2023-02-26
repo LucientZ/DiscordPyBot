@@ -13,6 +13,7 @@ docker:
 
 clean: 
 	rm -rf ./src/__pycache__
+	rm -rf ./src/tests/__pycache__
 
 test: setup
 	pip install -U pytest

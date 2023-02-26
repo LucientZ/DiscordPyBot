@@ -64,29 +64,30 @@ class aclient(discord.Client):
         if ctx.author.bot or ctx_size > 1500:
             return
 
-        # Current response in DMs is simply to say "Hello"
+        guild = dt.GuildProfile(str(ctx.guild.id), hlp.auto_features)
+
         if isinstance(ctx.channel, discord.channel.DMChannel):
-            await ctx.channel.send("Hello")
-        # Default response
+            await ctx.channel.send("Hi, I am a bot :)") # No behavior when in a dm channel
         else:
-            if not dt.is_blacklisted("sus", str(ctx.guild.id), str(ctx.channel.id)) and 'sus' in ctx.content.lower():
+            if guild.is_enabled("sus", str(ctx.channel.id)) and 'sus' in ctx.content.lower():
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
-            elif not dt.is_blacklisted("morbius", str(ctx.guild.id), str(ctx.channel.id)) and 'morb' in ctx.content.lower():
+            elif guild.is_enabled("morbius", str(ctx.channel.id)) and 'morb' in ctx.content.lower():
                 await ctx.channel.send(morbius())
-            elif not dt.is_blacklisted("sad", str(ctx.guild.id), str(ctx.channel.id)) and 'sad' in ctx.content.lower():
+            elif guild.is_enabled("sad", str(ctx.channel.id)) and 'sad' in ctx.content.lower():
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-            elif not dt.is_blacklisted("trade", str(ctx.guild.id), str(ctx.channel.id)) and 'trade' in ctx.content.lower():
+            elif guild.is_enabled("trade", str(ctx.channel.id)) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
-            elif not dt.is_blacklisted("mom", str(ctx.guild.id), str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
+            elif guild.is_enabled("mom", str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
 
 
 client = aclient()
 tree = app_commands.CommandTree(client)
+
 
 @tree.error
 async def on_app_command_error(ctx: discord.Interaction, error: discord.app_commands.AppCommandError):
@@ -148,9 +149,9 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
 async def copypasta(ctx: discord.Interaction):
-    if dt.is_blacklisted("copypasta", str(ctx.guild_id), str(ctx.channel_id)):
-        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
-        return
+    """
+    Returns a copypasta from a list of copypastas
+    """
     await ctx.response.send_message(copypasta_text())
 
 
@@ -159,9 +160,6 @@ async def fumo(ctx: discord.Interaction, name: str = "NA"):
     """
     Obtains a url for an image of a fumo (specified or not) and makes the bot send the url as a message
     """
-    if dt.is_blacklisted("fumo", str(ctx.guild_id), str(ctx.channel_id)):
-        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
-        return
     await ctx.response.send_message(get_fumo_url(name))
 
 
@@ -170,10 +168,10 @@ async def echo(ctx: discord.Interaction, message: str):
     """
     Makes the bot echo an input from the user as long as the message is below 1500 characters
     """
-    if dt.is_blacklisted("echo", str(ctx.guild_id), str(ctx.channel_id)) or len(message) > 1500:
-        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
-        return
-    await ctx.response.send_message(f"Echo: {message}")
+    if len(message) > 1500:
+        await ctx.response.send_message("This message is too long.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
+    else:
+        await ctx.response.send_message(f"Echo: {message}")
 
 
 @tree.command(name = "ping", description = "Responds and states client latency in milliseconds")
@@ -181,105 +179,96 @@ async def ping(ctx: discord.Interaction):
     """
     Makes the bot respond to the user and reply with the client latency in ms
     """
-    if dt.is_blacklisted("ping", str(ctx.guild_id), str(ctx.channel_id)):
-        await ctx.response.send_message("This command has been disabled in this server or channel.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
-        return
     await ctx.response.send_message(f"Pong!\nClient Latency: {int(client.latency * 1000)} ms")
 
 
-@tree.command(name = "enable", description = "Enables a feature/command with optional flag [-c]")
+@tree.command(name = "server-enable", description = "Enables an automatic feature server-wide. Enable 'all' for all features to be enabled.")
 @app_commands.checks.has_permissions(administrator = True)
-async def enable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
-    channel_id = ""
-    msg_end = ""
-    if flag == "-c":
-        channel_id = str(ctx.channel_id)
-        msg_end = " in this channel."
-    else:
-        channel_id = "\0"
-        msg_end = " globally in the server."
-    # Whitelists all automatic features
-    if "auto" in command_name.lower():
-        for command in hlp.features:
-            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All automatic features enabled" + msg_end)
-    # Whitelists all fun commands
-    elif "fun" in command_name.lower():
-        for command in hlp.fun_commands:
-            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All fun commands enabled" + msg_end)
-    # Whitelists all utility commands
-    elif "utility" in command_name.lower():
-        for command in hlp.utility_commands:
-            dt.whitelist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All utility commands enabled" + msg_end)
-    else:
-        await ctx.response.send_message(dt.whitelist_feature(command_name, str(ctx.guild_id), channel_id))
+async def server_enable(ctx: discord.Interaction, feature_name: str):
+    """
+    Enables a feature guild-wide. This is called 'server'-enable because guilds are known as servers by most people.
+    """
+    guild = dt.GuildProfile(str(ctx.guild_id), hlp.auto_features)
+    feature_name = feature_name.lower()
 
-
-@tree.command(name = "disable", description = "Disables a feature/command with optional flag [-c]")
-@app_commands.checks.has_permissions(administrator = True)
-async def disable(ctx: discord.Interaction, command_name: str, flag: str = "\0"):
-    channel_id = ""
-    msg_end = ""
-    if flag == "-c":
-        channel_id = str(ctx.channel_id)
-        msg_end = " in this channel."
+    if feature_name == 'a' or feature_name == "all":
+        for feature in hlp.auto_features:
+            guild.guild_enable_auto(feature)
+        await ctx.response.send_message("All features have been enabled guild-wide.", ephemeral = True)
     else:
-        channel_id = "\0"
-        msg_end = " globally in the server."
-    # Whitelists all automatic features
-    if "auto" in command_name.lower():
-        for command in hlp.features:
-            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All automatic features disabled" + msg_end)
-    # Whitelists all fun commands
-    elif "fun" in command_name.lower():
-        for command in hlp.fun_commands:
-            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All fun commands disabled" + msg_end)
-    # Whitelists all utility commands
-    elif "utility" in command_name.lower():
-        for command in hlp.utility_commands:
-            dt.blacklist_feature(command, str(ctx.guild_id), channel_id)
-        await ctx.response.send_message("All utility commands disabled" + msg_end)
-    else:
-        await ctx.response.send_message(dt.blacklist_feature(command_name, str(ctx.guild_id), channel_id))
-
-
-@tree.command(name="get-blacklist", description="Returns a list of blacklisted features in the channel and server")
-async def get_blacklist(ctx: discord.Interaction):
-    # initializes the blacklist of server and channel
-    server_dict = dt.get_json_dict("configdata/guildconfig.json")["guilds"][str(ctx.guild_id)]
-    server_blacklist = server_dict["blacklist"]
+        try:
+            guild.guild_enable_auto(feature_name)
+            await ctx.response.send_message(f"{feature_name} has been enabled guild-wide.", ephemeral = True)
+        except ValueError:
+            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
     
 
-    # Builds string to be sent to user
-    msg = ">>> __Server Blacklist__\n"
-    if len(server_blacklist) == 0:
-        msg += " - None\n"
+@tree.command(name = "server-disable", description = "Disables an automatic feature server-wide. Disable 'all' to disable all features.")
+@app_commands.checks.has_permissions(administrator = True)
+async def server_disable(ctx: discord.Interaction, feature_name: str):
+    """
+    Disables a feature guild-wide. This is called 'server'-disable because guilds are known as servers by most people.
+    """
+    guild = dt.GuildProfile(str(ctx.guild_id), hlp.auto_features)
+    feature_name = feature_name.lower()
+
+    if feature_name == 'a' or feature_name == "all":
+        for feature in hlp.auto_features:
+            guild.guild_disable_auto(feature)
+        await ctx.response.send_message("All features have been disabled guild-wide.", ephemeral = True)
     else:
-        for item in server_blacklist:
-            msg += f" - {item}\n"
-    msg += "\n __Channel Blacklist__\n"
+        try:
+            guild.guild_disable_auto(feature_name)
+            await ctx.response.send_message(f"{feature_name} has been disabled guild-wide.", ephemeral = True)
+        except ValueError:
+            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to disable. Valid features include {hlp.auto_features}", ephemeral = True)
 
-    try:
-        channel_blacklist = server_dict["channels"][str(ctx.channel_id)]["blacklist"]
-        if len(channel_blacklist) == 0:
-            msg += " - None\n\n"
-        else:
-            for item in channel_blacklist:
-                msg += f" - {item}\n"
-    except KeyError:
-        msg += " - None\n\n"
 
-    await ctx.response.send_message(msg)
+@tree.command(name = "channel-enable", description = "Enables an automatic feature in this channel. Enable 'all' for all features to be enabled.")
+@app_commands.checks.has_permissions(administrator = True)
+async def channel_enable(ctx: discord.Interaction, feature_name: str):
+    """
+    Enables a feature in a specific channel.
+    """
+    guild = dt.GuildProfile(str(ctx.guild_id), hlp.auto_features)
+    feature_name = feature_name.lower()
+
+    if feature_name == 'a' or feature_name == "all":
+        for feature in hlp.auto_features:
+            guild.channel_enable_auto(feature, str(ctx.channel_id))
+        await ctx.response.send_message("All features have been enabled in this channel.", ephemeral = True)
+    else:
+        try:
+            guild.channel_enable_auto(feature_name, str(ctx.channel_id))
+            await ctx.response.send_message(f"{feature_name} has been enabled in this channel.", ephemeral = True)
+        except ValueError:
+            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
+
+
+@tree.command(name = "channel-disable", description = "Disables an automatic feature in this channel. Enable 'all' for all features to be enabled.")
+@app_commands.checks.has_permissions(administrator = True)
+async def channel_disable(ctx: discord.Interaction, feature_name: str):
+    """
+    Disables a feature in a specific channel.
+    """
+    guild = dt.GuildProfile(str(ctx.guild_id), hlp.auto_features)
+    feature_name = feature_name.lower()
+
+    if feature_name == 'a' or feature_name == "all":
+        for feature in hlp.auto_features:
+            guild.channel_disable_auto(feature, str(ctx.channel_id))
+        await ctx.response.send_message("All features have been enabled in this channel.", ephemeral = True)
+    else:
+        try:
+            guild.channel_disable_auto(feature_name, str(ctx.channel_id))
+            await ctx.response.send_message(f"{feature_name} has been enabled in this channel.", ephemeral = True)
+        except ValueError:
+            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
     
 
 def main():
     try:
         # Initializes all files the bot will work with
-        dt.init_guild_config()
         dt.init_file("textdata/copypasta.dat", True)
         dt.init_json("textdata/urls.json", True)
         dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
