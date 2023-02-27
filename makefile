@@ -19,5 +19,4 @@ clean:
 
 test: venv/bin/activate
 	pip install -U pytest
-	python3 ./src/init.py
 	pytest  ./src/tests/.
