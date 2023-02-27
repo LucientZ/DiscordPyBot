@@ -1,11 +1,13 @@
-run: setup
+run: venv/bin/activate
 	python3 ./src/init.py
 	python3 ./src/main.py
 
-setup: requirements.txt
+venv/bin/activate: requirements.txt
+	python3 -m venv venv
+	./venv/bin/activate
 	pip install -r requirements.txt
 
-config:
+config: venv/bin/activate
 	python3 ./src/config.py	
 
 docker:
@@ -15,7 +17,7 @@ clean:
 	rm -rf ./src/__pycache__
 	rm -rf ./src/tests/__pycache__
 
-test: setup
+test: venv/bin/activate
 	pip install -U pytest
 	python3 ./src/init.py
 	pytest  ./src/tests/.
