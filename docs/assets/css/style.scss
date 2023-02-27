@@ -1,6 +1,13 @@
 ---
 ---
 @import "{{ site.theme }}";
+
 body{
     background-color: rgb(230, 230, 230);
+}
+
+div.markdown-body{
+    background-color: white;
+    border-radius: 20px;
+    padding-top: 3vh;
 }
