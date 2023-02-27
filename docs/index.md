@@ -70,7 +70,7 @@ Input:
     /fumo name:cirno
 Output:
 ```
-![Example Cirno Fumo Image](https://github.com/LucientZ/DiscordPyBot/blob/main/docs/assets/Cirno_Example.jpg)
+![Example Cirno Fumo Image](https://github.com/LucientZ/DiscordPyBot/blob/main/docs/assets/Cirno_Example.jpg?raw=true)
 
 #### echo
 
