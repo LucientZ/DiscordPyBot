@@ -70,9 +70,7 @@ Input:
     /fumo name:cirno
 Output:
 ```
-<picture>
-<img alt="Cirno Example Image" src="Cirno_Example.jpg", width="250px">
-</picture>
+![Example Cirno Fumo Image](/docs/assets/Cirno_Example.jpg)
 
 #### echo
 
