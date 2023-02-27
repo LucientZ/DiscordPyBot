@@ -115,7 +115,7 @@ async def help(ctx: discord.Interaction, item_name: str = "NA"):
     """
     Returns information about the bot in general or about a specific command/feature/category.
     """
-    await ctx.response.send_message(">>> This command is currently being reworked. Stay tuned for a better help menu!")
+    await ctx.response.send_message(">>> This command is currently being reworked. Stay tuned for a better help menu!\n\nDocumentation: <https://lucientz.github.io/DiscordPyBot>")
 
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
