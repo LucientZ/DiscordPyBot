@@ -123,6 +123,21 @@ Output:
     Client Latency 62 ms
 ```
 
+#### help
+
+This command is currently being reworked. Currently, returns a message linking to this page.
+
+Ex:
+
+```
+Input:
+    /help
+Output:
+    This command is currently being reworked. Stay tuned for a better help menu!
+
+    Documentation: https://lucientz.github.io/DiscordPyBot
+```
+
 <a id='auto-features'></a>
 
 ## Auto Features
