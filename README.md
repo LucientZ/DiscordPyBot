@@ -1,5 +1,5 @@
 # DiscordPyBot
-This is a small discord bot that has basic functionality. Most of the features are for fun with the main purpose being to entertain.
+This is a small discord bot that has basic functionality. Most of the features are for fun with the main purpose being to entertain. Documentation can be found here: https://lucientz.github.io/DiscordPyBot/
 
 This bot is made with python 3.8.
 ```
