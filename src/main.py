@@ -64,11 +64,10 @@ class aclient(discord.Client):
         if ctx.author.bot or ctx_size > 1500:
             return
 
-        guild = dt.GuildProfile(str(ctx.guild.id), hlp.auto_features)
-
         if isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.channel.send("Hi, I am a bot :)") # No behavior when in a dm channel
         else:
+            guild = dt.GuildProfile(str(ctx.guild.id), hlp.auto_features)
             if guild.is_enabled("sus", str(ctx.channel.id)) and 'sus' in ctx.content.lower():
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
