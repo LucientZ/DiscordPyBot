@@ -71,7 +71,7 @@ Input:
 Output:
 ```
 
-![Example Cirno Fumo Image](https://github.com/LucientZ/DiscordPyBot/blob/main/docs/assets/img/Cirno_Example.jpg?raw=true)
+![Example Cirno Fumo Image](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Cirno_Example.jpg)
 
 #### echo
 
