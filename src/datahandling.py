@@ -1,39 +1,63 @@
-import helper as hlp
 import json, os
+import helper as hlp
 from datetime import datetime
+from typing import Union
 
 #===========================================================
 # Server Config Handling
 #===========================================================
 
+class UserProfile():
+    def __init__(self, user_id: Union[str, int]) -> None:
+        self._user_id = str(user_id)
+
+    def load(self) -> None:
+        pass
+
+    def save(self) -> None:
+        """
+        Saves _data dictionary into the user's respective json
+        """
+        with open(f"data/user-profiles/{self._user_id}.json", "w") as f:
+            json.dump(self._data, f, indent=2)
+
 class GuildProfile():
     """
     Interface used for modifying and obtaining guild config information
     """
-    def __init__(self, guild_id: str, valid_features: list) -> None:
+    def __init__(self, guild_id: Union[str, int], valid_features: list = []) -> None:
         self._data: dict
-        self._guild_id: str = guild_id
+        self._guild_id: str = str(guild_id)
         self._valid_features: list = valid_features
         try:
-            self.load(guild_id)
+            self.load(self._guild_id)
         except Exception as e:
-            raise ValueError(f"Issue initializing GuildProfile object with id '{guild_id}':\n{e}")
+            raise ValueError(f"Issue initializing GuildProfile object with id '{self._guild_id}':\n{e}")
 
-    def load(self, guild_id: str) -> None:
+    def load(self, guild_id: Union[str, int]) -> None:
         """
         Loads dictionary from JSON file into interface 
         If file doesn't exist, creates said file
         """
+
+        data_template = {
+            "enabled_auto_features" : [],
+            "channels": {}
+        }
+
         if(os.path.isfile(f"data/guild-profiles/{guild_id}.json")):
             with open(f"data/guild-profiles/{guild_id}.json", "r") as f:
                 self._data: dict = json.load(f)
         else:
-            self._data = {
-                "enabled_auto_features" : [],
-                "channels": {}
-            }
-            self.save()
-        self._guild_id = guild_id
+            self._data = data_template
+        
+        # Deals with malformed data or data that hasn't been updated to the current template
+        for key in data_template:
+            if not key in self._data:
+                self._data[key] = data_template[key]
+        self.save()
+
+        self._guild_id = str(guild_id)
 
     def save(self) -> None:
         """
@@ -63,25 +87,16 @@ class GuildProfile():
     def get_guild_enabled_features(self) -> list:
         return self._data["enabled_auto_features"]
     
-    def get_channel_enabled_features(self, channel_id: str) -> list:
+    def get_channel_enabled_features(self, channel_id: Union[str, int]) -> list:
         """
         Returns a list of valid features in the specific channel
         """
+        channel_id = str(channel_id)
+
         if not channel_id in self._data["channels"]:
             self.add_channel(channel_id)
         
         return self._data["channels"][channel_id]["enabled_auto_features"]
-
-    def add_channel(self, channel_id: str) -> None:
-        """
-        Adds a channel to the collection of channels in the guild
-        """
-        if not channel_id in self._data["channels"]:
-            channel_data: dict = {
-                "enabled_auto_features" : []
-            }
-            self._data["channels"][channel_id] = channel_data
-            self.save()
     
     def guild_enable_auto(self, feature_name: str) -> None:
         """
@@ -102,10 +117,25 @@ class GuildProfile():
             self._data["enabled_auto_features"].remove(feature_name)
             self.save()
 
-    def channel_enable_auto(self, feature_name: str, channel_id: str) -> None:
+    def add_channel(self, channel_id: Union[str, int]) -> None:
+        """
+        Adds a channel to the collection of channels in the guild
+        """
+        channel_id = str(channel_id)
+
+        if not channel_id in self._data["channels"]:
+            channel_data: dict = {
+                "enabled_auto_features" : []
+            }
+            self._data["channels"][channel_id] = channel_data
+            self.save()
+
+    def channel_enable_auto(self, feature_name: str, channel_id: Union[str, int]) -> None:
         """
         Enables an automatic feature in a specific channel in a guild
         """
+        channel_id = str(channel_id)
+
         if not feature_name in self._valid_features:
             raise ValueError("Not a valid feature to enable")
         elif not channel_id in self._data["channels"]:
@@ -115,10 +145,12 @@ class GuildProfile():
             self._data["channels"][channel_id]["enabled_auto_features"].append(feature_name)
             self.save()
 
-    def channel_disable_auto(self, feature_name: str, channel_id: str):
+    def channel_disable_auto(self, feature_name: str, channel_id: Union[str, int]):
         """
         Disables an automatic feature in a specific channel in a guild
         """
+        channel_id = str(channel_id)
+
         if not channel_id in self._data["channels"]:
             self.add_channel(channel_id)
 
@@ -126,10 +158,12 @@ class GuildProfile():
             self._data["channels"][channel_id]["enabled_auto_features"].remove(feature_name)
             self.save()
 
-    def is_enabled(self, feature_name: str, channel_id: str) -> bool:
+    def is_enabled(self, feature_name: str, channel_id: Union[str, int]) -> bool:
         """
         Returns if an automatic feature is enabled (In the enable list)
         """
+        channel_id = str(channel_id)
+
         if not channel_id in self._data["channels"]:
             self.add_channel(channel_id)
 

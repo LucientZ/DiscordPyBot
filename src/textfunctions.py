@@ -16,6 +16,7 @@ def copypasta_text() -> str:
     texts = dt.get_copypasta_list()
     return texts[rand.randrange(0,len(texts))]
 
+
 def morbius() -> str:
     """
     Returns a random string from a list of copypastas that are Morbius themed

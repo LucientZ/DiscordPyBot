@@ -1,0 +1,22 @@
+# Coverage file to configure coverage report
+[run]
+source = src
+branch = True
+omit = 
+        *config.py*
+        *init.py*
+        *main.py
+
+
+[report]
+omit = 
+        *test*
+
+
+exclude_lines = 
+    # This will only be used if a different error is to be thrown, meaning an error will still be thrown
+    except Exception as e:
+
+
+[html]
+directory = html_coverage_report

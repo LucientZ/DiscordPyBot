@@ -22,8 +22,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade setuptools
           pip install --upgrade wheel
-      - name: Test with pytest
+      - name: Test with pytest and Coverage Report
         run: make test
+
 
   windows-tests:
 
@@ -45,7 +46,9 @@ jobs:
           pip install --upgrade setuptools
           pip install --upgrade wheel
           pip install -r requirements.txt
-      - name: Test with pytest
+      - name: Test with pytest and Coverage Report
         run: |
           pip install -U pytest
-          pytest  ./src/tests/.
+          pip install -u
+          coverage run -m pytest ./src/tests/.
+          coverage report -m
