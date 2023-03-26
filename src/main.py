@@ -1,10 +1,9 @@
 # Packages
-import discord
-from discord import app_commands
-import time
+import discord, os, logging, logging.handlers, time
 from datetime import datetime
-import os
+from discord import app_commands
 from dotenv import load_dotenv
+
 
 # Other Files
 import datahandling as dt
@@ -19,6 +18,32 @@ class ENV_VARS:
     SYNC_ON_START= os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
 
 
+# Logger setup
+logger = logging.getLogger('main')
+logger.setLevel(logging.DEBUG)
+dt_fmt = '%Y-%m-%d %H:%M:%S'
+
+log_file_formatter = logging.Formatter('[{asctime}] [{levelname:<8}] {name}: {message}', dt_fmt, style='{')
+log_file_handler = logging.handlers.RotatingFileHandler(
+    filename='discord.log',
+    encoding='utf-8',
+    maxBytes=32 * 1024 * 1024,  # 32 MiB
+    backupCount=4
+)
+log_file_handler.setFormatter(log_file_formatter)
+
+logger.addHandler(log_file_handler)
+
+
+# Printable logs
+def print_info(msg: str):
+    print(f"{hlp.cl.GREY}{datetime.now()} {hlp.cl.BLUE}[INFO] {hlp.cl.END} {msg}")
+
+def print_error(msg: str):
+    print(f"{hlp.cl.GREY}{datetime.now()} {hlp.cl.RED}[ERROR]{hlp.cl.END} {msg}")
+
+
+# Discord client child class
 class aclient(discord.Client):
     def __init__(self):
         super().__init__(activity = discord.Game(name = ENV_VARS.STATUS), intents=discord.Intents.all())
@@ -38,20 +63,22 @@ class aclient(discord.Client):
 
         # Once the bot is ready, will attempt to sync commands globally if self.synced is false
         if not self.synced:
-            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} INFO{hlp.cl.END}     Awaiting command tree syncing...")
+            logger.info("Awaiting command tree syncing...")
             a = time.time()
             # Syncs command tree globally
             await tree.sync()
             b = time.time()
-            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} INFO{hlp.cl.END}     Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
+            logger.info(f"Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
             self.synced = True
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} STATUS{hlp.cl.END}   I exist as user '{self.user}' and can talk to people! :D")
-
+        logger.info(f"I exist as user '{self.user}' and can talk to people! :D")
+        print_info(f"I exist as user '{self.user}' and can talk to people! :D")
+        
     async def on_connect(self):
         """
         States when the bot has connected to discord
         """
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.BLUE} STATUS{hlp.cl.END}   I'm initializing myself as a bot :)")
+        logger.info("I'm initializing myself as a bot...")
+        print_info("I'm initializing myself as a bot...")
 
     async def on_message(self, ctx: discord.Interaction):
         """
@@ -96,12 +123,13 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
     # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user. 
     # Otherwise, give a generic response for the user to file a bug report.
     if isinstance(error, discord.app_commands.errors.CommandNotFound):
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Ignoring error in command tree:", error)
+        logger.error(f"Ignoring error in command tree: {error}")
         await ctx.response.send_message(f"The command you just tried using doesn't seem to exist. This is either due to a global sync issue or my developer was too lazy to fix it. :dolphin::dolphin::dolphin:\n\nTo report an issue, please go to <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     elif isinstance(error, discord.app_commands.errors.MissingPermissions):
         await ctx.response.send_message(f"You lack the required administrator permissions for this command.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
     else:
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    An error occurred in command tree. Ignoring for now:", error)
+        logger.error(f"An error occurred in command tree: {error}")
+        print_error(f"An error occurred in command tree: {error}")
         await ctx.response.send_message(f"An error occurred while trying to process a command.\n\n[{error}]\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
 
 
@@ -245,15 +273,17 @@ def main():
         dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
         # Obtains bot token and uses it to log in
-        client.run(ENV_VARS.TOKEN)
-    except discord.LoginFailure as e:
+        client.run(ENV_VARS.TOKEN, log_handler = log_file_handler, log_formatter =log_file_formatter)
+    except discord.LoginFailure as error:
         #This error is raised when the token is not valid
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue logging into bot:{hlp.cl.BLUE} {e}{hlp.cl.END}\n")
+        logger.error(f"Login failure while attempting to log into bot: {error}")
+        print_error(f"Login failure while attempting to log into bot: {error}")
         print("This is likely an issue with the bot token being invalid. Please recreate the .env file in ./config/.env or delete it and re-run ./src/init.py")
         input("Press ENTER to exit program")
         exit()
     except Exception as e:
-        print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue logging into bot:{hlp.cl.BLUE} {e}{hlp.cl.END}\n")
+        logger.error(f"{hlp.cl.GREY}{datetime.now()} {hlp.cl.RED}[ERROR]{hlp.cl.END} Issue logging into bot: {error}")
+        print_error(f"Issue logging into bot: {error}")
         input("Press ENTER to exit program")
         exit()
         
