@@ -1,12 +1,14 @@
 # Compiled files
 *.pyc
 
-# Data files
+# Local data files that shouldn't be in the repo
 *.dat
 *.json
+*.log
 .token
 .sync
 .env
+.coverage
 
 # Local directories
 __pycache__/

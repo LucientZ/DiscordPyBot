@@ -5,7 +5,7 @@ run: venv/bin/activate
 venv/bin/activate: requirements.txt
 	python3 -m venv venv
 	. ./venv/bin/activate
-	pip install -r requirements.txt
+	pip install -U -r requirements.txt
 
 config: venv/bin/activate
 	python3 ./src/config.py	
@@ -16,7 +16,10 @@ docker:
 clean: 
 	rm -rf ./src/__pycache__
 	rm -rf ./src/tests/__pycache__
+	rm .coverage
 
 test: venv/bin/activate
 	pip install -U pytest
-	pytest  ./src/tests/.
+	pip install -U coverage
+	coverage run -m pytest ./src/tests/.
+	coverage report -m

@@ -150,7 +150,6 @@ def fumo_widget() -> None:
 
 def main():
     # Initializes all files that are to be worked with
-    dt.init_guild_config()
     dt.init_file("textdata/copypasta.dat")
     dt.init_json("textdata/urls.json")
     dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")

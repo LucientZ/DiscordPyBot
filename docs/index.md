@@ -94,11 +94,11 @@ Output:
 
 #### server-enable
 
-Enables an [auto feature](#auto-features) throughout the entire server.
+Enables an [auto feature](#auto-features) throughout the entire server. Note that this does *not* affect features enabled in specific channels.
 
 #### server-disable
 
-Disables an [auto features](#auto-features) throughout the entire server. This will only work on features that have previously been enabled throughout the server and does not keep a feature from being enabled. 
+Disables an [auto features](#auto-features) throughout the entire server. This will only work on features that have previously been enabled throughout the server and does not keep a feature from being enabled in the future. 
 
 #### channel-enable
 
@@ -106,7 +106,7 @@ Enables an [auto feature](#auto-features) in the specific channel this command i
 
 #### channel-disable
 
-Disables an [auto feature](#auto-features) in the specific channel this command is used in. This will only work on features that have previously been enabled throughout the server and does not keep a feature from being enabled.
+Disables an [auto feature](#auto-features) in the specific channel this command is used in. This will only work on features that have previously been enabled in the channel and does not keep a feature from being enabled in the future.
 
 #### ping
 
