@@ -114,28 +114,18 @@ A classic among discord bots. Returns `Pong!` upon recieving the command and cli
 
 Ex:
 
-```
-Input: 
-    /ping
-Output:
-    Pong!
-    Client Latency 62 ms
-```
+![Example of /ping being used](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Ping_Example.jpg)
 
 #### help
 
-This command is currently being reworked. Currently, returns a message linking to this page.
+Creates a help menu which can be used to get a brief look into how commands/features work. If no argument is provided, it simply provides a list of commands/features
 
 Ex:
 
-```
-Input:
-    /help
-Output:
-    This command is currently being reworked. Stay tuned for a better help menu!
+![Example of /help being used in multiple contexts](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Help_Example.jpg)
 
-    Documentation: https://lucientz.github.io/DiscordPyBot
-```
+- The first instance shows /help with an empty argument
+- The second instance shows the /help menu for the command `help`
 
 <a id='auto-features'></a>
 
