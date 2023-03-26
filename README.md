@@ -40,12 +40,8 @@ Input the prompted information. If this is your first time running the bot, type
 
 When main is run and if the token is valid, the bot will log in and you should get an output like this:
 ```
-2022-11-23 22:41:10 INFO     discord.client logging in using static token
-2022-11-23 22:41:10 INFO     discord.gateway Shard ID None has connected to Gateway (Session ID: ID).   
-2022-11-23 22:41:10 STATUS   I'm initializing myself as a bot :)
-2022-11-23 22:41:12 INFO     Awaiting command tree syncing...
-2022-11-23 22:41:13 INFO     Tree Synced. Elapsed time: 0.18 seconds
-2022-11-23 22:41:13 STATUS   I exist as user 'BOT_ID' and can talk to people! :D
+2023-03-26 03:16:21.975304 [INFO]  I'm initializing myself as a bot...
+2023-03-26 03:16:24.182726 [INFO]  I exist as user 'Evolved but Untamed#1424' and can talk to people! :D
 ```
 Once you get the message where the bot says "I exist...", then you're all good to go.
 
