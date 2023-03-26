@@ -43,7 +43,9 @@ def print_error(msg: str):
     print(f"{hlp.cl.GREY}{datetime.now()} {hlp.cl.RED}[ERROR]{hlp.cl.END} {msg}")
 
 
-# Discord client child class
+#=====================================================
+# Discord Client Section
+#=====================================================
 class aclient(discord.Client):
     def __init__(self):
         super().__init__(activity = discord.Game(name = ENV_VARS.STATUS), intents=discord.Intents.all())
@@ -96,8 +98,8 @@ class aclient(discord.Client):
         else:
             guild = dt.GuildProfile(ctx.guild.id, hlp.auto_features)
             if guild.is_enabled("sus", ctx.channel.id) and 'sus' in ctx.content.lower():
-                if(not ctx_size > 665):
-                    await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
+                if(not ctx_size > 250):
+                    await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','***'))
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
@@ -112,6 +114,12 @@ class aclient(discord.Client):
 
 
 client = aclient()
+
+
+#=====================================================
+# Command Tree Section
+#=====================================================
+
 tree = app_commands.CommandTree(client)
 
 
@@ -133,16 +141,58 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
         await ctx.response.send_message(f"An error occurred while trying to process a command.\n\n[{error}]\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral = True)
 
 
-####################
-# Commands Section #
-####################
+class HelpButtons(discord.ui.View):
+    def __init__(self, *, timeout = 180):
+        super().__init__(timeout = timeout)
+
+    @discord.ui.button(label="1", style = discord.ButtonStyle.blurple)
+    async def left_button(self, ctx: discord.Interaction, button: discord.ui.Button):
+        embed = discord.Embed(title = "Help Menu (1/2)", description = "List of commands", color = 0xffab00)
+        embed.add_field(name = "Fun Commands", value = "- copypasta\n- fumo\n- echo", inline=False)
+        embed.add_field(name = "Utility Commands", value = "- server-enable\n- server-disable\n- channel-enable\n- channel-disable\n- help\n- ping", inline=False)
+        await ctx.response.edit_message(embed = embed, view = self)
+
+    @discord.ui.button(label="2", style = discord.ButtonStyle.blurple)
+    async def right_button(self, ctx: discord.Interaction, button: discord.ui.Button):
+        embed = discord.Embed(title = "Help Menu (2/2)", description = "List of features that happen passively", color = 0xffab00)
+        embed.add_field(name = "Auto Features", value = "- all\n- sus\n- morbius\n- sad\n- trade\n- mom", inline = False)
+        await ctx.response.edit_message(embed = embed, view = self)
 
 @tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
-async def help(ctx: discord.Interaction, item_name: str = "NA"):
+async def help(ctx: discord.Interaction, item_name: str = ""):
     """
     Returns information about the bot in general or about a specific command/feature/category.
     """
-    await ctx.response.send_message(">>> This command is currently being reworked. Stay tuned for a better help menu!\n\nDocumentation: <https://lucientz.github.io/DiscordPyBot>")
+    item_descriptions = {
+        "copypasta": "Returns a copypasta from a list of copypastas added by the bot host.",
+        "fumo": "Returns an image of a fumo (plush dolls of characters from the series “Touhou”).",
+        "echo": "Echos specified text from a user. This works similarly to echo in a command prompt.",
+        "server-enable": "Enables an auto feature throughout the entire server. This does not affect features enabled in specific channels.",
+        "server-disable": "Disables an auto features throughout the entire server. This will only work on features that have previously been enabled throughout the server and does not keep a feature from being enabled.",
+        "channel-enable": "Enables an auto feature in the specific channel this command is used in.",
+        "channel-disable": "Disables an auto feature in the specific channel this command is used in. This will only work on features that have previously been enabled throughout the server and does not keep a feature from being enabled.",
+        "ping": "A classic among discord bots. Returns Pong! upon recieving the command and client latency.",
+        "help": "Returns the very menu you're using! Can be used to browse commands, features, and read up on specific features the bot has to offer.",
+        "all": "Every auto feature in one. This can be useful when attempting to enable or disable every automatic feature at once.",
+        "sus": "When a message contains the string 'sus', responds with the original message with 'sus' bolded and italicized.",
+        "morbius": "When a message contains the string 'morb', responds with a morbius quote.",
+        "sad": "When a message contains the string 'sad', responds with a sad image of Spongebob.",
+        "trade": "When a message contains the string 'trade', responds with 'Yeah, I trade :smile:'",
+        "mom": "When a message ends with the word 'do', 'doing', 'done', etc… responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'"
+    }
+
+    if(item_name == ""):
+        embed = discord.Embed(title = "Help Menu (1/2)", description = "List of commands", color = 0xffab00)
+        embed.add_field(name = "Fun Commands", value = "- copypasta\n- fumo\n- echo", inline=False)
+        embed.add_field(name = "Utility Commands", value = "- server-enable\n- server-disable\n- channel-enable\n- channel-disable\n- help\n- ping", inline=False)
+        view = HelpButtons()
+    else:
+        embed = discord.Embed(title = item_name.lower(), description = item_descriptions.get(item_name.lower(), "Command could not be found."), color = 0xffab00)
+        view = discord.ui.View()
+
+    view.add_item(discord.ui.Button(label="Documentation", style = discord.ButtonStyle.link, url = "https://lucientz.github.io/DiscordPyBot"))
+
+    await ctx.response.send_message(embed = embed, view = view)
 
 
 @tree.command(name = "copypasta", description = "Returns a copypasta from a select list the bot has.")
