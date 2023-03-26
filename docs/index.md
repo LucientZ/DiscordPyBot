@@ -114,7 +114,7 @@ A classic among discord bots. Returns `Pong!` upon recieving the command and cli
 
 Ex:
 
-![Example of /ping being used](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Ping_Example.jpg)
+![Example of /ping being used](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Ping_Example.png)
 
 #### help
 
@@ -122,7 +122,7 @@ Creates a help menu which can be used to get a brief look into how commands/feat
 
 Ex:
 
-![Example of /help being used in multiple contexts](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Help_Example.jpg)
+![Example of /help being used in multiple contexts](https://raw.githubusercontent.com/LucientZ/DiscordPyBot/main/docs/assets/img/Help_Example.png)
 
 - The first instance shows /help with an empty argument
 - The second instance shows the /help menu for the command `help`
