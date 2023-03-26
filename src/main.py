@@ -95,19 +95,19 @@ class aclient(discord.Client):
             await ctx.channel.send("Hi, I am a bot :)") # No behavior when in a dm channel
         else:
             guild = dt.GuildProfile(ctx.guild.id, hlp.auto_features)
-            if guild.is_enabled("sus", str(ctx.channel.id)) and 'sus' in ctx.content.lower():
+            if guild.is_enabled("sus", ctx.channel.id) and 'sus' in ctx.content.lower():
                 if(not ctx_size > 665):
                     await ctx.channel.send("Amogus detected: " + format_msg(ctx.content, 'sus','**'))
                 else:
                     await ctx.channel.send("__Amogus Detected in Message__")
                     await ctx.channel.send(ctx.content)
-            elif guild.is_enabled("morbius", str(ctx.channel.id)) and 'morb' in ctx.content.lower():
+            elif guild.is_enabled("morbius", ctx.channel.id) and 'morb' in ctx.content.lower():
                 await ctx.channel.send(morbius())
-            elif guild.is_enabled("sad", str(ctx.channel.id)) and 'sad' in ctx.content.lower():
+            elif guild.is_enabled("sad", ctx.channel.id) and 'sad' in ctx.content.lower():
                 await ctx.channel.send("https://cdn.discordapp.com/attachments/390692666897203211/970382349617483856/293.jpg")
-            elif guild.is_enabled("trade", str(ctx.channel.id)) and 'trade' in ctx.content.lower():
+            elif guild.is_enabled("trade", ctx.channel.id) and 'trade' in ctx.content.lower():
                 await ctx.channel.send("yeah i trade :smile:")
-            elif guild.is_enabled("mom", str(ctx.channel.id)) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
+            elif guild.is_enabled("mom", ctx.channel.id) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
 
 
@@ -196,9 +196,9 @@ async def server_enable(ctx: discord.Interaction, feature_name: str):
     else:
         try:
             guild.guild_enable_auto(feature_name)
-            await ctx.response.send_message(f"{feature_name} has been enabled guild-wide.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' has been enabled guild-wide.", ephemeral = True)
         except ValueError:
-            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
     
 
 @tree.command(name = "server-disable", description = "Disables an automatic feature server-wide. Disable 'all' to disable all features.")
@@ -213,13 +213,13 @@ async def server_disable(ctx: discord.Interaction, feature_name: str):
     if feature_name == 'a' or feature_name == "all":
         for feature in hlp.auto_features:
             guild.guild_disable_auto(feature)
-        await ctx.response.send_message("All features have been disabled guild-wide.", ephemeral = True)
+        await ctx.response.send_message("All features have been disabled guild-wide (This does not affect features enabled in specific channels).", ephemeral = True)
     else:
         try:
             guild.guild_disable_auto(feature_name)
-            await ctx.response.send_message(f"{feature_name} has been disabled guild-wide.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' has been disabled guild-wide (This does not affect channels that have this feature enabled).", ephemeral = True)
         except ValueError:
-            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to disable. Valid features include {hlp.auto_features}", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to disable. Valid features include {hlp.auto_features}", ephemeral = True)
 
 
 @tree.command(name = "channel-enable", description = "Enables an automatic feature in this channel. Enable 'all' for all features to be enabled.")
@@ -238,9 +238,9 @@ async def channel_enable(ctx: discord.Interaction, feature_name: str):
     else:
         try:
             guild.channel_enable_auto(feature_name, str(ctx.channel_id))
-            await ctx.response.send_message(f"{feature_name} has been enabled in this channel.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' has been enabled in this channel.", ephemeral = True)
         except ValueError:
-            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
 
 
 @tree.command(name = "channel-disable", description = "Disables an automatic feature in this channel. Enable 'all' for all features to be enabled.")
@@ -255,13 +255,13 @@ async def channel_disable(ctx: discord.Interaction, feature_name: str):
     if feature_name == 'a' or feature_name == "all":
         for feature in hlp.auto_features:
             guild.channel_disable_auto(feature, str(ctx.channel_id))
-        await ctx.response.send_message("All features have been enabled in this channel.", ephemeral = True)
+        await ctx.response.send_message("All features have been disabled in this channel.", ephemeral = True)
     else:
         try:
             guild.channel_disable_auto(feature_name, str(ctx.channel_id))
-            await ctx.response.send_message(f"{feature_name} has been enabled in this channel.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' has been disabled in this channel.", ephemeral = True)
         except ValueError:
-            await ctx.response.send_message(f"{feature_name} is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
+            await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
     
 
 def main():

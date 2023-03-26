@@ -12,17 +12,6 @@ string_channel_ids = list(map(str, integer_channel_ids))
 string_user_ids = list(map(str, integer_user_ids))
 
 
-class cl:
-    GREY = "\033[90m"
-    BLUE = "\033[94m"
-    YELLOW = "\033[93m"
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    MAGENTA = "\033[35"
-    BOLD = "\033[1m"
-    END = "\033[0m" # Resets output to default
-
-
 def clean():
     """
     Removes temporary files created for function testing.
