@@ -53,7 +53,7 @@ def get_fumo_url(character: str) -> str:
     """
     character = character.lower()
 
-    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
 
     if character in fumos:
         return fumos[character][rand.randrange(0,len(fumos[character]))]

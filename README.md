@@ -46,7 +46,7 @@ When main is run and if the token is valid, the bot will log in and you should g
 Once you get the message where the bot says "I exist...", then you're all good to go.
 
 ### <ins>How to customize</ins>
-Certain commands like /fumo and /copypasta don't have much functionality by default. This is because the outputs are stored locally in the directory './textdata/'. In order to add functionality, run ./setup.py in the terminal.
+Certain commands like /fumo and /copypasta don't have much functionality by default. This is because the outputs are stored locally in the directory './data/textdata/'. In order to add functionality, run ./setup.py in the terminal.
 ```
 $ python3 ./src/config.py
 ```

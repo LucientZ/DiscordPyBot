@@ -23,7 +23,7 @@ def print_fumo_names() -> None:
     """
     Prints each fumo name in an easily readable format
     """
-    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
     print()
     i = 0
     for name in fumos:
@@ -35,7 +35,7 @@ def print_fumo_urls(name: str) -> None:
     """
     Prints each fumo image URL in an easily readable format
     """
-    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
     if name in fumos:
         print(f"\nSize of list: {len(fumos[name])}")
         i = 0
@@ -150,9 +150,9 @@ def fumo_widget() -> None:
 
 def main():
     # Initializes all files that are to be worked with
-    dt.init_file("textdata/copypasta.dat")
-    dt.init_json("textdata/urls.json")
-    dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
+    dt.init_file("data/textdata/copypasta.dat")
+    dt.init_json("data/textdata/urls.json")
+    dt.add_json_dict_keys("data/textdata/urls.json", "fumo", "misc")
 
 
     print(f"\n{hlp.cl.BLUE}Welcome to this bot's config application.{hlp.cl.END}")
