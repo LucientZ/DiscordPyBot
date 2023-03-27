@@ -1,5 +1,6 @@
 import os, json, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # Adds parent directory to PATH
+import datahandling as dt
 from textfunctions import *
 from test_utils import *
 
@@ -28,7 +29,10 @@ def test_get_fumo_url() -> None:
     """
     Tests if fumo urls were initialized correctly. There should be one url of a funny face.
     """
-    
+    dt.init_json("data/textdata/urls.json", True)
+    dt.add_json_dict_keys("data/textdata/urls.json", "fumo", "misc")
+    dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
+
     assert(not get_fumo_url("fake") == "")
     assert(get_fumo_url("example") == "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
