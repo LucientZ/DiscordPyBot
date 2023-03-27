@@ -183,8 +183,8 @@ async def help(ctx: discord.Interaction, item_name: str = ""):
 
     if(item_name == ""):
         embed = discord.Embed(title = "Help Menu (1/2)", description = "List of commands", color = 0xffab00)
-        embed.add_field(name = "Fun Commands", value = "- copypasta\n- fumo\n- echo", inline=False)
-        embed.add_field(name = "Utility Commands", value = "- server-enable\n- server-disable\n- channel-enable\n- channel-disable\n- help\n- ping", inline=False)
+        embed.add_field(name = "Fun Commands", value = "- copypasta\n- fumo\n- echo", inline = False)
+        embed.add_field(name = "Utility Commands", value = "- server-enable\n- server-disable\n- channel-enable\n- channel-disable\n- help\n- ping", inline = False)
         view = HelpButtons()
     else:
         embed = discord.Embed(title = item_name.lower(), description = item_descriptions.get(item_name.lower(), "Command could not be found."), color = 0xffab00)
@@ -317,13 +317,13 @@ async def channel_disable(ctx: discord.Interaction, feature_name: str):
 def main():
     try:
         # Initializes all files the bot will work with
-        dt.init_file("textdata/copypasta.dat", True)
-        dt.init_json("textdata/urls.json", True)
-        dt.add_json_dict_keys("textdata/urls.json", "fumo", "misc")
+        dt.init_file("data/textdata/copypasta.dat", True)
+        dt.init_json("data/textdata/urls.json", True)
+        dt.add_json_dict_keys("data/textdata/urls.json", "fumo", "misc")
         dt.add_fumo_url("example", "https://cdn.discordapp.com/attachments/390692666897203211/979153065259175946/Screenshot_20220520-193448_Gallery.jpg")
 
         # Obtains bot token and uses it to log in
-        client.run(ENV_VARS.TOKEN, log_handler = log_file_handler, log_formatter =log_file_formatter)
+        client.run(ENV_VARS.TOKEN, log_handler = log_file_handler, log_formatter = log_file_formatter)
     except discord.LoginFailure as error:
         #This error is raised when the token is not valid
         logger.error(f"Login failure while attempting to log into bot: {error}")
@@ -337,6 +337,7 @@ def main():
         input("Press ENTER to exit program")
         exit()
         
+
 if __name__ == '__main__':
     main()
     

@@ -3,7 +3,7 @@ import helper as hlp
 import datahandling as dt
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
-def copypasta_text() -> str:
+def copypasta_text() -> str: # pragma: no cover
     """
     Returns a random string from a list of copypastas
 
@@ -53,13 +53,14 @@ def get_fumo_url(character: str) -> str:
     """
     character = character.lower()
 
-    fumos = dt.get_json_dict("textdata/urls.json")["fumo"]
+    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
 
     if character in fumos:
         return fumos[character][rand.randrange(0,len(fumos[character]))]
     else:
         character = rand.choice(list(fumos))
         return fumos[character][rand.randrange(0,len(fumos[character]))]
+
 
 def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
@@ -78,11 +79,15 @@ def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
     """
 
     msg = msg.replace(submsg, modifier + submsg + modifier[::-1])
-    if modifier + modifier in msg:
+    
+    # Edgecase handling where there are one or more submessages next to each other
+    if modifier + modifier in msg: 
         msg = msg.replace(modifier + modifier, "")
+
     return msg
 
-def mom() -> str:
+
+def mom() -> str: # pragma: no cover
     """
     returns string "Your Mom" 95% of the time. returns string "Your Dad :sunglasses:" 5% of the time
 

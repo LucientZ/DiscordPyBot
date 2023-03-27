@@ -14,8 +14,16 @@ omit =
 
 
 exclude_lines = 
-    # This will only be used if a different error is to be thrown, meaning an error will still be thrown
-    except Exception as e:
+        pragma: no cover
+        def __repr__
+        if self.debug:
+        raise AssertionError
+        raise NotImplementedError
+        except Exception as e:
+        except Exception as err:
+        except Exception as error:
+        if 0:
+        if __name__ == .__main__.:
 
 
 [html]

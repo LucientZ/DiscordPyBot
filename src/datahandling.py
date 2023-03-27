@@ -255,21 +255,21 @@ def add_copypasta(text: str, logging: bool = False) -> None:
         print(f"{hlp.cl.RED}Text is too long to fit in a discord message.{hlp.cl.END}")
         return
 
-    with open("textdata/copypasta.dat", "a") as f:
+    with open("data/textdata/copypasta.dat", "a") as f:
         f.write(text + "\n\n")
         if logging:
-            print(f"\n'{text}' added to textdata/copypasta.dat")
+            print(f"\n'{text}' added to data/textdata/copypasta.dat")
 
 
 def delete_copypasta(index: int, logging: bool = False) -> None:
     try:
         copypastas = get_copypasta_list()
         copy = copypastas.pop(index)
-        with open("textdata/copypasta.dat", "w") as f:
+        with open("data/textdata/copypasta.dat", "w") as f:
             for copies in copypastas:
                 f.write(copies + "\n\n")
             if logging:
-                print(f"'{copy}'removed from textdata/copypasta.dat")
+                print(f"'{copy}'removed from data/textdata/copypasta.dat")
     except IndexError:
         print(f"{hlp.cl.RED}Index number [{index}] not in range{hlp.cl.END}")
 
@@ -308,7 +308,7 @@ def set_json_dict(filename: str, data: dict) -> None:
 
 def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
     """
-    Adds a fumo image url to the file textdata/urls.json
+    Adds a fumo image url to the file data/textdata/urls.json
 
     Parameters:
     name (str): name of fumo character
@@ -317,14 +317,14 @@ def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
     Returns:
     none
     """
-    data = get_json_dict("textdata/urls.json")
+    data = get_json_dict("data/textdata/urls.json")
     try:
         if name in data["fumo"]:
             if not url in data["fumo"][name]:
                 data["fumo"][name].append(url)
         else:
             data["fumo"][name] = [url]
-        set_json_dict("textdata/urls.json", data)
+        set_json_dict("data/textdata/urls.json", data)
         if logging:
             print(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
@@ -333,7 +333,7 @@ def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
     
 def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
     """
-    Removes a fumo image url from the file textdata/urls.json
+    Removes a fumo image url from the file data/textdata/urls.json
 
     Parameters:
     name (str): name of fumo character
@@ -342,11 +342,11 @@ def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
     Returns:
     none
     """
-    data = get_json_dict("textdata/urls.json")
+    data = get_json_dict("data/textdata/urls.json")
     try:
         if name in data["fumo"]:
             data["fumo"][name].pop(index)
-            set_json_dict("textdata/urls.json", data)
+            set_json_dict("data/textdata/urls.json", data)
             print(f"URL at index [{index}] removed to collection of images for character '{name}'")
         else:
             print(f"{name} doesn't have any umage URL's")
@@ -361,7 +361,7 @@ def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
 #===========================================================
 
 def get_copypasta_list() -> list:
-    with open("textdata/copypasta.dat", "r") as f:
+    with open("data/textdata/copypasta.dat", "r") as f:
         data = f.read()
         data = data.split('\n\n')
         data.pop(len(data) - 1)
