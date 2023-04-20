@@ -40,3 +40,7 @@ class Logger():
     def log_error(msg: str):
         print(f"{cl.GREY}{datetime.now()} {cl.RED}[ERROR]{cl.END} {msg}")
         Logger.logger.error(msg)
+
+    def log_warning(msg: str):
+        print(f"{cl.GREY}{datetime.now()} {cl.YELLOW}[WARN] {cl.END} {msg}")
+        Logger.logger.warn(msg)

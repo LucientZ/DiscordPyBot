@@ -4,7 +4,8 @@ This folder holds guild profiles that hold config for each guild the bot is in. 
 
 ```json
 {
-  "enabled_auto_features": [],
-  "channels": {}
+    "enabled_auto_features" : [],
+    "channels": {},
+    "id": 12334567890
 }
 ```

@@ -1,5 +1,5 @@
 import json, os
-from helper import cl
+from helper import cl, Logger
 from datetime import datetime
 from typing import Union
 
@@ -93,7 +93,6 @@ class UserProfile(JSONProfileInterface):
     def set_username(self, username: str):
         self._data["username"] = str(username)
         self.save()
-    
     
 
 class GuildProfile(JSONProfileInterface):
@@ -274,10 +273,10 @@ def init_file(filename: str, logging: bool = False) -> None:
     try:
         with open(filename, "x") as f:
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
+                Logger.log_info(f"{filename} created.")
     except FileExistsError:
         if logging:
-            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+            Logger.log_info(f"{filename} exists. Skipping creation of file...")
 
 def init_json(filename: str, logging: bool = False) -> None:
     """
@@ -298,10 +297,10 @@ def init_json(filename: str, logging: bool = False) -> None:
             json.dump(data, f, indent = 2)
 
             if logging:
-                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
+                Logger.log_info(f"{filename} created.")
     except FileExistsError:
         if logging:
-            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
+            Logger.log_info(f"{filename} exists. Skipping creation of file...")
 
 
 def add_json_dict_keys(filename: str, *keynames: str):
@@ -314,12 +313,12 @@ def add_json_dict_keys(filename: str, *keynames: str):
                 data = json.load(f)
 
     # Goes through each key and attempts to add each keyname as a dictionary
-    for i in range(len(keynames)):
+    for key in keynames:
         try:
-            if not keynames[i] in data:
-                data[keynames[i]] = {}
+            if not key in data:
+                data[key] = {}
         except Exception as e:
-            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue adding key as dictionary to {filename}: {e}")
+            Logger.log_warning(f"Issue adding key as dictionary to {filename}: {e}")
 
     with open(filename, "w") as f:
                 json.dump(data, f, indent = 2)
@@ -407,9 +406,9 @@ def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
             data["fumo"][name] = [url]
         set_json_dict("data/textdata/urls.json", data)
         if logging:
-            print(f"URL '{url}' added to collection of images for character '{name}'")
+            Logger.log_info(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
-        print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
+        Logger.log_error(f"Issue adding fumo url: {e}")
     
     
 def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
