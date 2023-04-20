@@ -1,11 +1,11 @@
 import os, json, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # Adds parent directory to PATH
-from random import randint
+import random
 
 # Collection of fake data used for testing. Discord IDs are longer than this, so these shouldn't conflict with any existing ids
-integer_guild_ids = [randint(100000000000, 999999999999) for i in range(3)]
-integer_channel_ids = [randint(100000000000, 999999999999) for i in range(3)]
-integer_user_ids = [randint(100000000000, 999999999999) for i in range(3)]
+integer_guild_ids = random.sample(range(100000000000, 999999999999), 3)
+integer_channel_ids = random.sample(range(100000000000, 999999999999), 3)
+integer_user_ids = random.sample(range(100000000000, 999999999999), 3)          
 
 string_guild_ids = list(map(str, integer_guild_ids))
 string_channel_ids = list(map(str, integer_channel_ids))

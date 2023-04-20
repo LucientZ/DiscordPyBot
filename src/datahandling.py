@@ -1,18 +1,65 @@
 import json, os
-import helper as hlp
+from helper import cl
 from datetime import datetime
 from typing import Union
 
 #===========================================================
-# Server Config Handling
+# JSON Profile Handling Classes
 #===========================================================
 
-class UserProfile():
-    def __init__(self, user_id: Union[str, int]) -> None:
-        self._user_id = str(user_id)
-
-    def load(self) -> None:
+class JSONProfileInterface(): # pragma: no cover
+    def load(self, id: Union[str, int]):
+        """
+        Loads data from a given JSON file
+        """
         pass
+
+    def save(self, id: Union[str, int]):
+        """
+        Saves data from to given JSON file
+        """
+        pass
+
+    def get_data(self):
+        """
+        Returns the dictionary equivalent of the data obtained from a JSON profile
+        """
+        pass
+
+
+class UserProfile(JSONProfileInterface):
+    def __init__(self, user_id: Union[str, int]) -> None:
+        self._user_id: str = str(user_id)
+        self._data: dict
+        try:
+            self.load(self._user_id)
+        except Exception as e:
+            raise ValueError(f"Issue initializing UserProfile object with id '{self._user_id}':\n{e}")
+
+    def load(self, user_id: Union[str, int]) -> None:
+        """
+        Loads dictionary from JSON file into profile 
+
+        If file doesn't exist, creates said file
+        """
+        data_template = {
+            "username": "",
+            "id": str(user_id)
+        }
+        
+        if(os.path.isfile(f"data/guild-profiles/{user_id}.json")):
+            with open(f"data/guild-profiles/{user_id}.json", "r") as f:
+                self._data: dict = json.load(f)
+        else:
+            self._data = data_template
+        
+        # Deals with malformed data or data that hasn't been updated to the current template
+        for key in data_template:
+            if not key in self._data:
+                self._data[key] = data_template[key]
+        self.save()
+
+        self.user_id = str(user_id)
 
     def save(self) -> None:
         """
@@ -21,7 +68,35 @@ class UserProfile():
         with open(f"data/user-profiles/{self._user_id}.json", "w") as f:
             json.dump(self._data, f, indent=2)
 
-class GuildProfile():
+    # Accessor Methods
+
+    def get_username(self) -> str:
+        """
+        Returns username stored in data dictionary
+        """
+        return self._data["username"]
+    
+    def get_data(self) -> dict:
+        """
+        Returns data dictionary
+        """
+        return self._data
+    
+    def get_id(self) -> str:
+        """
+        Returns user id (string)
+        """
+        return self._user_id
+
+    # Mutator Methods
+
+    def set_username(self, username: str):
+        self._data["username"] = str(username)
+        self.save()
+    
+    
+
+class GuildProfile(JSONProfileInterface):
     """
     Interface used for modifying and obtaining guild config information
     """
@@ -37,12 +112,14 @@ class GuildProfile():
     def load(self, guild_id: Union[str, int]) -> None:
         """
         Loads dictionary from JSON file into interface 
+        
         If file doesn't exist, creates said file
         """
 
         data_template = {
             "enabled_auto_features" : [],
-            "channels": {}
+            "channels": {},
+            "id": str(guild_id)
         }
 
         if(os.path.isfile(f"data/guild-profiles/{guild_id}.json")):
@@ -66,6 +143,8 @@ class GuildProfile():
         with open(f"data/guild-profiles/{self._guild_id}.json", "w") as f:
             json.dump(self._data, f, indent=2)
     
+    # Accessor methods
+
     def get_data(self) -> dict:
         """
         Returns _data dictionary member
@@ -98,6 +177,8 @@ class GuildProfile():
         
         return self._data["channels"][channel_id]["enabled_auto_features"]
     
+    # Mutator methods
+
     def guild_enable_auto(self, feature_name: str) -> None:
         """
         Enables an automatic feature guild-wide
@@ -193,10 +274,10 @@ def init_file(filename: str, logging: bool = False) -> None:
     try:
         with open(filename, "x") as f:
             if logging:
-                print(f"{hlp.cl.GREEN}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.GREEN} created.{hlp.cl.END}")
+                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
     except FileExistsError:
         if logging:
-            print(f'{hlp.cl.YELLOW}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.YELLOW} exists. Skipping creation of file...{hlp.cl.END}')
+            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 def init_json(filename: str, logging: bool = False) -> None:
     """
@@ -217,10 +298,10 @@ def init_json(filename: str, logging: bool = False) -> None:
             json.dump(data, f, indent = 2)
 
             if logging:
-                print(f"{hlp.cl.GREEN}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.GREEN} created.{hlp.cl.END}")
+                print(f"{cl.GREEN}{cl.BOLD}{filename}{cl.END}{cl.GREEN} created.{cl.END}")
     except FileExistsError:
         if logging:
-            print(f'{hlp.cl.YELLOW}{hlp.cl.BOLD}{filename}{hlp.cl.END}{hlp.cl.YELLOW} exists. Skipping creation of file...{hlp.cl.END}')
+            print(f'{cl.YELLOW}{cl.BOLD}{filename}{cl.END}{cl.YELLOW} exists. Skipping creation of file...{cl.END}')
 
 
 def add_json_dict_keys(filename: str, *keynames: str):
@@ -238,7 +319,7 @@ def add_json_dict_keys(filename: str, *keynames: str):
             if not keynames[i] in data:
                 data[keynames[i]] = {}
         except Exception as e:
-            print(f"{hlp.cl.GREY}{hlp.cl.BOLD}{str(datetime.now())[:-7]}{hlp.cl.RED} ERROR{hlp.cl.END}    Issue adding key as dictionary to {filename}: {e}")
+            print(f"{cl.GREY}{cl.BOLD}{str(datetime.now())[:-7]}{cl.RED} ERROR{cl.END}    Issue adding key as dictionary to {filename}: {e}")
 
     with open(filename, "w") as f:
                 json.dump(data, f, indent = 2)
@@ -252,7 +333,7 @@ def add_json_dict_keys(filename: str, *keynames: str):
 def add_copypasta(text: str, logging: bool = False) -> None:
     # Checks if a given string is too long
     if len(text) > 1999:
-        print(f"{hlp.cl.RED}Text is too long to fit in a discord message.{hlp.cl.END}")
+        print(f"{cl.RED}Text is too long to fit in a discord message.{cl.END}")
         return
 
     with open("data/textdata/copypasta.dat", "a") as f:
@@ -271,7 +352,7 @@ def delete_copypasta(index: int, logging: bool = False) -> None:
             if logging:
                 print(f"'{copy}'removed from data/textdata/copypasta.dat")
     except IndexError:
-        print(f"{hlp.cl.RED}Index number [{index}] not in range{hlp.cl.END}")
+        print(f"{cl.RED}Index number [{index}] not in range{cl.END}")
 
 
 def get_json_dict(filename: str) -> dict:
@@ -328,7 +409,7 @@ def add_fumo_url(name: str, url: str, logging: bool = False) -> None:
         if logging:
             print(f"URL '{url}' added to collection of images for character '{name}'")
     except Exception as e:
-        print(f"{hlp.cl.RED}ERROR: Issue adding fumo url: {e}{hlp.cl.END}")
+        print(f"{cl.RED}ERROR: Issue adding fumo url: {e}{cl.END}")
     
     
 def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
@@ -351,9 +432,9 @@ def remove_fumo_url(name: str, index: int, logging: bool = False) -> None:
         else:
             print(f"{name} doesn't have any umage URL's")
     except IndexError:
-        print(f"{hlp.cl.RED}ERROR: Index out of range{hlp.cl.END}")
+        print(f"{cl.RED}ERROR: Index out of range{cl.END}")
     except Exception as e:
-        print(f"{hlp.cl.RED}ERROR: Issue removing fumo url: {e}{hlp.cl.END}")
+        print(f"{cl.RED}ERROR: Issue removing fumo url: {e}{cl.END}")
 
 
 #===========================================================

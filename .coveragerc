@@ -5,7 +5,8 @@ branch = True
 omit = 
         *config.py*
         *init.py*
-        *main.py
+        *main.py*
+        *userinterfaces.py
 
 
 [report]

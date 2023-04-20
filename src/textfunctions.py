@@ -1,6 +1,6 @@
 import random as rand
-import helper as hlp
-import datahandling as dt
+import datahandling, helper
+from helper import cl
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
 def copypasta_text() -> str: # pragma: no cover
@@ -13,7 +13,7 @@ def copypasta_text() -> str: # pragma: no cover
     Returns:
     str: random copypasta from a dictionary
     """
-    texts = dt.get_copypasta_list()
+    texts = datahandling.get_copypasta_list()
     return texts[rand.randrange(0,len(texts))]
 
 
@@ -53,7 +53,7 @@ def get_fumo_url(character: str) -> str:
     """
     character = character.lower()
 
-    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
+    fumos = datahandling.get_json_dict("data/textdata/urls.json")["fumo"]
 
     if character in fumos:
         return fumos[character][rand.randrange(0,len(fumos[character]))]

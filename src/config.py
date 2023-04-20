@@ -1,5 +1,6 @@
-import datahandling as dt
-import helper as hlp
+import datahandling
+import helper
+from helper import cl
 
 #########################
 # DATA HELPER FUNCTIONS #
@@ -10,7 +11,7 @@ def print_copypastas() -> None:
     """
     Prints each copypasta in an easily readable format
     """
-    copypastas = dt.get_copypasta_list()
+    copypastas = datahandling.get_copypasta_list()
     print()
     i = 0
     for copies in copypastas:
@@ -23,7 +24,7 @@ def print_fumo_names() -> None:
     """
     Prints each fumo name in an easily readable format
     """
-    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
+    fumos = datahandling.get_json_dict("data/textdata/urls.json")["fumo"]
     print()
     i = 0
     for name in fumos:
@@ -35,7 +36,7 @@ def print_fumo_urls(name: str) -> None:
     """
     Prints each fumo image URL in an easily readable format
     """
-    fumos = dt.get_json_dict("data/textdata/urls.json")["fumo"]
+    fumos = datahandling.get_json_dict("data/textdata/urls.json")["fumo"]
     if name in fumos:
         print(f"\nSize of list: {len(fumos[name])}")
         i = 0
@@ -61,7 +62,7 @@ def copypasta_widget() -> None:
     user_in = ""
 
     while True:
-        print(f"\n{hlp.cl.GREEN}------------------------------------------------------------{hlp.cl.END}")
+        print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
         print(f"Here are the available copypasta options:\n\n1: Add Copypasta to list\n2: Remove a copypasta from list\n3: Get list of copypastas\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
@@ -70,9 +71,9 @@ def copypasta_widget() -> None:
             text = input("Enter copypasta to be added (b to go back): ")
             if text != "b" and text != "q":
                 try:
-                    dt.add_copypasta(text)
+                    datahandling.add_copypasta(text)
                 except Exception as e:
-                    print(f"{hlp.cl.RED}ERROR: Issue adding copypasta to list: {e}{hlp.cl.END}")
+                    print(f"{cl.RED}ERROR: Issue adding copypasta to list: {e}{cl.END}")
         elif user_in == "2":
             # Since the user must know what is in each index, print the copypastas so that the user can decide which one to remove.
             print_copypastas()
@@ -80,11 +81,11 @@ def copypasta_widget() -> None:
             index = input("Enter an index to be deleted. (b to go back): ")
             if index != "b":
                 try:
-                    dt.delete_copypasta(int(index))
+                    datahandling.delete_copypasta(int(index))
                 except ValueError:
-                    print(f"{hlp.cl.RED}{hlp.cl.BOLD}Error: Invalid value. Please enter in index number (eg: 0, 1, 2...){hlp.cl.END}\n")
+                    print(f"{cl.RED}{cl.BOLD}Error: Invalid value. Please enter in index number (eg: 0, 1, 2...){cl.END}\n")
                 except Exception as e:
-                        print(f"{hlp.cl.RED}Error: Issue removing copypasta at index [{index}]: {e}{hlp.cl.END}")
+                        print(f"{cl.RED}Error: Issue removing copypasta at index [{index}]: {e}{cl.END}")
         elif user_in == "3":
             print_copypastas()
         elif user_in == "q":
@@ -106,7 +107,7 @@ def fumo_widget() -> None:
     user_in = ""
 
     while True:
-        print(f"\n{hlp.cl.GREEN}------------------------------------------------------------{hlp.cl.END}")
+        print(f"\n{cl.GREEN}------------------------------------------------------------{cl.END}")
         print(f"Here are the available fumo options:\n\n1: Add Fumo Image URL to list\n2: Remove a Fumo Image URL from list\n3: Get a list of Fumo Names\n4: Get list of Fumo URLS\n")
         user_in = input("Please enter an option (q to quit. b to go back): ")
 
@@ -117,9 +118,9 @@ def fumo_widget() -> None:
                 url = input("\nPlease enter URL for fumo image (b to go back): ")
                 if url != "b":
                     try:
-                        dt.add_fumo_url(name, url, True)
+                        datahandling.add_fumo_url(name, url, True)
                     except Exception as e:
-                        print(f"{hlp.cl.RED}ERROR: Issue adding URL ['{url}'] to ['{name}']: {e}{hlp.cl.END}")
+                        print(f"{cl.RED}ERROR: Issue adding URL ['{url}'] to ['{name}']: {e}{cl.END}")
 
         elif user_in == "2":
             name = input("\nPlease enter the name of the fumo (b to go back): ")
@@ -128,11 +129,11 @@ def fumo_widget() -> None:
                 index = input("\nPlease enter index to remove (b to go back): ")
                 if index != "b":
                     try:
-                        dt.remove_fumo_url(name, int(index))
+                        datahandling.remove_fumo_url(name, int(index))
                     except ValueError:
-                        print(f"{hlp.cl.RED}{hlp.cl.BOLD}ERROR: Invalid value. Please enter in index number (eg: 0, 1, 2...){hlp.cl.END}\n")
+                        print(f"{cl.RED}{cl.BOLD}ERROR: Invalid value. Please enter in index number (eg: 0, 1, 2...){cl.END}\n")
                     except Exception as e:
-                        print(f"{hlp.cl.RED}ERROR: Issue removing URL at index [{index}]: {e}{hlp.cl.END}")
+                        print(f"{cl.RED}ERROR: Issue removing URL at index [{index}]: {e}{cl.END}")
         elif user_in == "3":
             print_fumo_names()
         elif user_in == "4":
@@ -150,15 +151,15 @@ def fumo_widget() -> None:
 
 def main():
     # Initializes all files that are to be worked with
-    dt.init_file("data/textdata/copypasta.dat")
-    dt.init_json("data/textdata/urls.json")
-    dt.add_json_dict_keys("data/textdata/urls.json", "fumo", "misc")
+    datahandling.init_file("data/textdata/copypasta.dat")
+    datahandling.init_json("data/textdata/urls.json")
+    datahandling.add_json_dict_keys("data/textdata/urls.json", "fumo", "misc")
 
 
-    print(f"\n{hlp.cl.BLUE}Welcome to this bot's config application.{hlp.cl.END}")
+    print(f"\n{cl.BLUE}Welcome to this bot's config application.{cl.END}")
 
     while True:
-        print(f"\n{hlp.cl.BLUE}------------------------------------------------------------{hlp.cl.END}")
+        print(f"\n{cl.BLUE}------------------------------------------------------------{cl.END}")
         print(f"Here are the available setup options:\n\n1: Copypasta List Modification\n2: Fumo Image URL List Modification\n3: WIP\n")
         user_in = input("Please enter an option (q to quit): ")
 
@@ -172,7 +173,7 @@ def main():
             print("See you later :)")
             exit()
         else:
-            print(f"{hlp.cl.BOLD}{hlp.cl.YELLOW}Unknown option. Please enter a number, 'q', or 'b'{hlp.cl.END}")
+            print(f"{cl.BOLD}{cl.YELLOW}Unknown option. Please enter a number, 'q', or 'b'{cl.END}")
             input("\nPress Enter to continue...")
         
 if __name__ == "__main__":

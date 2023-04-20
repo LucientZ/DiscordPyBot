@@ -1,15 +1,15 @@
 import os, json, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # Adds parent directory to PATH
-import datahandling as dt, helper as hlp
+import datahandling, helper
 from test_utils import *
 
 
-def test_guild_interface_init_string_id() -> None:
+def test_guild_profile_init_string_id() -> None:
     """
     Tests behavior when guild profile is initialized with a string as an id.
     """
-    guild1 = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
-    guild2 = dt.GuildProfile(string_guild_ids[1], hlp.auto_features)
+    guild1 = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
+    guild2 = datahandling.GuildProfile(string_guild_ids[1], helper.auto_features)
     
     
     # Makes sure both objects initialized correctly
@@ -33,12 +33,12 @@ def test_guild_interface_init_string_id() -> None:
     clean()
 
 
-def test_guild_interface_init_integer_id() -> None:
+def test_guild_profile_init_integer_id() -> None:
     """
     Tests behavior when guild profile is initialized with an integer as an id. Note that the id should be saved as a string.
     """
-    guild1 = dt.GuildProfile(integer_guild_ids[0], hlp.auto_features)
-    guild2 = dt.GuildProfile(integer_guild_ids[1], hlp.auto_features)
+    guild1 = datahandling.GuildProfile(integer_guild_ids[0], helper.auto_features)
+    guild2 = datahandling.GuildProfile(integer_guild_ids[1], helper.auto_features)
     
     
     # Makes sure both objects initialized correctly
@@ -62,11 +62,11 @@ def test_guild_interface_init_integer_id() -> None:
     clean()
 
     
-def test_guild_interface_add_channel() -> None:
+def test_guild_add_channel() -> None:
     """
     Tests behavior when channel is added
     """
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
 
     guild.add_channel(string_channel_ids[0])
     assert(guild.get_data()["channels"][string_channel_ids[0]] == {"enabled_auto_features": []})
@@ -77,8 +77,8 @@ def test_guild_interface_add_channel() -> None:
     clean()
 
 
-def test_guild_interface_guild_enable_auto() -> None:
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+def test_guild_profile_guild_enable_auto() -> None:
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
 
     guild.guild_enable_auto("sad") # Should add to enable list
     guild.guild_enable_auto("sad") # Should NOT add again to enable list
@@ -91,24 +91,24 @@ def test_guild_interface_guild_enable_auto() -> None:
     clean()
 
 
-def test_guild_interface_guild_disable_auto() -> None:
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+def test_guild_profile_guild_disable_auto() -> None:
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
     enabled_features = []
 
     # Enable all features iteratively
-    for feature in hlp.auto_features:
+    for feature in helper.auto_features:
         guild.guild_enable_auto(feature)
         enabled_features.append(feature)
         assert(guild.get_data()["enabled_auto_features"] == enabled_features)
     
     # Disable all features iteratively in reverse
-    for feature in reversed(hlp.auto_features):
+    for feature in reversed(helper.auto_features):
         guild.guild_disable_auto(feature)
         enabled_features.remove(feature)
         assert(guild.get_data()["enabled_auto_features"] == enabled_features)
 
     # Attempts to disable all features again to see if any errors are thrown
-    for feature in reversed(hlp.auto_features):
+    for feature in reversed(helper.auto_features):
         guild.guild_disable_auto(feature)
         assert(guild.get_data()["enabled_auto_features"] == [])
 
@@ -116,8 +116,8 @@ def test_guild_interface_guild_disable_auto() -> None:
     clean()
 
 
-def test_guild_interface_channel_enable_auto() -> None:
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+def test_guild_profile_channel_enable_auto() -> None:
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
     guild.add_channel(string_channel_ids[0])
 
     guild.channel_enable_auto("sad", string_channel_ids[0])
@@ -149,25 +149,25 @@ def test_guild_interface_channel_enable_auto() -> None:
     clean()
 
 
-def test_guild_interface_channel_disable_auto() -> None:
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+def test_guild_profile_channel_disable_auto() -> None:
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
     guild.add_channel(string_channel_ids[0])
     enabled_features = []
 
     # Enable all features iteratively
-    for feature in hlp.auto_features:
+    for feature in helper.auto_features:
         guild.channel_enable_auto(feature, string_channel_ids[0])
         enabled_features.append(feature)
         assert(guild.get_data()["channels"][string_channel_ids[0]]["enabled_auto_features"] == enabled_features)
     
     # Disable all features iteratively in reverse
-    for feature in reversed(hlp.auto_features):
+    for feature in reversed(helper.auto_features):
         guild.channel_disable_auto(feature, string_channel_ids[0])
         enabled_features.remove(feature)
         assert(guild.get_data()["channels"][string_channel_ids[0]]["enabled_auto_features"] == enabled_features)
 
     # Attempts to disable all features again to see if any errors are thrown
-    for feature in reversed(hlp.auto_features):
+    for feature in reversed(helper.auto_features):
         guild.channel_disable_auto(feature, string_channel_ids[0])
         assert(guild.get_data()["channels"][string_channel_ids[0]]["enabled_auto_features"] == [])
 
@@ -179,12 +179,12 @@ def test_guild_interface_channel_disable_auto() -> None:
     clean()
 
 
-def test_guild_interface_is_enabled() -> None:
+def test_guild_profile_is_enabled() -> None:
     """
     Test the behavior of GuildProfile.is_enabled()
     """
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
-    for feature in hlp.auto_features:
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
+    for feature in helper.auto_features:
         assert(feature in guild.get_valid_features())
 
     guild.channel_enable_auto("sad", string_channel_ids[0])
@@ -221,11 +221,11 @@ def test_guild_profile_getting_features_unknown_channel() -> None:
     Test behavior when attempting to obtain valid features from an unknown channel
     """
     
-    guild = dt.GuildProfile(string_guild_ids[0])
+    guild = datahandling.GuildProfile(string_guild_ids[0])
 
     assert(guild.get_channel_enabled_features(string_channel_ids[1]) == [])
 
-def test_guild_interface_malformed_json() -> None:
+def test_guild_profile_malformed_json() -> None:
     """
     Tests if malformed data is handled correctly.
     
@@ -239,8 +239,10 @@ def test_guild_interface_malformed_json() -> None:
     with open(f"data/guild-profiles/{string_guild_ids[0]}.json", "w") as f:
             json.dump(malformed_guild_format, f, indent=2)
     
-    guild = dt.GuildProfile(string_guild_ids[0], hlp.auto_features)
+    guild = datahandling.GuildProfile(string_guild_ids[0], helper.auto_features)
 
-    assert(guild.get_data() == {"enabled_auto_features" : [], "Cool_data" : [1,2,3,4], "channels" : {}})
+    assert(guild.get_data()["enabled_auto_features"] == [])
+    assert(guild.get_data()["channels"] == {})
+    assert(guild.get_data()["id"] == string_guild_ids[0])
 
     clean()
