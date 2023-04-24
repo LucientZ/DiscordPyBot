@@ -1,7 +1,7 @@
-import os, json, sys
+import os, json, sys, dotenv
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # Adds parent directory to PATH
 import random, discord
-from typing import Union, Sequence, Coroutine
+from typing import Union, Sequence
 
 # Collection of fake data used for testing. Discord IDs are longer than this, so these shouldn't conflict with any existing ids
 integer_guild_ids = random.sample(range(100000000000, 999999999999), 3)
@@ -13,6 +13,9 @@ string_guild_ids = list(map(str, integer_guild_ids))
 string_channel_ids = list(map(str, integer_channel_ids))
 string_user_ids = list(map(str, integer_user_ids))
 string_interaction_ids = list(map(str, integer_interaction_ids))
+
+# Loads testing environment variables
+dotenv.load_dotenv("./src/tests/.env")
 
 def clean():
     """
