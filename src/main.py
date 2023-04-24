@@ -1,6 +1,5 @@
 # Packages
-import discord, os, logging.handlers, time
-from datetime import datetime
+import discord, os, time
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -23,7 +22,7 @@ class ENV_VARS:
 # Discord Client Section
 #=====================================================
 class aclient(discord.Client):
-    def __init__(self):
+    def __init__(self): # pragma: no cover
         super().__init__(activity = discord.Game(name = ENV_VARS.STATUS), intents=discord.Intents.all())
 
         if ENV_VARS.SYNC_ON_START:
@@ -31,7 +30,7 @@ class aclient(discord.Client):
         else:
             self.synced = True
 
-    async def on_ready(self):
+    async def on_ready(self): # pragma: no cover
         """
         When the bot is ready, checks if the bot's commands should be synced or not.
         Once commands are synced, the bot will be fully ready.
@@ -50,13 +49,13 @@ class aclient(discord.Client):
             self.synced = True
         Logger.log_info(f"I exist as user '{self.user}' and can talk to people! :D")
         
-    async def on_connect(self):
+    async def on_connect(self): # pragma: no cover
         """
         States when the bot has connected to discord
         """
         Logger.log_info("I'm initializing myself as a bot...")
 
-    async def on_message(self, ctx: discord.Interaction):
+    async def on_message(self, ctx: discord.message.Message):
         """
         When a user sends a message to a channel the bot has access to, processes the message and responds accordingly.
         """

@@ -278,6 +278,7 @@ def init_file(filename: str, logging: bool = False) -> None:
         if logging:
             Logger.log_info(f"{filename} exists. Skipping creation of file...")
 
+
 def init_json(filename: str, logging: bool = False) -> None:
     """
     Initializes a file as a json dictionary.

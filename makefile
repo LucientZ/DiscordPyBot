@@ -20,6 +20,7 @@ clean:
 
 test: venv/bin/activate
 	pip install -U pytest
+	pip install -U pytest-asyncio
 	pip install -U coverage
 	coverage run -m pytest ./src/tests/.
 	coverage report -m
