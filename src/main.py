@@ -3,7 +3,6 @@ import discord, os, time
 from discord import app_commands
 from dotenv import load_dotenv
 
-
 # Other Files
 import userinterfaces
 import datahandling
@@ -16,7 +15,7 @@ load_dotenv("./config/.env")
 class ENV_VARS:
     TOKEN = os.environ.get("TOKEN")
     STATUS = os.environ.get("STATUS")
-    SYNC_ON_START= os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
+    SYNC_ON_START= isinstance(os.environ.get("SYNC_ON_START"), str) and os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
 
 #=====================================================
 # Discord Client Section

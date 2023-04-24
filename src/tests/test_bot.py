@@ -1,8 +1,8 @@
 import os, json, sys, pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # Adds parent directory to PATH
 import datahandling, helper
-from main import client, tree
 from test_utils import *
+from main import client, tree
 
 @pytest.mark.asyncio
 async def test_on_message():
