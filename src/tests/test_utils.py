@@ -14,8 +14,6 @@ string_channel_ids = list(map(str, integer_channel_ids))
 string_user_ids = list(map(str, integer_user_ids))
 string_interaction_ids = list(map(str, integer_interaction_ids))
 
-# Loads testing environment variables
-dotenv.load_dotenv("./src/tests/test_vars.env")
 
 def clean():
     """

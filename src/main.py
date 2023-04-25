@@ -4,18 +4,22 @@ from discord import app_commands
 from dotenv import load_dotenv
 
 # Other Files
-import userinterfaces
-import datahandling
-import helper
+import helper, datahandling, userinterfaces, init
 from helper import cl, Logger
 from textfunctions import *
 
 # Environment Variables
-load_dotenv("./config/.env")
+if __name__ == "__main__":
+    while(not os.path.isfile("./config/.env")):
+        init.query_env_vars()
+    load_dotenv("./config/.env")
+else:
+    load_dotenv("./src/tests/test_vars.env")
+
 class ENV_VARS:
     TOKEN = os.environ.get("TOKEN")
     STATUS = os.environ.get("STATUS")
-    SYNC_ON_START= isinstance(os.environ.get("SYNC_ON_START"), str) and os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
+    SYNC_ON_START= os.environ.get("SYNC_ON_START").lower() in ('true', '1', 't')
 
 #=====================================================
 # Discord Client Section
