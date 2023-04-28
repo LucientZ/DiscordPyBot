@@ -8,6 +8,8 @@ from typing import Union
 #===========================================================
 
 class JSONProfileInterface(): # pragma: no cover
+    data_template: dict
+
     def load(self, id: Union[str, int]):
         """
         Loads data from a given JSON file
@@ -28,6 +30,11 @@ class JSONProfileInterface(): # pragma: no cover
 
 
 class UserProfile(JSONProfileInterface):
+    data_template = {
+        "username": "",
+        "id": ""
+    }
+
     def __init__(self, user_id: Union[str, int]) -> None:
         self._user_id: str = str(user_id)
         self._data: dict
@@ -57,9 +64,8 @@ class UserProfile(JSONProfileInterface):
         for key in data_template:
             if not key in self._data:
                 self._data[key] = data_template[key]
+        self._user_id = str(user_id)
         self.save()
-
-        self.user_id = str(user_id)
 
     def save(self) -> None:
         """
@@ -99,6 +105,12 @@ class GuildProfile(JSONProfileInterface):
     """
     Interface used for modifying and obtaining guild config information
     """
+    data_template = {
+            "enabled_auto_features" : [],
+            "channels": {},
+            "id": ""
+        }
+
     def __init__(self, guild_id: Union[str, int], valid_features: list = []) -> None:
         self._data: dict
         self._guild_id: str = str(guild_id)
@@ -115,25 +127,21 @@ class GuildProfile(JSONProfileInterface):
         If file doesn't exist, creates said file
         """
 
-        data_template = {
-            "enabled_auto_features" : [],
-            "channels": {},
-            "id": str(guild_id)
-        }
-
         if(os.path.isfile(f"data/guild-profiles/{guild_id}.json")):
             with open(f"data/guild-profiles/{guild_id}.json", "r") as f:
                 self._data: dict = json.load(f)
         else:
-            self._data = data_template
+            self._data = GuildProfile.data_template
         
         # Deals with malformed data or data that hasn't been updated to the current template
-        for key in data_template:
+        for key in GuildProfile.data_template:
             if not key in self._data:
-                self._data[key] = data_template[key]
+                self._data[key] = GuildProfile.data_template[key]
+        
+        self._guild_id = str(guild_id)
+        self._data["id"] = self._guild_id
         self.save()
 
-        self._guild_id = str(guild_id)
 
     def save(self) -> None:
         """
