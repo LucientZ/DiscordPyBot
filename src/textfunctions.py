@@ -8,10 +8,10 @@ def copypasta_text() -> str: # pragma: no cover
     Returns a random string from a list of copypastas
 
     Parameters:
-    None
+    - None
 
     Returns:
-    str: random copypasta from a dictionary
+    - str: random copypasta from a dictionary
     """
     texts = datahandling.get_copypasta_list()
     return texts[rand.randrange(0,len(texts))]
@@ -22,10 +22,10 @@ def morbius() -> str:
     Returns a random string from a list of copypastas that are Morbius themed
     
     Parameters:
-    None
+    - None
 
     Returns:
-    str: random copypasta from a dictionary
+    - str: random copypasta from a dictionary
     """
     texts = {
         0: 'Morbius is one of the movies of all time.',
@@ -46,10 +46,10 @@ def get_fumo_url(character: str) -> str:
     Returns a random fumo character unless specified
 
     Parameters:
-    character (str): name of character to return fumo image of
+    - character (str): name of character to return fumo image of
 
     Returns:
-    str: random fumo image link
+    - str: random fumo image link
     """
     character = character.lower()
 
@@ -62,21 +62,23 @@ def get_fumo_url(character: str) -> str:
         return fumos[character][rand.randrange(0,len(fumos[character]))]
 
 
-def format_msg(msg: str, submsg: str, modifier: str = '**') -> str:
+def format_msg(msg: str, submsg: str, modifier: str = None) -> str:
     """
     Formats a string so that a selected substring (non case-sensative) will have a markdown modifier surround it.
-    eg: the chicken broke the house --> **the** chicken broke **the** house.
-    eg: the chicken broke the house --> *_the_* chicken broke *_the_* house.
+    eg: the chicken broke the house -> **the** chicken broke **the** house.
+    eg: the chicken broke the house -> *_the_* chicken broke *_the_* house.
     Modifiers will be reversed after the submessage. Modifiers happening twice in succession will be replaced with an empty string as to keep formatting conciseness.
     
     Parameters:
-    msg (str): Message to be modified
-    submsg (str): Part of message to be surrounded
-    modifier (str): String to surround occurences of submsg
+    - msg (str): Message to be modified
+    - submsg (str): Part of message to be surrounded
+    - modifier (str): String to surround occurences of submsg
 
     Returns:
-    str: modified msg
+    - str: modified msg
     """
+    if modifier == None:
+        modifier = "**"
 
     msg = msg.replace(submsg, modifier + submsg + modifier[::-1])
     
@@ -92,10 +94,10 @@ def mom() -> str: # pragma: no cover
     returns string "Your Mom" 95% of the time. returns string "Your Dad :sunglasses:" 5% of the time
 
     Parameters:
-    none
+    - None
 
     Returns:
-    str: random message
+    - str: random message
     """
     num = rand.randrange(0,20)
     if num == 19:

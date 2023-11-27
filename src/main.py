@@ -253,6 +253,12 @@ async def channel_disable(ctx: discord.Interaction, feature_name: str):
         except ValueError:
             await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {helper.auto_features}.", ephemeral = True)
     
+@tree.command(name = "hex", description="Converts a decimal number to hexadecimal")
+async def to_hex(ctx: discord.Interaction, number: str):
+    try:
+        await ctx.response.send_message(hex(int(number)))
+    except:
+        await ctx.response.send_message("Number cannot be converted to hex or is not a parsable int", ephemeral=True)
 
 def main():
     try:

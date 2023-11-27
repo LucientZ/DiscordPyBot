@@ -142,7 +142,6 @@ class GuildProfile(JSONProfileInterface):
         self._data["id"] = self._guild_id
         self.save()
 
-
     def save(self) -> None:
         """
         Saves _data dictionary into the guild's respective json
