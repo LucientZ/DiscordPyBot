@@ -74,7 +74,7 @@ class aclient(discord.Client):
             self.synced = True
         logger.info(f"I exist as user '{self.user}' and can talk to people! :D")
         print_info(f"I exist as user '{self.user}' and can talk to people! :D")
-        
+
     async def on_connect(self):
         """
         States when the bot has connected to discord
@@ -128,7 +128,7 @@ async def on_app_command_error(ctx: discord.Interaction, error: discord.app_comm
     """
     Handles errors on the bot's command tree.
     """
-    # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user. 
+    # If the command doesn't exist, then the most likely culprit is due to a command being synced globally and then ceasing to exist and the bot informs the user.
     # Otherwise, give a generic response for the user to file a bug report.
     if isinstance(error, discord.app_commands.errors.CommandNotFound):
         logger.error(f"Ignoring error in command tree: {error}")
@@ -219,7 +219,7 @@ async def echo(ctx: discord.Interaction, message: str):
     if len(message) > 1500:
         await ctx.response.send_message("This message is too long.\n\nIf this is unexpected, please file an issue report at <https://github.com/LucientZ/DiscordPyBot>", ephemeral=True)
     else:
-        await ctx.response.send_message(f"Echo: {message}")
+        await ctx.response.send_message(f"{message}")
 
 
 @tree.command(name = "ping", description = "Responds and states client latency in milliseconds")
@@ -249,7 +249,7 @@ async def server_enable(ctx: discord.Interaction, feature_name: str):
             await ctx.response.send_message(f"'{feature_name}' has been enabled guild-wide.", ephemeral = True)
         except ValueError:
             await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
-    
+
 
 @tree.command(name = "server-disable", description = "Disables an automatic feature server-wide. Disable 'all' to disable all features.")
 @app_commands.checks.has_permissions(administrator = True)
@@ -312,7 +312,7 @@ async def channel_disable(ctx: discord.Interaction, feature_name: str):
             await ctx.response.send_message(f"'{feature_name}' has been disabled in this channel.", ephemeral = True)
         except ValueError:
             await ctx.response.send_message(f"'{feature_name}' is NOT a valid feature to enable. Valid features include {hlp.auto_features}.", ephemeral = True)
-    
+
 
 def main():
     try:
@@ -336,8 +336,8 @@ def main():
         print_error(f"Issue logging into bot: {error}")
         input("Press ENTER to exit program")
         exit()
-        
+
 
 if __name__ == '__main__':
     main()
-    
+
