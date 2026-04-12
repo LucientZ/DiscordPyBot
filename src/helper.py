@@ -11,4 +11,4 @@ class cl:
 
 # Lists of sections of features and commands
 # These lists are used in datahandling.py mainly for enabling/disabling commands
-auto_features = ["morbius","sad","sus","trade", "mom"]
+auto_features = ["morbius","sad","sus","trade", "mom", "tracking_detection"]

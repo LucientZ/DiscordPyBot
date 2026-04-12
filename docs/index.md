@@ -14,7 +14,7 @@
         - channel-disable
         - help
         - ping
-3. [Auto Features](#auto-features)
+3. [Passive Features](#passive-features)
     - sus
     - morbius
     - sad
@@ -129,9 +129,9 @@ Ex:
 
 <a id='auto-features'></a>
 
-## Auto Features
+## Passive Features
 
-**Auto Features** are things the bot does passively. Many of these features simply parse user messages and act accordingly.
+**Passive Features** are things the bot does passively. Many of these features simply parse user messages and act accordingly.
 
 List of feature arguments for enable/disable:
 - **all** - Every automatic feature in this list.
@@ -141,6 +141,7 @@ List of feature arguments for enable/disable:
 - **sad** - When a message contains the string 'sad', responds with a sad image of Spongebob.
 - **trade** - When a message contains the string 'trade', responds with 'Yeah, I trade :smile:'
 - **mom** - When a message ends with the word 'do', 'doing', 'done', etc... responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'
+- **tracking_detection** - This has responds with a message anytime someone posts a YouTube or Instagram link with a tracking string in it.
 
 <a id='server-config'></a>
 

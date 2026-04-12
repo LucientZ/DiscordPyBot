@@ -3,7 +3,7 @@ import discord, os, logging, logging.handlers, time
 from datetime import datetime
 from discord import app_commands
 from dotenv import load_dotenv
-
+import re
 
 # Other Files
 import datahandling as dt
@@ -68,6 +68,7 @@ class aclient(discord.Client):
             logger.info("Awaiting command tree syncing...")
             a = time.time()
             # Syncs command tree globally
+            global tree
             await tree.sync()
             b = time.time()
             logger.info(f"Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
@@ -92,7 +93,7 @@ class aclient(discord.Client):
         ctx_size = len(ctx.content)
         if ctx.author.bot or ctx_size > 1500:
             return
-
+        
         if isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.channel.send("Hi, I am a bot :)") # No behavior when in a dm channel
         else:
@@ -111,6 +112,8 @@ class aclient(discord.Client):
                 await ctx.channel.send("yeah i trade :smile:")
             elif guild.is_enabled("mom", ctx.channel.id) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
+            elif guild.is_enabled("tracking_detection", ctx.channel.id) and re.match("http.*?(si|igsh)", ctx.content):
+                await ctx.channel.send(source_identifier_detection_response()) 
 
 
 client = aclient()
@@ -155,7 +158,9 @@ class HelpButtons(discord.ui.View):
     @discord.ui.button(label="2", style = discord.ButtonStyle.blurple)
     async def right_button(self, ctx: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(title = "Help Menu (2/2)", description = "List of features that happen passively", color = 0xffab00)
-        embed.add_field(name = "Auto Features", value = "- all\n- sus\n- morbius\n- sad\n- trade\n- mom", inline = False)
+        
+        feature_list_string = "- all\n" + ("\n".join([f"- {name}" for name in hlp.auto_features]))
+        embed.add_field(name = "Passive Features", value = feature_list_string, inline = False)
         await ctx.response.edit_message(embed = embed, view = self)
 
 @tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
@@ -178,7 +183,8 @@ async def help(ctx: discord.Interaction, item_name: str = ""):
         "morbius": "When a message contains the string 'morb', responds with a morbius quote.",
         "sad": "When a message contains the string 'sad', responds with a sad image of Spongebob.",
         "trade": "When a message contains the string 'trade', responds with 'Yeah, I trade :smile:'",
-        "mom": "When a message ends with the word 'do', 'doing', 'done', etc… responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'"
+        "mom": "When a message ends with the word 'do', 'doing', 'done', etc… responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'",
+        "tracking_detection": "This has responds with a message anytime someone posts a YouTube or Instagram link with a tracking string in it.",
     }
 
     if(item_name == ""):

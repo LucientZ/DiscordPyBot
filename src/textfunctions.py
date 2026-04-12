@@ -1,6 +1,7 @@
 import random as rand
-import helper as hlp
+from textwrap import dedent
 import datahandling as dt
+import random
 
 #Silly messages to send in channels if something funny happens. Gives a random output.
 def copypasta_text() -> str: # pragma: no cover
@@ -102,3 +103,28 @@ def mom() -> str: # pragma: no cover
         return "Your Dad :sunglasses:"
     else:
         return "Your Mom"
+
+def source_identifier_detection_response() -> str:
+    essay_message = dedent("""\
+    Hi, it seems like your link has a source identifier in it. If you don't know what this means let me explain.
+                
+    A source identifier is how a company tracks what users are related to each other. Let's look at an example of a normal YouTube link:
+    ```
+    https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    ```           
+    Realize the `?si=` at the end? That contains the variables that YouTube uses to determine what video you're watching. Normally, this is used for the video ID. Now let's look at an evil version of that link:
+    ```
+    https://youtu.be/dQw4w9WgXcQ?si=Z45wYtKZvpZsduo2
+    ```   
+    `youtu.be` is YouTube's shortened domain. Realize the part that says `?si=`. That's the source identifier that tracks *who* sent the link. This appears if instead of copying from the url bar you click the "share" button. It's YouTube's way of tracking you and who you have relations with.
+
+    To clean up the source identifier, simply remove everything after the `?si=`.
+    ```
+    https://youtu.be/dQw4w9WgXcQ
+    ```   
+    Other social media does similar things. Instagram uses `?igsh=`. Stay safe! :D
+    """)
+
+    regular_message = "Whoops, you left the source identifier in that url buddy."
+
+    return regular_message if random.random() < 0.95 else essay_message
