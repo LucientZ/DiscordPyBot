@@ -3,7 +3,7 @@ import discord, os, logging, logging.handlers, time
 from datetime import datetime
 from discord import app_commands
 from dotenv import load_dotenv
-
+import re
 
 # Other Files
 import datahandling as dt
@@ -68,6 +68,7 @@ class aclient(discord.Client):
             logger.info("Awaiting command tree syncing...")
             a = time.time()
             # Syncs command tree globally
+            global tree
             await tree.sync()
             b = time.time()
             logger.info(f"Tree Synced. Elapsed time: {int((b - a) * 100) / 100} seconds")
@@ -92,7 +93,7 @@ class aclient(discord.Client):
         ctx_size = len(ctx.content)
         if ctx.author.bot or ctx_size > 1500:
             return
-
+        
         if isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.channel.send("Hi, I am a bot :)") # No behavior when in a dm channel
         else:
@@ -111,6 +112,8 @@ class aclient(discord.Client):
                 await ctx.channel.send("yeah i trade :smile:")
             elif guild.is_enabled("mom", ctx.channel.id) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
+            elif guild.is_enabled("tracking_detection", ctx.channel.id) and re.match("http.*?(si|igsh)", ctx.content):
+                await ctx.channel.send(source_identifier_detection_response()) 
 
 
 client = aclient()
