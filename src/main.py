@@ -158,7 +158,9 @@ class HelpButtons(discord.ui.View):
     @discord.ui.button(label="2", style = discord.ButtonStyle.blurple)
     async def right_button(self, ctx: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(title = "Help Menu (2/2)", description = "List of features that happen passively", color = 0xffab00)
-        embed.add_field(name = "Auto Features", value = "- all\n- sus\n- morbius\n- sad\n- trade\n- mom", inline = False)
+        
+        feature_list_string = "- all\n" + ("\n".join([f"- {name}" for name in hlp.auto_features]))
+        embed.add_field(name = "Passive Features", value = feature_list_string, inline = False)
         await ctx.response.edit_message(embed = embed, view = self)
 
 @tree.command(name = "help", description = "Responds with a list of commands and features. Can be used for specific commands")
@@ -181,7 +183,8 @@ async def help(ctx: discord.Interaction, item_name: str = ""):
         "morbius": "When a message contains the string 'morb', responds with a morbius quote.",
         "sad": "When a message contains the string 'sad', responds with a sad image of Spongebob.",
         "trade": "When a message contains the string 'trade', responds with 'Yeah, I trade :smile:'",
-        "mom": "When a message ends with the word 'do', 'doing', 'done', etc… responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'"
+        "mom": "When a message ends with the word 'do', 'doing', 'done', etc… responds with the message 'Your Mom' with a 20% chance of saying 'Your Dad :sunglasses:'",
+        "tracking_detection": "This has responds with a message anytime someone posts a YouTube or Instagram link with a tracking string in it.",
     }
 
     if(item_name == ""):
