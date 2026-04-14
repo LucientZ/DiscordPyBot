@@ -112,7 +112,7 @@ class aclient(discord.Client):
                 await ctx.channel.send("yeah i trade :smile:")
             elif guild.is_enabled("mom", ctx.channel.id) and (ctx.content.lower().endswith(("do", "doin", "doing", "wyd", "did", "done")) or (ctx.content.lower()[:-1].endswith(("do", "doin", "doing", "wyd", "did", "done"))) and not ctx.content.lower()[-1].isalnum()):
                 await ctx.channel.send(mom())
-            elif guild.is_enabled("tracking_detection", ctx.channel.id) and re.match("http.*?(si|igsh)", ctx.content):
+            elif guild.is_enabled("tracking_detection", ctx.channel.id) and re.match("http.*\\?(si|igsh)", ctx.content):
                 await ctx.channel.send(source_identifier_detection_response()) 
 
 
